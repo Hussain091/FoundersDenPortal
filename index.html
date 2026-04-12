@@ -1,0 +1,3093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Founder's Den 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #030f0a;
+            --bg2: #061610;
+            --g: rgba(0, 255, 140, .04);
+            --g2: rgba(0, 255, 140, .08);
+            --b: rgba(0, 255, 140, .13);
+            --b2: rgba(0, 255, 140, .30);
+            --b3: rgba(0, 255, 140, .5);
+            --c: #00ffa3;
+            --c2: #00d4ff;
+            --t: #e6fff4;
+            --t2: rgba(190, 255, 225, .65);
+            --t3: rgba(130, 205, 170, .40);
+            --gold: #ffd700;
+            --silver: #b8c8d0;
+            --bronze: #cd7f32;
+            --err: #ff4d6d;
+            --warn: #ffaa00;
+            --ok: #00e676;
+            --info: #00b4d8;
+            --r: 13px;
+            --rs: 8px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--t);
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        .bgrid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(0, 255, 140, .02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 140, .02) 1px, transparent 1px);
+            background-size: 60px 60px
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(120px)
+        }
+
+        .o1 {
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(0, 150, 80, .09), transparent 70%);
+            top: -200px;
+            left: -180px
+        }
+
+        .o2 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(0, 140, 200, .07), transparent 70%);
+            bottom: -180px;
+            right: -120px
+        }
+
+        #app {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh
+        }
+
+        .scr {
+            display: none;
+            min-height: 100vh;
+            animation: fi .28s ease
+        }
+
+        .scr.on {
+            display: block
+        }
+
+        @keyframes fi {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        /* ── NAV ── */
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 26px;
+            height: 54px;
+            background: rgba(3, 10, 7, .9);
+            border-bottom: 1px solid var(--b);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 200
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 17px;
+            letter-spacing: -.5px;
+            background: linear-gradient(90deg, var(--c), var(--c2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-r {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .role-badge {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 11px;
+            border-radius: 20px;
+            background: var(--g2);
+            border: 1px solid var(--b2);
+            color: var(--c)
+        }
+
+        .xbtn {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            padding: 5px 13px;
+            border-radius: 7px;
+            cursor: pointer;
+            border: 1px solid var(--b);
+            background: transparent;
+            color: var(--t2);
+            transition: all .2s
+        }
+
+        .xbtn:hover {
+            border-color: var(--err);
+            color: var(--err)
+        }
+
+        /* ── LAYOUT ── */
+        .lay {
+            display: flex;
+            min-height: calc(100vh - 54px)
+        }
+
+        .sb {
+            width: 210px;
+            flex-shrink: 0;
+            background: rgba(3, 9, 6, .75);
+            border-right: 1px solid var(--b);
+            padding: 14px 0;
+            position: sticky;
+            top: 54px;
+            height: calc(100vh - 54px);
+            overflow-y: auto
+        }
+
+        .sb-sec {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--t3);
+            padding: 13px 17px 5px
+        }
+
+        .si {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            margin: 2px 7px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--t2);
+            transition: all .15s
+        }
+
+        .si:hover {
+            background: var(--g2);
+            color: var(--t)
+        }
+
+        .si.on {
+            background: rgba(0, 255, 163, .09);
+            border: 1px solid rgba(0, 255, 163, .2);
+            color: var(--c)
+        }
+
+        .si-i {
+            font-size: 13px;
+            width: 16px;
+            text-align: center
+        }
+
+        .si-b {
+            margin-left: auto;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 9px;
+            background: rgba(255, 77, 109, .17);
+            color: var(--err);
+            font-weight: 700
+        }
+
+        .main {
+            flex: 1;
+            padding: 26px 30px;
+            overflow-y: auto
+        }
+
+        /* ── COMPONENTS ── */
+        .card {
+            background: var(--g);
+            border: 1px solid var(--b);
+            border-radius: var(--r);
+            padding: 20px
+        }
+
+        .cg {
+            background: var(--g);
+            border: 1px solid var(--b);
+            border-radius: var(--r);
+            padding: 20px;
+            box-shadow: inset 0 1px 0 rgba(0, 255, 140, .05)
+        }
+
+        .sg {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px
+        }
+
+        .sc {
+            background: var(--g);
+            border: 1px solid var(--b);
+            border-radius: 12px;
+            padding: 15px 17px
+        }
+
+        .sl {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--t3);
+            margin-bottom: 6px
+        }
+
+        .sv {
+            font-family: 'Syne', sans-serif;
+            font-size: 27px;
+            font-weight: 800;
+            color: var(--t)
+        }
+
+        .ss {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 3px
+        }
+
+        .sc.cc .sv {
+            color: var(--c)
+        }
+
+        .sc.cb .sv {
+            color: var(--c2)
+        }
+
+        .sc.cg2 .sv {
+            color: var(--ok)
+        }
+
+        .sc.cw .sv {
+            color: var(--warn)
+        }
+
+        .tw {
+            overflow-x: auto;
+            border-radius: var(--r);
+            border: 1px solid var(--b)
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        thead th {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .9px;
+            text-transform: uppercase;
+            color: var(--t3);
+            padding: 9px 13px;
+            border-bottom: 1px solid var(--b);
+            text-align: left;
+            background: rgba(0, 0, 0, .18)
+        }
+
+        tbody td {
+            padding: 10px 13px;
+            font-size: 13px;
+            color: var(--t2);
+            border-bottom: 1px solid rgba(0, 255, 140, .04)
+        }
+
+        tbody tr:hover {
+            background: var(--g)
+        }
+
+        tbody tr:last-child td {
+            border: none
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px
+        }
+
+        .tp {
+            background: rgba(255, 170, 0, .13);
+            color: var(--warn)
+        }
+
+        .ta {
+            background: rgba(0, 230, 118, .13);
+            color: var(--ok)
+        }
+
+        .tf {
+            background: rgba(255, 77, 109, .13);
+            color: var(--err)
+        }
+
+        .ts {
+            background: rgba(0, 180, 216, .13);
+            color: var(--info)
+        }
+
+        .ti {
+            background: rgba(255, 170, 0, .09);
+            color: var(--warn)
+        }
+
+        .tl {
+            background: rgba(140, 140, 140, .1);
+            color: var(--t3)
+        }
+
+        .btn {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: var(--rs);
+            cursor: pointer;
+            transition: all .18s;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .bp {
+            background: rgba(0, 255, 163, .09);
+            border-color: var(--b2);
+            color: var(--c)
+        }
+
+        .bp:hover {
+            background: rgba(0, 255, 163, .16);
+            box-shadow: 0 0 18px rgba(0, 255, 163, .13)
+        }
+
+        .bg {
+            background: transparent;
+            border-color: var(--b);
+            color: var(--t2)
+        }
+
+        .bg:hover {
+            border-color: var(--b2);
+            color: var(--t)
+        }
+
+        .bd {
+            background: rgba(255, 77, 109, .08);
+            border-color: rgba(255, 77, 109, .27);
+            color: var(--err)
+        }
+
+        .bd:hover {
+            background: rgba(255, 77, 109, .16)
+        }
+
+        .bsu {
+            background: rgba(0, 230, 118, .09);
+            border-color: rgba(0, 230, 118, .27);
+            color: var(--ok)
+        }
+
+        .bsu:hover {
+            background: rgba(0, 230, 118, .16)
+        }
+
+        .bsm {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 7px
+        }
+
+        .blg {
+            padding: 11px 24px;
+            font-size: 15px;
+            border-radius: 11px
+        }
+
+        .bfl {
+            width: 100%;
+            justify-content: center
+        }
+
+        .stt {
+            font-family: 'Syne', sans-serif;
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--t);
+            margin-bottom: 4px
+        }
+
+        .sts {
+            font-size: 13px;
+            color: var(--t3);
+            margin-bottom: 18px
+        }
+
+        .rb {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 17px
+        }
+
+        .fx {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-wrap: wrap
+        }
+
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px
+        }
+
+        .mb14 {
+            margin-bottom: 14px
+        }
+
+        .mb20 {
+            margin-bottom: 20px
+        }
+
+        .ig {
+            margin-bottom: 13px
+        }
+
+        .il {
+            display: block;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: var(--t3);
+            margin-bottom: 5px
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 9px 12px;
+            font-size: 13px;
+            background: rgba(0, 255, 140, .03);
+            border: 1px solid var(--b);
+            border-radius: var(--rs);
+            color: var(--t);
+            font-family: 'DM Sans', sans-serif;
+            transition: all .2s;
+            outline: none
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--b2);
+            background: var(--g2)
+        }
+
+        select option {
+            background: #061610
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 78px;
+            line-height: 1.6
+        }
+
+        input[type=range] {
+            padding: 3px 0;
+            accent-color: var(--c);
+            cursor: pointer
+        }
+
+        input[type=checkbox] {
+            width: auto;
+            cursor: pointer
+        }
+
+        .sb2 {
+            position: relative
+        }
+
+        .sb2 input {
+            padding-left: 30px
+        }
+
+        .sb2::before {
+            content: '🔍';
+            position: absolute;
+            left: 9px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            pointer-events: none
+        }
+
+        /* ── RUBRIC ── */
+        .rc {
+            background: var(--g);
+            border: 1px solid var(--b);
+            border-radius: 11px;
+            padding: 15px;
+            margin-bottom: 8px
+        }
+
+        .rc:hover {
+            border-color: var(--b2)
+        }
+
+        .rch {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px
+        }
+
+        .rcn {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t)
+        }
+
+        .rcd {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 2px
+        }
+
+        .rcv {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--c);
+            min-width: 40px;
+            text-align: right
+        }
+
+        .rrow {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .rend {
+            font-size: 11px;
+            color: var(--t3);
+            min-width: 13px
+        }
+
+        .fbox {
+            background: linear-gradient(135deg, rgba(0, 255, 163, .09), rgba(0, 212, 255, .06));
+            border: 1px solid var(--b2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 14px
+        }
+
+        .fnum {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--c);
+            line-height: 1
+        }
+
+        .flbl {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 5px
+        }
+
+        /* ── SCORE BARS ── */
+        .sbr {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 7px
+        }
+
+        .sbl {
+            font-size: 12px;
+            color: var(--t2);
+            min-width: 115px
+        }
+
+        .sbt {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 3px;
+            overflow: hidden
+        }
+
+        .sbf {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--c), var(--c2));
+            transition: width .5s
+        }
+
+        .sbn {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--c);
+            min-width: 26px;
+            text-align: right
+        }
+
+        /* ── LEADERBOARD ── */
+        .lbl {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .li {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 14px 17px;
+            border: 1px solid var(--b);
+            border-radius: 12px;
+            background: var(--g)
+        }
+
+        .li:hover {
+            border-color: var(--b2)
+        }
+
+        .li.r1 {
+            border-color: rgba(255, 215, 0, .36);
+            background: rgba(255, 215, 0, .03)
+        }
+
+        .li.r2 {
+            border-color: rgba(192, 192, 192, .26);
+            background: rgba(192, 192, 192, .02)
+        }
+
+        .li.r3 {
+            border-color: rgba(205, 127, 50, .26);
+            background: rgba(205, 127, 50, .02)
+        }
+
+        .lr {
+            font-family: 'Syne', sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            min-width: 38px;
+            text-align: center
+        }
+
+        .lin {
+            flex: 1
+        }
+
+        .ltn {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--t)
+        }
+
+        .ltm {
+            font-size: 11.5px;
+            color: var(--t3);
+            margin-top: 2px
+        }
+
+        .ljs {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 4px
+        }
+
+        .ljp {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 5px;
+            background: var(--g2);
+            border: 1px solid var(--b);
+            color: var(--t2)
+        }
+
+        .lsc {
+            text-align: right
+        }
+
+        .lsm {
+            font-family: 'Syne', sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--c)
+        }
+
+        .lsd {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 2px
+        }
+
+        /* ── UPLOAD ── */
+        .uz {
+            border: 1.5px dashed var(--b2);
+            border-radius: 10px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: rgba(0, 255, 140, .02)
+        }
+
+        .uz:hover {
+            background: rgba(0, 255, 140, .05);
+            border-color: var(--c)
+        }
+
+        .fp {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 230, 118, .04);
+            border: 1px solid rgba(0, 230, 118, .18);
+            border-radius: 9px;
+            padding: 11px 13px;
+            margin-top: 9px
+        }
+
+        .fp-i {
+            flex: 1
+        }
+
+        .fp-n {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--t)
+        }
+
+        .fp-m {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 2px
+        }
+
+        /* ── PAGINATION ── */
+        .pag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 13px;
+            flex-wrap: wrap;
+            padding: 2px 0
+        }
+
+        .pb2 {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--b);
+            background: transparent;
+            color: var(--t2);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: 'DM Sans', sans-serif
+        }
+
+        .pb2:hover {
+            border-color: var(--b2);
+            color: var(--t)
+        }
+
+        .pb2.on {
+            background: rgba(0, 255, 163, .1);
+            border-color: var(--b2);
+            color: var(--c);
+            font-weight: 600
+        }
+
+        .pi2 {
+            font-size: 11px;
+            color: var(--t3);
+            margin-left: 6px
+        }
+
+        /* ── MODAL ── */
+        .mo-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .78);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            backdrop-filter: blur(8px)
+        }
+
+        .mo-box {
+            background: #050e09;
+            border: 1px solid var(--b2);
+            border-radius: 16px;
+            padding: 24px;
+            width: 500px;
+            max-width: 94vw;
+            max-height: 90vh;
+            overflow-y: auto
+        }
+
+        .mo-t {
+            font-family: 'Syne', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 4px
+        }
+
+        .mo-s {
+            font-size: 13px;
+            color: var(--t3);
+            margin-bottom: 17px
+        }
+
+        .mo-act {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 17px
+        }
+
+        /* ── SCORE RING ── */
+        .ring-w {
+            position: relative;
+            width: 118px;
+            height: 118px;
+            margin: 0 auto 15px
+        }
+
+        .ring-svg {
+            transform: rotate(-90deg)
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, .06);
+            stroke-width: 10
+        }
+
+        .ring-fg {
+            fill: none;
+            stroke: url(#rg);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-dasharray: 314;
+            transition: stroke-dashoffset .9s ease
+        }
+
+        .ring-in {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .ring-n {
+            font-family: 'Syne', sans-serif;
+            font-size: 27px;
+            font-weight: 800;
+            color: var(--c)
+        }
+
+        .ring-m {
+            font-size: 11px;
+            color: var(--t3)
+        }
+
+        /* ── LINK PILL ── */
+        .lp {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: 7px;
+            background: rgba(0, 180, 216, .07);
+            border: 1px solid rgba(0, 180, 216, .2);
+            color: var(--info);
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none
+        }
+
+        .lp:hover {
+            background: rgba(0, 180, 216, .14)
+        }
+
+        /* ── TOAST ── */
+        .tstack {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            pointer-events: none
+        }
+
+        .toast {
+            background: rgba(4, 16, 10, .97);
+            border: 1px solid var(--b2);
+            border-radius: 10px;
+            padding: 11px 16px;
+            font-size: 13px;
+            backdrop-filter: blur(18px);
+            transform: translateX(110%);
+            opacity: 0;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+            pointer-events: auto;
+            max-width: 280px
+        }
+
+        .toast.show {
+            transform: none;
+            opacity: 1
+        }
+
+        .tt {
+            font-weight: 600;
+            color: var(--t);
+            margin-bottom: 2px
+        }
+
+        .tb {
+            color: var(--t2);
+            font-size: 12px
+        }
+
+        .toast.tok {
+            border-color: rgba(0, 230, 118, .32)
+        }
+
+        .toast.terr {
+            border-color: rgba(255, 77, 109, .32)
+        }
+
+        .toast.twrn {
+            border-color: rgba(255, 170, 0, .32)
+        }
+
+        /* ── EMPTY STATE ── */
+        .emp {
+            text-align: center;
+            padding: 42px;
+            color: var(--t3)
+        }
+
+        .ei {
+            font-size: 36px;
+            margin-bottom: 10px
+        }
+
+        .en {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--t2);
+            margin-bottom: 4px
+        }
+
+        .es {
+            font-size: 12.5px;
+            line-height: 1.7
+        }
+
+        /* ── LANDING ── */
+        #sl {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            flex-direction: column;
+            gap: 44px;
+            padding: 40px 20px
+        }
+
+        .ey {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--c);
+            border: 1px solid rgba(0, 255, 140, .18);
+            background: rgba(0, 255, 140, .04);
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 18px
+        }
+
+        .ht {
+            font-family: 'Syne', sans-serif;
+            font-size: 58px;
+            font-weight: 800;
+            line-height: 1.03;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #fff 20%, var(--c) 60%, var(--c2) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center
+        }
+
+        .hs {
+            font-size: 15.5px;
+            color: var(--t2);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.75;
+            text-align: center
+        }
+
+        .pg {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .pc {
+            width: 238px;
+            padding: 26px 20px;
+            border-radius: 18px;
+            cursor: pointer;
+            background: rgba(0, 255, 140, .025);
+            border: 1px solid rgba(0, 255, 140, .11);
+            transition: all .3s cubic-bezier(.34, 1.2, .64, 1);
+            text-align: center
+        }
+
+        .pc:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--b2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .42), 0 0 40px rgba(0, 255, 140, .06)
+        }
+
+        .pi {
+            font-size: 36px;
+            margin-bottom: 13px
+        }
+
+        .pn {
+            font-family: 'Syne', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--t)
+        }
+
+        .pd {
+            font-size: 12px;
+            color: var(--t3);
+            line-height: 1.65;
+            margin-bottom: 18px
+        }
+
+        .pcta {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 19px;
+            border-radius: 20px;
+            background: rgba(0, 255, 140, .07);
+            border: 1px solid rgba(0, 255, 140, .2);
+            color: var(--c)
+        }
+
+        .pc:hover .pcta {
+            background: rgba(0, 255, 140, .14);
+            border-color: var(--b3)
+        }
+
+        .lf {
+            font-size: 11px;
+            color: var(--t3);
+            text-align: center
+        }
+
+        /* ── CP PILL ── */
+        .cp {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 9px;
+            border-radius: 7px;
+            background: var(--g2);
+            border: 1px solid var(--b);
+            font-size: 12px;
+            color: var(--t2);
+            margin: 3px;
+            cursor: pointer
+        }
+
+        .cp:hover {
+            border-color: var(--b2);
+            color: var(--t)
+        }
+
+        code {
+            font-size: 11px;
+            background: var(--g2);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--c);
+            font-family: monospace
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 140, .16);
+            border-radius: 2px
+        }
+
+        @media(max-width:720px) {
+            .sg {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .g2 {
+                grid-template-columns: 1fr
+            }
+
+            .sb {
+                display: none
+            }
+
+            .ht {
+                font-size: 36px
+            }
+
+            .main {
+                padding: 16px 12px
+            }
+
+            .nav {
+                padding: 0 12px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bgrid"></div>
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div id="app">
+
+        <!-- ══════════ LANDING ══════════ -->
+        <div id="sl" class="scr on">
+            <div style="text-align:center">
+                <div class="ey">🍁 Canada Innovation Summit 2026</div>
+                <div class="ht">Founder's Den<br>2026</div>
+                <div class="hs">Secure competition platform for 300 competitors and 60 judges. No placeholder content —
+                    every action saves persistently.</div>
+            </div>
+            <div class="pg">
+                <div class="pc" onclick="openLogin('management')">
+                    <div class="pi">⚙️</div>
+                    <div class="pn">Management</div>
+                    <div class="pd">Full control: assign judges, approve scores, manage all users and submissions.</div>
+                    <div class="pcta">Admin Login →</div>
+                </div>
+                <div class="pc" onclick="openLogin('judge')">
+                    <div class="pi">⚖️</div>
+                    <div class="pn">Judge Portal</div>
+                    <div class="pd">View assigned submissions, evaluate with the scoring rubric, submit feedback.</div>
+                    <div class="pcta">Judge Login →</div>
+                </div>
+                <div class="pc" onclick="openLogin('competitor')">
+                    <div class="pi">🚀</div>
+                    <div class="pn">Competitor Portal</div>
+                    <div class="pd">Submit your business plan via file upload or external links. View your results.
+                    </div>
+                    <div class="pcta">Competitor Login →</div>
+                </div>
+            </div>
+            <div class="lf">300 Competitors · 60 Judges · Persistent Storage · Real-Time Scoring</div>
+        </div>
+
+        <!-- ══════════ LOGIN MODAL ══════════ -->
+        <div id="lmo" class="mo-bg" style="display:none">
+            <div class="mo-box">
+                <div class="mo-t" id="lm-t">Login</div>
+                <div class="mo-s" id="lm-s">Enter your access code.</div>
+                <div class="ig">
+                    <label class="il">Access Code</label>
+                    <input type="password" id="lm-in" placeholder="e.g. comp001, judge001, admin2026"
+                        autocomplete="off" />
+                </div>
+                <div id="lm-err" style="color:var(--err);font-size:12px;margin-bottom:10px;display:none">Invalid code.
+                    Please try again.</div>
+                <div
+                    style="font-size:11px;color:var(--t2);padding:10px 12px;background:var(--g);border:1px solid var(--b);border-radius:8px;margin-bottom:13px;line-height:1.9">
+                    <strong>Management:</strong> <code>admin2026</code><br>
+                    <strong>Judges:</strong> <code>judge001</code> → <code>judge060</code><br>
+                    <strong>Competitors:</strong> <code>comp001</code> → <code>comp300</code>
+                </div>
+                <div class="mo-act">
+                    <button class="btn bg" onclick="closeLM()">Cancel</button>
+                    <button class="btn bp" onclick="doLogin()">Enter →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════ MANAGEMENT ══════════ -->
+        <div id="sm" class="scr">
+            <div class="nav">
+                <div class="logo">Founder's Den 2026</div>
+                <div class="nav-r">
+                    <div class="role-badge">Management</div>
+                    <button class="xbtn" onclick="logout()">← Exit</button>
+                </div>
+            </div>
+            <div class="lay">
+                <div class="sb">
+                    <div class="sb-sec">Overview</div>
+                    <div class="si on" onclick="mnav('dashboard',this)"><span class="si-i">📊</span>Dashboard</div>
+                    <div class="si" onclick="mnav('analytics',this)"><span class="si-i">📈</span>Analytics</div>
+                    <div class="sb-sec">Users</div>
+                    <div class="si" onclick="mnav('compmanage',this)"><span class="si-i">👥</span>Manage Competitors
+                    </div>
+                    <div class="si" onclick="mnav('judges',this)"><span class="si-i">⚖️</span>Judges</div>
+                    <div class="sb-sec">Assignments</div>
+                    <div class="si" onclick="mnav('assign',this)"><span class="si-i">🔗</span>Assign Judges</div>
+                    <div class="sb-sec">Scoring</div>
+                    <div class="si" onclick="mnav('submissions',this)"><span class="si-i">📁</span>Submissions</div>
+                    <div class="si" onclick="mnav('livescoring',this)"><span class="si-i">🏅</span>Live Scoring</div>
+                    <div class="si" onclick="mnav('approvals',this)"><span class="si-i">✅</span>Approvals<span
+                            class="si-b" id="apb" style="display:none">0</span></div>
+                    <div class="sb-sec">Results</div>
+                    <div class="si" onclick="mnav('leaderboard',this)"><span class="si-i">🏆</span>Leaderboard</div>
+                    <div class="sb-sec">Communications</div>
+                    <div class="si" onclick="mnav('notifications',this)"><span class="si-i">📢</span>Send Notifications
+                    </div>
+                </div>
+                <div class="main" id="mc"></div>
+            </div>
+        </div>
+
+        <!-- ══════════ JUDGE ══════════ -->
+        <div id="sj" class="scr">
+            <div class="nav">
+                <div class="logo">Founder's Den 2026</div>
+                <div class="nav-r">
+                    <div class="role-badge" id="j-badge">Judge</div>
+                    <button class="xbtn" id="j-bell" onclick="jnav('jnotif',null)"
+                        style="position:relative;margin-right:4px">🔔 <span id="j-nbell"
+                            style="display:none;position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--err)"></span></button>
+                    <button class="xbtn" onclick="logout()">← Exit</button>
+                </div>
+            </div>
+            <div class="lay">
+                <div class="sb">
+                    <div class="sb-sec">Judging</div>
+                    <div class="si on" onclick="jnav('assigned',this)"><span class="si-i">👥</span>My Assigned</div>
+                    <div class="si" onclick="jnav('jnotif',this)"><span class="si-i">🔔</span>Notifications<span
+                            class="si-b" id="jnb" style="display:none">0</span></div>
+                    <div class="si" onclick="jnav('jscore',this)"><span class="si-i">📝</span>Score Entry</div>
+                    <div class="si" onclick="jnav('jdone',this)"><span class="si-i">✅</span>My Evaluations</div>
+                    <div class="sb-sec" id="j-res-sec" style="display:none">Results</div>
+                    <div class="si" id="j-res-btn" onclick="jnav('leaderboard',this)" style="display:none"><span
+                            class="si-i">🏆</span>Leaderboard</div>
+                </div>
+                <div class="main" id="jc"></div>
+            </div>
+        </div>
+
+        <!-- ══════════ COMPETITOR ══════════ -->
+        <div id="sc" class="scr">
+            <div class="nav">
+                <div class="logo">Founder's Den 2026</div>
+                <div class="nav-r">
+                    <div class="role-badge" id="c-badge">Competitor</div>
+                    <button class="xbtn" id="c-bell" onclick="cnav('cnotif',null)"
+                        style="position:relative;margin-right:4px">🔔 <span id="c-nbell"
+                            style="display:none;position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--err)"></span></button>
+                    <button class="xbtn" onclick="logout()">← Exit</button>
+                </div>
+            </div>
+            <div class="lay">
+                <div class="sb">
+                    <div class="sb-sec">My Portal</div>
+                    <div class="si on" onclick="cnav('coverview',this)"><span class="si-i">🏠</span>Overview</div>
+                    <div class="si" onclick="cnav('cnotif',this)"><span class="si-i">🔔</span>Notifications<span
+                            class="si-b" id="cnb" style="display:none">0</span></div>
+                    <div class="si" onclick="cnav('csubmit',this)"><span class="si-i">📤</span>Submit Work</div>
+                    <div class="si" onclick="cnav('cresults',this)"><span class="si-i">🏅</span>My Results</div>
+                    <div class="sb-sec" id="c-res-sec" style="display:none">Event Results</div>
+                    <div class="si" id="c-res-btn" onclick="cnav('leaderboard',this)" style="display:none"><span
+                            class="si-i">🏆</span>Leaderboard</div>
+                </div>
+                <div class="main" id="cc"></div>
+            </div>
+        </div>
+
+    </div><!-- #app -->
+    <div class="tstack" id="tstack"></div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        //  STORAGE  — artifact shared storage with localStorage fallback
+        // ═══════════════════════════════════════════════════════════════════
+        const DB = {
+            async get(k) {
+                if (window.storage) {
+                    try { const r = await window.storage.get('fd26:' + k, true); return r ? JSON.parse(r.value) : null; } catch { }
+                }
+                try { const v = localStorage.getItem('fd26:' + k); return v ? JSON.parse(v) : null; } catch { return null; }
+            },
+            async set(k, v) {
+                if (window.storage) { try { await window.storage.set('fd26:' + k, JSON.stringify(v), true); return; } catch { } }
+                try { localStorage.setItem('fd26:' + k, JSON.stringify(v)); } catch { }
+            },
+            async keys(pfx) {
+                if (window.storage) {
+                    try { const r = await window.storage.list('fd26:' + pfx, true); return r ? r.keys.map(k => k.replace('fd26:', '')) : []; } catch { }
+                }
+                const out = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && k.startsWith('fd26:' + pfx)) out.push(k.replace('fd26:', ''));
+                }
+                return out;
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  IDBFS — IndexedDB binary file storage (PDFs survive page reload)
+        // ═══════════════════════════════════════════════════════════════════
+        const IDBFS = {
+            _db: null,
+            async _init() {
+                if (this._db) return;
+                return new Promise((res, rej) => {
+                    const r = indexedDB.open('FD2026Files', 1);
+                    r.onupgradeneeded = e => {
+                        if (!e.target.result.objectStoreNames.contains('files'))
+                            e.target.result.createObjectStore('files');
+                    };
+                    r.onsuccess = e => { this._db = e.target.result; res(); };
+                    r.onerror = () => rej(r.error);
+                });
+            },
+            async save(key, file) {
+                await this._init();
+                const buf = await file.arrayBuffer();
+                return new Promise((res, rej) => {
+                    const tx = this._db.transaction('files', 'readwrite');
+                    tx.objectStore('files').put({ buf, name: file.name, size: file.size, type: file.type || 'application/pdf' }, key);
+                    tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+                });
+            },
+            async get(key) {
+                await this._init();
+                return new Promise((res, rej) => {
+                    const tx = this._db.transaction('files', 'readonly');
+                    const r = tx.objectStore('files').get(key);
+                    r.onsuccess = () => res(r.result || null); r.onerror = () => rej(r.error);
+                });
+            },
+            async del(key) {
+                await this._init();
+                return new Promise(res => {
+                    const tx = this._db.transaction('files', 'readwrite');
+                    tx.objectStore('files').delete(key); tx.oncomplete = res;
+                });
+            },
+            async blobUrl(key) {
+                const d = await this.get(key);
+                if (!d) return null;
+                return URL.createObjectURL(new Blob([d.buf], { type: d.type }));
+            }
+        };
+
+
+        // ═══════════════════════════════════════════════════════════════════
+        const FN = ['Amir', 'Priya', 'Jake', 'Sofia', 'Kwame', 'Mei', 'Diego', 'Nour', 'Lena', 'Sam', 'Clara', 'James',
+            'Marcus', 'Zoe', 'Kiran', 'Amara', 'Ben', 'Yuna', 'Naomi', 'Rafael', 'Tyler', 'Sana', 'Noah', 'Ana',
+            'Haruto', 'Fatima', 'Omar', 'Chen', 'Ravi', 'Ola', 'Ingrid', 'Ali', 'Sandra', 'Leo', 'Fatou', 'Hassan',
+            'Stefan', 'Yuki', 'Zara', 'Paulo', 'Lucas', 'Emma', 'Tariq', 'Jin', 'Lucia', 'Mia', 'Felix', 'Anna', 'Kai', 'Dara'];
+        const LN = ['Singh', 'Kapoor', 'Morrison', 'Reyes', 'Boateng', 'Lin', 'Perez', 'Alami', 'Tran', 'Kowalski',
+            'Osei', 'Park', 'Bell', 'Fontaine', 'Sharma', 'Diallo', 'Carter', 'Kim', 'Davis', 'Torres',
+            'Reid', 'Khan', 'White', 'Sousa', 'Tanaka', 'Omar', 'Abdi', 'Wei', 'Nair', 'Johnson',
+            'Larsson', 'Hassan', 'Schmidt', 'Mueller', 'Dieng', 'Ibrahim', 'Dubois', 'Costa', 'Ahmed', 'Asante',
+            'Martin', 'Mendez', 'Nguyen', 'Rivera', 'Chen', 'Patel', 'Wu', 'Green', 'Volkov', 'Cruz'];
+        const SFX = ['AI', 'Labs', 'Tech', 'Solutions', 'Ventures', 'Studio', 'Works', 'Hub', 'Digital', 'Systems',
+            'Dynamics', 'Cloud', 'Robotics', 'Analytics', 'Fintech', 'EdTech', 'GreenTech', 'HealthAI', 'AutoAI', 'DataCo'];
+        const JFN = ['Dr. Sarah', 'Prof. Mark', 'Ms. Anya', 'Mr. James', 'Dr. Lisa', 'Mr. Tom', 'Ms. Rachel',
+            'Dr. Carlos', 'Prof. Elena', 'Mr. Raj', 'Ms. Nina', 'Dr. Ahmed', 'Prof. Julie', 'Mr. Derek',
+            'Dr. Mei', 'Ms. Ingrid', 'Prof. Ali', 'Dr. Sandra', 'Mr. Leo', 'Ms. Fatou',
+            'Dr. Hassan', 'Prof. Claire', 'Mr. Stefan', 'Dr. Yuki', 'Ms. Zara', 'Prof. Kwame',
+            'Dr. Anna', 'Mr. Paulo', 'Ms. Chloe', 'Dr. Omar'];
+        const JLN = ['Chen', 'Rivera', 'Patel', 'Wu', 'Nguyen', 'Okafor', 'Green', 'Mendez', 'Volkov', 'Sharma',
+            'Johansson', 'Hassan', 'Fontaine', 'Park', 'Zhang', 'Larsson', 'Siddiqui', 'Kowalski',
+            'Mueller', 'Dieng', 'Al-Rashid', 'Dubois', 'Schmidt', 'Tanaka', 'Ahmed', 'Asante',
+            'Petrov', 'Costa', 'Martin', 'Ibrahim'];
+        const ORGS = ['University of Toronto', 'BDC Capital', 'MaRS Discovery', 'Invest Ottawa',
+            'NRC Canada', 'Communitech', 'Waterloo Accelerator', 'DMZ Ryerson',
+            'Creative Destruction Lab', 'Georgian Partners', 'OMERS Ventures',
+            'Inovia Capital', 'Real Ventures', 'Disruption Ventures', 'Garage Capital',
+            'Build Ventures', 'TELUS Ventures', 'Export Dev. Canada', 'National Bank',
+            'BMO Capital', 'Scotiabank Digital', 'RBC Ventures', 'Deloitte Canada',
+            'KPMG Innovation', 'PwC Ventures', 'EY Foundry', 'Accenture Ventures',
+            'MassChallenge', 'Extreme Startups', 'Founders Fund CA'];
+
+        function buildComps() {
+            const cs = {};
+            for (let i = 1; i <= 300; i++) {
+                const id = `COMP${String(i).padStart(3, '0')}`;
+                const login = `comp${String(i).padStart(3, '0')}`;
+                const solo = i <= 120;
+                const name = solo
+                    ? `${FN[(i - 1) % FN.length]} ${LN[((i - 1) * 3) % LN.length]}`
+                    : `${FN[(i - 1) % FN.length]} & ${FN[((i + 5) % FN.length)]} — ${SFX[(i - 1) % SFX.length]}`;
+                cs[login] = { id, login, name, type: solo ? 'Solo' : 'Team' };
+            }
+            return cs;
+        }
+        function buildJudges() {
+            const js = {};
+            for (let i = 1; i <= 60; i++) {
+                const id = `JUDGE${String(i).padStart(3, '0')}`;
+                const login = `judge${String(i).padStart(3, '0')}`;
+                js[login] = {
+                    id, login,
+                    name: `${JFN[(i - 1) % JFN.length]} ${JLN[((i - 1) * 3 + 1) % JLN.length]}`,
+                    org: ORGS[(i - 1) % ORGS.length]
+                };
+            }
+            return js;
+        }
+
+        const COMPS = buildComps();
+        const JUDGES = buildJudges();
+        const MGMT = ['admin2026', 'coadmin2026', 'score2026', 'comms2026'];
+        const RUBRIC = [
+            { k: 'innovation', l: 'Innovation', d: 'Novelty and creativity of approach' },
+            { k: 'feasibility', l: 'Feasibility', d: 'Technical and operational viability' },
+            { k: 'market', l: 'Market Potential', d: 'TAM, growth opportunity, competitive moat' },
+            { k: 'presentation', l: 'Presentation', d: 'Clarity, confidence, delivery quality' },
+        ];
+
+        let CU = null; // current user {role, login, data}
+        let pendingPortal = null;
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  DYNAMIC COMPETITOR REGISTRY (base 300 + custom adds - removed)
+        // ═══════════════════════════════════════════════════════════════════
+        async function getAllComps() {
+            const custom = await DB.get('custom_comps') || {};
+            const removed = await DB.get('removed_comps') || [];
+            const overrides = await DB.get('comp_overrides') || {};
+            const merged = { ...COMPS, ...custom };
+            Object.keys(overrides).forEach(k => { if (merged[k]) merged[k] = { ...merged[k], ...overrides[k] }; });
+            removed.forEach(k => delete merged[k]);
+            return merged;
+        }
+        async function getComp(login) {
+            const all = await getAllComps(); return all[login] || null;
+        }
+        async function addCustomComp(login, id, name, type) {
+            const custom = await DB.get('custom_comps') || {};
+            custom[login] = { id, login, name, type, custom: true, createdAt: new Date().toISOString() };
+            await DB.set('custom_comps', custom);
+            // Also register their login code in a lookup
+            const codes = await DB.get('custom_codes') || {};
+            codes[login] = login; // login IS the code
+            await DB.set('custom_codes', codes);
+        }
+        async function removeComp(login) {
+            const removed = await DB.get('removed_comps') || [];
+            if (!removed.includes(login)) { removed.push(login); await DB.set('removed_comps', removed); }
+            await IDBFS.del(`file:${login}`);
+        }
+        async function updateCompName(login, name) {
+            // Check if custom first
+            const custom = await DB.get('custom_comps') || {};
+            if (custom[login]) { custom[login].name = name; await DB.set('custom_comps', custom); return; }
+            // Otherwise store an override
+            const overrides = await DB.get('comp_overrides') || {};
+            overrides[login] = { ...COMPS[login], name };
+            await DB.set('comp_overrides', overrides);
+            // Patch getAllComps to respect overrides
+        }
+
+        // Auth: custom-added competitors can login too
+        async function isValidCompLogin(login) {
+            const all = await getAllComps(); return !!all[login];
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  DYNAMIC JUDGES REGISTRY
+        // ═══════════════════════════════════════════════════════════════════
+        async function getAllJudges() {
+            const custom = await DB.get('custom_judges') || {};
+            const removed = await DB.get('removed_judges') || [];
+            const overrides = await DB.get('judge_overrides') || {};
+            const merged = { ...JUDGES, ...custom };
+            Object.keys(overrides).forEach(k => { if (merged[k]) merged[k] = { ...merged[k], ...overrides[k] }; });
+            removed.forEach(k => delete merged[k]);
+            return merged;
+        }
+        async function getJudge(login) {
+            const all = await getAllJudges(); return all[login] || null;
+        }
+        async function addCustomJudge(login, id, name, org) {
+            const custom = await DB.get('custom_judges') || {};
+            custom[login] = { id, login, name, org, custom: true, createdAt: new Date().toISOString() };
+            await DB.set('custom_judges', custom);
+            const codes = await DB.get('custom_codes') || {};
+            codes[login] = login;
+            await DB.set('custom_codes', codes);
+        }
+        async function removeJudge(login) {
+            const removed = await DB.get('removed_judges') || [];
+            if (!removed.includes(login)) { removed.push(login); await DB.set('removed_judges', removed); }
+        }
+        async function updateJudgeName(login, name) {
+            const custom = await DB.get('custom_judges') || {};
+            if (custom[login]) { custom[login].name = name; await DB.set('custom_judges', custom); return; }
+            const overrides = await DB.get('judge_overrides') || {};
+            overrides[login] = { ...(JUDGES[login] || {}), name };
+            await DB.set('judge_overrides', overrides);
+        }
+        async function isValidJudgeLogin(login) {
+            const all = await getAllJudges(); return !!all[login];
+        }
+
+
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  DATA APIs
+        // ═══════════════════════════════════════════════════════════════════
+
+        // — Submissions —
+        async function saveSub(login, data) {
+            const prev = await DB.get(`sub:${login}`) || {};
+            const next = { ...prev, ...data, updatedAt: new Date().toISOString() };
+            await DB.set(`sub:${login}`, next);
+            return next;
+        }
+        async function getSub(login) { return DB.get(`sub:${login}`); }
+        async function getAllSubs() {
+            const keys = await DB.keys('sub:');
+            const out = [];
+            for (const k of keys) {
+                const s = await DB.get(k);
+                if (s) out.push({ compLogin: k.replace('sub:', ''), ...s });
+            }
+            return out;
+        }
+
+        // — Assignments (judge → competitor) —
+        async function assignJudge(judgeLogin, compLogin) {
+            const k = `assign:${compLogin}`;
+            const list = await DB.get(k) || [];
+            if (!list.includes(judgeLogin)) { list.push(judgeLogin); await DB.set(k, list); }
+        }
+        async function unassignJudge(judgeLogin, compLogin) {
+            const k = `assign:${compLogin}`;
+            const list = (await DB.get(k) || []).filter(j => j !== judgeLogin);
+            await DB.set(k, list);
+        }
+        async function getJudgesFor(compLogin) { return (await DB.get(`assign:${compLogin}`)) || []; }
+        async function getCompsForJudge(judgeLogin) {
+            const keys = await DB.keys('assign:');
+            const out = [];
+            for (const k of keys) {
+                const judges = await DB.get(k) || [];
+                if (judges.includes(judgeLogin)) out.push(k.replace('assign:', ''));
+            }
+            return out;
+        }
+
+        // — Scores —
+        async function saveScore(judgeLogin, compLogin, scores, feedback) {
+            const total = Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / RUBRIC.length);
+            const entry = {
+                judgeLogin, compLogin, scores, total, feedback: feedback || {},
+                submittedAt: new Date().toISOString(), approved: false, released: false
+            };
+            await DB.set(`score:${judgeLogin}:${compLogin}`, entry);
+            return entry;
+        }
+        async function getScore(judgeLogin, compLogin) { return DB.get(`score:${judgeLogin}:${compLogin}`); }
+        async function getAllScores() {
+            const keys = await DB.keys('score:');
+            const out = [];
+            for (const k of keys) { const s = await DB.get(k); if (s) out.push(s); }
+            return out;
+        }
+        async function approveScore(judgeLogin, compLogin, release) {
+            const k = `score:${judgeLogin}:${compLogin}`;
+            const s = await DB.get(k);
+            if (s) { s.approved = true; if (release) s.released = true; await DB.set(k, s); }
+        }
+
+        // — Leaderboard computation (approved scores only) —
+        async function computeLB() {
+            const all = await getAllScores();
+            const map = {};
+            for (const s of all.filter(s => s.approved)) {
+                if (!map[s.compLogin]) map[s.compLogin] = { compLogin: s.compLogin, entries: [] };
+                map[s.compLogin].entries.push(s);
+            }
+            return Object.values(map).map(t => {
+                const avg = Math.round(t.entries.reduce((a, b) => a + b.total, 0) / t.entries.length);
+                const cat = {};
+                RUBRIC.forEach(r => {
+                    const vals = t.entries.map(e => e.scores[r.k] || 0);
+                    cat[r.k] = Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+                });
+                return { ...t, avg, cat };
+            }).sort((a, b) => b.avg - a.avg);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  AUTH & NAVIGATION
+        // ═══════════════════════════════════════════════════════════════════
+        function openLogin(portal) {
+            pendingPortal = portal;
+            const cfg = {
+                management: { t: 'Management Login', s: 'Enter your admin access code.' },
+                judge: { t: 'Judge Login', s: 'Enter your judge code (e.g. judge001)' },
+                competitor: { t: 'Competitor Login', s: 'Enter your competitor code (e.g. comp001)' },
+            };
+            document.getElementById('lm-t').textContent = cfg[portal].t;
+            document.getElementById('lm-s').textContent = cfg[portal].s;
+            document.getElementById('lm-in').value = '';
+            document.getElementById('lm-err').style.display = 'none';
+            document.getElementById('lmo').style.display = 'flex';
+            setTimeout(() => document.getElementById('lm-in').focus(), 80);
+        }
+        function closeLM() { document.getElementById('lmo').style.display = 'none'; }
+        async function doLogin() {
+            const v = document.getElementById('lm-in').value.trim().toLowerCase();
+            document.getElementById('lm-err').style.display = 'none';
+            if (pendingPortal === 'management' && MGMT.includes(v)) {
+                CU = { role: 'management', login: 'admin', data: { name: 'Admin' } };
+                closeLM(); show('sm'); await initMgmt(); toast('Welcome, Admin', 'Dashboard loaded', 'ok');
+            } else if (pendingPortal === 'judge') {
+                const allJ = await getAllJudges();
+                if (allJ[v]) {
+                    CU = { role: 'judge', login: v, data: allJ[v] };
+                    closeLM(); show('sj');
+                    document.getElementById('j-badge').textContent = allJ[v].name;
+                    await initJudge(); toast('Welcome', allJ[v].name, 'ok');
+                    updNotifBadges();
+                } else {
+                    document.getElementById('lm-err').style.display = 'block';
+                }
+            } else if (pendingPortal === 'competitor') {
+                const allC = await getAllComps();
+                if (allC[v]) {
+                    CU = { role: 'competitor', login: v, data: allC[v] };
+                    closeLM(); show('sc');
+                    document.getElementById('c-badge').textContent = allC[v].name;
+                    await initComp(); toast('Welcome', allC[v].name, 'ok');
+                    updNotifBadges();
+                } else {
+                    document.getElementById('lm-err').style.display = 'block';
+                }
+            } else {
+                document.getElementById('lm-err').style.display = 'block';
+            }
+        }
+
+        document.getElementById('lm-in').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+        function logout() {
+            CU = null;
+            document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+            document.getElementById('sl').classList.add('on');
+            toast('Logged out', '');
+        }
+        function show(id) {
+            document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+            document.getElementById(id).classList.add('on');
+        }
+        function aSB(screenId, el) {
+            document.querySelectorAll(`#${screenId} .si`).forEach(i => i.classList.remove('on'));
+            if (el) el.classList.add('on');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  UTILITIES
+        // ═══════════════════════════════════════════════════════════════════
+        function esc(s) {
+            return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        function fmt(d) { return d ? new Date(d).toLocaleString() : '—'; }
+        function toast(title, body = '', type = '') {
+            const el = document.createElement('div');
+            el.className = `toast ${type ? 't' + type : ''}`;
+            el.innerHTML = `<div class="tt">${title}</div>${body ? `<div class="tb">${body}</div>` : ''}`;
+            document.getElementById('tstack').appendChild(el);
+            requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+            setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, 3500);
+        }
+        function pag(items, page, perPage, fn) {
+            const total = Math.ceil(items.length / perPage);
+            const slice = items.slice((page - 1) * perPage, page * perPage);
+            let html = '';
+            if (total > 1) {
+                html += `<div class="pag">`;
+                if (page > 1) html += `<button class="pb2" onclick="${fn}(${page - 1})">‹</button>`;
+                const s = Math.max(1, page - 2), e = Math.min(total, page + 2);
+                if (s > 1) html += `<button class="pb2" onclick="${fn}(1)">1</button>${s > 2 ? '<span class="pi2">…</span>' : ''}`;
+                for (let i = s; i <= e; i++) html += `<button class="pb2 ${i === page ? 'on' : ''}" onclick="${fn}(${i})">${i}</button>`;
+                if (e < total) html += `${e < total - 1 ? '<span class="pi2">…</span>' : ''}<button class="pb2" onclick="${fn}(${total})">${total}</button>`;
+                if (page < total) html += `<button class="pb2" onclick="${fn}(${page + 1})">›</button>`;
+                html += `<span class="pi2">Page ${page} of ${total} · ${items.length} total</span></div>`;
+            }
+            return { slice, html };
+        }
+        function showMo(title, body) {
+            let m = document.getElementById('gmo');
+            if (!m) { m = document.createElement('div'); m.id = 'gmo'; m.className = 'mo-bg'; document.body.appendChild(m); }
+            m.innerHTML = `<div class="mo-box"><div class="mo-t">${title}</div><div style="margin-bottom:14px">${body}</div>
+    <div class="mo-act"><button class="btn bg" onclick="closeMo()">Close</button></div></div>`;
+            m.style.display = 'flex';
+            m.onclick = e => { if (e.target === m) closeMo(); };
+        }
+        function closeMo() { const m = document.getElementById('gmo'); if (m) m.style.display = 'none'; }
+        window.closeMo = closeMo;
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  ████  MANAGEMENT  ████
+        // ═══════════════════════════════════════════════════════════════════
+        let mState = { compPg: 1, compF: '', judPg: 1, asPg: 1, asF: '', asJ: '', subPg: 1, subF: '', lsPg: 1, lsF: '' };
+
+        async function initMgmt() { await renderDash(); await updApprBdg(); }
+        async function updApprBdg() {
+            const all = await getAllScores();
+            const n = all.filter(s => !s.approved).length;
+            const b = document.getElementById('apb');
+            if (b) { b.textContent = n; b.style.display = n > 0 ? '' : 'none'; }
+        }
+        // Check if leaderboard should be visible
+        async function checkLBVisible() {
+            const pub = !!(await DB.get('lb_published'));
+            const js = document.getElementById('j-res-sec'); if (js) js.style.display = pub ? '' : 'none';
+            const jb = document.getElementById('j-res-btn'); if (jb) jb.style.display = pub ? '' : 'none';
+            const cs = document.getElementById('c-res-sec'); if (cs) cs.style.display = pub ? '' : 'none';
+            const cb = document.getElementById('c-res-btn'); if (cb) cb.style.display = pub ? '' : 'none';
+        }
+
+        window.toggleLBPublish = async () => {
+            const pub = !!(await DB.get('lb_published'));
+            await DB.set('lb_published', !pub);
+            toast(!pub ? 'Published!' : 'Unpublished', !pub ? 'Leaderboard visible to all competitors and judges' : 'Leaderboard hidden from users', 'ok');
+            await checkLBVisible();
+            renderLB();
+        };
+
+        function mnav(tab, el) {
+            aSB('sm', el);
+            const fns = {
+                dashboard: renderDash, analytics: renderAnalytics, compmanage: renderCompManage,
+                judges: renderJudgesPage, assign: renderAssign, submissions: renderSubs,
+                livescoring: renderLiveScoring, approvals: renderApprovals, leaderboard: renderLB,
+                notifications: renderNotificationsPage
+            };
+            (fns[tab] || renderDash)();
+        }
+
+        // ── Dashboard ──
+        async function renderDash() {
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            const mc = document.getElementById('mc');
+            mc.innerHTML = `<div style="color:var(--t3);padding:20px">Loading…</div>`;
+            const [all, subs] = await Promise.all([getAllScores(), getAllSubs()]);
+            const pending = all.filter(s => !s.approved).length;
+            const activeJudges = [...new Set(all.map(s => s.judgeLogin))].length;
+            mc.innerHTML = `
+  <div class="rb">
+    <div><div class="stt">Management Dashboard</div><div class="sts">Founder's Den 2026 — live overview</div></div>
+    <button class="btn bp bsm" onclick="renderDash()">↻ Refresh</button>
+  </div>
+  <div class="sg">
+    <div class="sc cc"><div class="sl">Competitors</div><div class="sv">300</div><div class="ss">120 solo · 180 teams</div></div>
+    <div class="sc cb"><div class="sl">Judges</div><div class="sv">${Object.keys(allJ).length}</div><div class="ss">${activeJudges} have scored</div></div>
+    <div class="sc cg2"><div class="sl">Submissions</div><div class="sv">${subs.length}</div><div class="ss">of 300 registered</div></div>
+    <div class="sc cw"><div class="sl">Pending Approval</div><div class="sv">${pending}</div><div class="ss">${all.length} total evaluations</div></div>
+  </div>
+  <div class="g2 mb20">
+    <div class="cg">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">Recent Evaluations</div>
+      ${all.length === 0
+                    ? `<div class="emp" style="padding:22px"><div class="ei">📋</div><div class="en">No evaluations yet</div><div class="es">Scores submitted by judges appear here in real-time.</div></div>`
+                    : `<div class="tw"><table><thead><tr><th>Judge</th><th>Competitor</th><th>Score</th><th>Status</th></tr></thead><tbody>
+            ${all.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)).slice(0, 8).map(s => `<tr>
+              <td style="font-size:12px">${esc(allJ[s.judgeLogin]?.name || s.judgeLogin)}</td>
+              <td style="font-size:12px">${esc(allC[s.compLogin]?.name || s.compLogin)}</td>
+              <td style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--c)">${s.total}</td>
+              <td><span class="tag ${s.approved ? 'ta' : 'tp'}">${s.approved ? 'Approved' : 'Pending'}</span></td>
+            </tr>`).join('')}
+          </tbody></table></div>`}
+    </div>
+    <div class="cg">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">Quick Actions</div>
+      ${[['🔗 Assign Judges to Competitors', 'mnav(\'assign\',null)'],
+                ['📁 View All Submissions', 'mnav(\'submissions\',null)'],
+                ['✅ Review Pending Approvals', 'mnav(\'approvals\',null)'],
+                ['🏆 Open Leaderboard', 'mnav(\'leaderboard\',null)'],
+                ['📊 Live Scoring Feed', 'mnav(\'livescoring\',null)']
+                ].map(([l, f]) => `<div style="padding:8px 0;border-bottom:1px solid rgba(0,255,140,.05)">
+          <button class="btn bg bsm" onclick="${f}">${l}</button></div>`).join('')}
+    </div>
+  </div>`;
+        }
+
+        // ── Competitors page ──
+        // ── Manage Competitors (CRUD) ──
+        async function renderCompManage() {
+            document.getElementById('mc').innerHTML = `
+  <div class="rb">
+    <div>
+      <div class="stt">Manage Competitors</div>
+      <div class="sts" id="cms">Loading…</div>
+    </div>
+    <button class="btn bp bsm" onclick="showAddCompMo()">+ Add Competitor</button>
+  </div>
+  <div class="mb14 sb2"><input id="cmfs" placeholder="Search name or ID…" oninput="mState.compF=this.value;mState.compPg=1;renderCompManageT()"/></div>
+  <div id="cmt"></div>`;
+            await renderCompManageT();
+        }
+        window._setCMPg = p => { mState.compPg = p; renderCompManageT(); };
+        async function renderCompManageT() {
+            const allC = await getAllComps();
+            const all = Object.values(allC);
+            document.getElementById('cms').textContent = `${all.length} registered competitors`;
+
+            const f = mState.compF.toLowerCase();
+            const filtered = f ? all.filter(c => c.name.toLowerCase().includes(f) || c.id.toLowerCase().includes(f) || c.login.includes(f)) : all;
+            const { slice, html } = pag(filtered, mState.compPg, 50, '_setCMPg');
+
+            const [subs, scores] = await Promise.all([getAllSubs(), getAllScores()]);
+            const subSet = new Set(subs.map(s => s.compLogin));
+            const scoreMap = {};
+            scores.forEach(s => { if (!scoreMap[s.compLogin]) scoreMap[s.compLogin] = []; scoreMap[s.compLogin].push(s); });
+
+            document.getElementById('cmt').innerHTML = `
+  <div class="tw"><table><thead><tr><th>ID</th><th>Login</th><th>Name</th><th>Type</th><th>Submitted</th><th>Evaluations</th><th>Avg Score</th><th>Actions</th></tr></thead><tbody>
+    ${slice.map(c => {
+                const ev = scoreMap[c.login] || [];
+                const avg = ev.length ? Math.round(ev.reduce((a, b) => a + b.total, 0) / ev.length) : null;
+                return `<tr>
+        <td><code>${c.id}</code></td>
+        <td style="font-size:12px;color:var(--t3)">${c.login}</td>
+        <td style="font-weight:500">${esc(c.name)}</td>
+        <td><span class="tag ${c.type === 'Solo' ? 'ts' : 'tp'}">${c.type}</span></td>
+        <td><span class="tag ${subSet.has(c.login) ? 'ta' : 'ti'}">${subSet.has(c.login) ? 'Yes' : 'No'}</span></td>
+        <td style="color:var(--c2)">${ev.length}</td>
+        <td style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--c)">${avg !== null ? avg : '—'}</td>
+        <td style="text-align:right">
+            <button class="btn bd bsm" onclick="editComp('${c.login}', '${esc(c.name)}')">✎ Edit</button>
+            <button class="btn bd bsm" style="color:var(--err)" onclick="kickComp('${c.login}')">❌ Kick</button>
+        </td>
+      </tr>`;
+            }).join('')}
+  </tbody></table></div>${html}`;
+        }
+
+        window.showAddCompMo = () => {
+            const tempId = 'COMPC' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            showMo('Add Custom Competitor', `
+            <div class="ig">
+                <label class="il">Competitor Name / Team Name</label>
+                <input id="nac-name" placeholder="E.g. Nexus Innovations" />
+            </div>
+            <div class="ig">
+                <label class="il">Type</label>
+                <select id="nac-type"><option value="Solo">Solo</option><option value="Team">Team</option></select>
+            </div>
+            <div class="ig" style="display:flex;gap:12px">
+                <div style="flex:1">
+                    <label class="il">Display ID</label>
+                    <input id="nac-id" value="${tempId}" />
+                </div>
+                <div style="flex:1">
+                    <label class="il">Login Code</label>
+                    <input id="nac-login" value="${tempId.toLowerCase()}" />
+                </div>
+            </div>
+            <div style="margin-top:20px;display:flex;justify-content:flex-end">
+                <button class="btn bg" onclick="doAddComp()">Add Competitor</button>
+            </div>`);
+        };
+
+        window.doAddComp = async () => {
+            const name = document.getElementById('nac-name').value.trim();
+            const type = document.getElementById('nac-type').value;
+            const id = document.getElementById('nac-id').value.trim();
+            let login = document.getElementById('nac-login').value.trim().toLowerCase();
+
+            if (!name || !id || !login) { toast('Missing fields', 'Please fill out all fields', 'wrn'); return; }
+
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            if (allC[login] || MGMT.includes(login) || allJ[login]) {
+                toast('Invalid Login', 'Login code already in use', 'err'); return;
+            }
+
+            await addCustomComp(login, id, name, type);
+            closeMo();
+            toast('Competitor Added', `${name} can now log in using code ${login}`, 'ok');
+            renderCompManageT();
+        };
+
+        window.editComp = (login, currName) => {
+            const newName = prompt('Enter new name for ' + login + ':', currName);
+            if (newName && newName.trim() !== currName) {
+                updateCompName(login, newName.trim()).then(() => {
+                    toast('Name updated', '', 'ok');
+                    renderCompManageT();
+                });
+            }
+        };
+
+        window.kickComp = (login) => {
+            if (confirm('Are you sure you want to remove competitor ' + login + '? They will no longer be able to log in and their assignations will be broken.')) {
+                removeComp(login).then(() => {
+                    toast('Competitor Removed', '', 'ok');
+                    renderCompManageT();
+                });
+            }
+        };
+
+        // ── Judges page ──
+        async function renderJudgesPage() {
+            document.getElementById('mc').innerHTML = `
+  <div class="rb">
+    <div>
+      <div class="stt">Manage Judges</div>
+      <div class="sts" id="jms">Loading…</div>
+    </div>
+    <button class="btn bp bsm" onclick="showAddJudgeMo()">+ Add Judge</button>
+  </div>
+  <div class="mb14 sb2"><input id="jmfs" placeholder="Search name or ID…" oninput="mState.judPg=1;renderJudgeManageT()"/></div>
+  <div id="jmt"></div>`;
+            await renderJudgeManageT();
+        }
+        window._setJMPg = p => { mState.judPg = p; renderJudgeManageT(); };
+        async function renderJudgeManageT() {
+            const allJ = await getAllJudges();
+            const all = Object.values(allJ);
+            document.getElementById('jms').textContent = `${all.length} registered judges`;
+
+            const f = (document.getElementById('jmfs')?.value || '').toLowerCase();
+            const filtered = f ? all.filter(j => j.name.toLowerCase().includes(f) || j.id.toLowerCase().includes(f) || j.login.includes(f)) : all;
+            const { slice, html } = pag(filtered, mState.judPg, 50, '_setJMPg');
+
+            const scores = await getAllScores();
+            const evMap = {};
+            scores.forEach(s => { evMap[s.judgeLogin] = (evMap[s.judgeLogin] || 0) + 1; });
+
+            document.getElementById('jmt').innerHTML = `
+  <div class="tw"><table><thead><tr><th>ID</th><th>Login</th><th>Name</th><th>Organisation</th><th>Evaluations</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    ${slice.map(j => `<tr>
+      <td><code>${j.id}</code></td>
+      <td style="font-size:12px;color:var(--t3)">${j.login}</td>
+      <td style="font-weight:500">${esc(j.name)}</td>
+      <td style="font-size:12px;color:var(--t3)">${esc(j.org || '—')}</td>
+      <td style="color:var(--c2);font-weight:600">${evMap[j.login] || 0}</td>
+      <td><span class="tag ${evMap[j.login] > 0 ? 'ta' : 'tl'}">${evMap[j.login] > 0 ? 'Scoring' : 'Not started'}</span></td>
+      <td style="text-align:right">
+          <button class="btn bd bsm" onclick="editJudge('${j.login}', '${esc(j.name)}')">✎ Edit</button>
+          <button class="btn bd bsm" style="color:var(--err)" onclick="kickJudge('${j.login}')">❌ Kick</button>
+      </td>
+    </tr>`).join('')}
+  </tbody></table></div>${html}`;
+        }
+        window.showAddJudgeMo = () => {
+            const tempId = 'JUD' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            showMo('Add Custom Judge', `
+            <div class="ig">
+                <label class="il">Judge Name</label>
+                <input id="naj-name" placeholder="E.g. Jane Doe" />
+            </div>
+            <div class="ig">
+                <label class="il">Organisation</label>
+                <input id="naj-org" placeholder="E.g. Acme Ventures" />
+            </div>
+            <div class="ig" style="display:flex;gap:12px">
+                <div style="flex:1">
+                    <label class="il">Display ID</label>
+                    <input id="naj-id" value="${tempId}" />
+                </div>
+                <div style="flex:1">
+                    <label class="il">Login Code</label>
+                    <input id="naj-login" value="${tempId.toLowerCase()}" />
+                </div>
+            </div>
+            <div style="margin-top:20px;display:flex;justify-content:flex-end">
+                <button class="btn bg" onclick="doAddJudge()">Add Judge</button>
+            </div>`);
+        };
+        window.doAddJudge = async () => {
+            const name = document.getElementById('naj-name').value.trim();
+            const org = document.getElementById('naj-org').value.trim();
+            const id = document.getElementById('naj-id').value.trim();
+            let login = document.getElementById('naj-login').value.trim().toLowerCase();
+
+            if (!name || !id || !login) { toast('Missing fields', 'Name, ID, and Login are required', 'wrn'); return; }
+
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            if (allC[login] || MGMT.includes(login) || allJ[login]) {
+                toast('Invalid Login', 'Login code already in use', 'err'); return;
+            }
+
+            await addCustomJudge(login, id, name, org);
+            closeMo();
+            toast('Judge Added', `${name} can now log in`, 'ok');
+            renderJudgeManageT();
+        };
+
+        window.editJudge = (login, currName) => {
+            const newName = prompt('Enter new name for ' + login + ':', currName);
+            if (newName && newName.trim() !== currName) {
+                updateJudgeName(login, newName.trim()).then(() => {
+                    toast('Name updated', '', 'ok');
+                    renderJudgeManageT();
+                });
+            }
+        };
+
+        window.kickJudge = (login) => {
+            if (confirm('Are you sure you want to remove judge ' + login + '? They will no longer be able to log in and their assignations will be broken.')) {
+                removeJudge(login).then(() => {
+                    toast('Judge Removed', '', 'ok');
+                    renderJudgeManageT();
+                });
+            }
+        };
+
+        // ── Assign ──
+        async function renderAssign() {
+            const allJ = await getAllJudges();
+            document.getElementById('mc').innerHTML = `
+  <div class="rb"><div><div class="stt">Assign Judges</div>
+  <div class="sts">Manually assign judges to competitors. Judges only see their assigned competitors.</div></div>
+  <div class="fx">
+    <button class="btn bp bsm" onclick="autoAssign()">⚡ Auto-Assign All</button>
+    <button class="btn bg bsm" onclick="renderAssign()">↻ Refresh</button>
+  </div></div>
+  <div class="g2 mb14">
+    <div class="sb2"><input id="asf" placeholder="Search competitor…" oninput="mState.asF=this.value;mState.asPg=1;renderAssignT()"/></div>
+    <select id="asj" onchange="mState.asJ=this.value;mState.asPg=1;renderAssignT()">
+      <option value="">— Filter by judge —</option>
+      ${Object.values(allJ).map(j => `<option value="${j.login}">${esc(j.name)}</option>`).join('')}
+    </select>
+  </div>
+  <div id="at"></div>`;
+            await renderAssignT();
+        }
+        window._setAsPg = p => { mState.asPg = p; renderAssignT(); };
+        async function renderAssignT() {
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            let comps = Object.values(allC);
+            const f = mState.asF.toLowerCase();
+            if (f) comps = comps.filter(c => c.name.toLowerCase().includes(f) || c.id.toLowerCase().includes(f) || c.login.includes(f));
+            if (mState.asJ) {
+                const keys = await DB.keys('assign:');
+                const withJ = new Set();
+                for (const k of keys) {
+                    const judges = await DB.get(k) || [];
+                    if (judges.includes(mState.asJ)) withJ.add(k.replace('assign:', ''));
+                }
+                comps = comps.filter(c => withJ.has(c.login));
+            }
+            const { slice, html } = pag(comps, mState.asPg, 25, '_setAsPg');
+            const rows = [];
+            for (const c of slice) {
+                const judges = await getJudgesFor(c.login);
+                rows.push({ c, judges });
+            }
+            document.getElementById('at').innerHTML = `
+  <div class="tw"><table><thead><tr><th>Competitor</th><th>Type</th><th>Assigned Judges</th><th>Add Judge</th></tr></thead><tbody>
+    ${rows.map(({ c, judges }) => `<tr>
+      <td><div style="font-weight:500;font-size:13px">${esc(c.name)}</div><code style="font-size:10px">${c.id}</code></td>
+      <td><span class="tag ${c.type === 'Solo' ? 'ts' : 'tp'}">${c.type}</span></td>
+      <td>${judges.length === 0
+                    ? '<span style="color:var(--t3);font-size:12px">None assigned</span>'
+                    : judges.map(jl => `<span class="cp" onclick="doUnassign('${jl}','${c.login}')">
+            ${esc(allJ[jl]?.name?.split(' ').pop() || jl)} <span style="color:var(--err)">×</span>
+          </span>`).join('')}
+      </td>
+      <td>
+        <div class="fx">
+          <select style="width:170px;font-size:12px;padding:5px 8px" id="jsel-${c.login}">
+            <option value="">+ Select judge…</option>
+            ${Object.values(allJ).filter(j => !judges.includes(j.login)).map(j => `<option value="${j.login}">${esc(j.name)}</option>`).join('')}
+          </select>
+          <button class="btn bp bsm" onclick="doAssign('${c.login}')">Assign</button>
+        </div>
+      </td>
+    </tr>`).join('')}
+  </tbody></table></div>${html}`;
+        }
+        window.doAssign = async clogin => {
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            const sel = document.getElementById(`jsel-${clogin}`);
+            const jlogin = sel?.value;
+            if (!jlogin) { toast('Select a judge first', '', 'wrn'); return; }
+            await assignJudge(jlogin, clogin);
+            toast('Assigned', `${allJ[jlogin]?.name || jlogin} → ${allC[clogin]?.name || clogin}`, 'ok');
+            await renderAssignT();
+        };
+        window.doUnassign = async (jlogin, clogin) => {
+            const allJ = await getAllJudges();
+            await unassignJudge(jlogin, clogin);
+            toast('Removed', `${allJ[jlogin]?.name || jlogin} unassigned`);
+            await renderAssignT();
+        };
+        async function autoAssign() {
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            const judgeLogins = Object.keys(allJ);
+            const compLogins = Object.keys(allC);
+            if (judgeLogins.length === 0) { toast('Error', 'No judges available', 'err'); return; }
+            let ji = 0;
+            // assign 5 competitors per judge targeting exactly 5 submissions per judge
+            for (let ci = 0; ci < compLogins.length; ci++) {
+                const jlogin = judgeLogins[ji % judgeLogins.length];
+                await assignJudge(jlogin, compLogins[ci]);
+                if ((ci + 1) % 5 === 0) ji++;
+            }
+            toast('Auto-assigned!', 'Each judge assigned 5 competitors', 'ok');
+            await renderAssignT();
+        }
+
+        // ── Submissions ──
+        async function renderSubs() {
+            document.getElementById('mc').innerHTML = `
+  <div class="rb"><div><div class="stt">Submissions</div><div class="sts">All competitor submissions</div></div>
+  <button class="btn bg bsm" onclick="renderSubs()">↻ Refresh</button></div>
+  <div class="mb14 sb2"><input id="ssf" placeholder="Search competitor…" oninput="mState.subF=this.value;mState.subPg=1;renderSubsT()"/></div>
+  <div id="sub-t"></div>`;
+            await renderSubsT();
+        }
+        window._setSubPg = p => { mState.subPg = p; renderSubsT(); };
+        async function renderSubsT() {
+            const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+            const subs = await getAllSubs();
+            const f = mState.subF.toLowerCase();
+            const filtered = f ? subs.filter(s => { const c = allC[s.compLogin]; const j = allJ[s.judgeLogin]; return (c && c.name.toLowerCase().includes(f)) || (j && j.name.toLowerCase().includes(f)) || s.compLogin.includes(f) || (s.judgeLogin && s.judgeLogin.includes(f)); }) : subs;
+            const { slice, html } = pag(filtered, mState.subPg, 30, '_setSubPg');
+            document.getElementById('sub-t').innerHTML = slice.length === 0
+                ? `<div class="emp"><div class="ei">📁</div><div class="en">No submissions yet</div><div class="es">Competitors log in and submit through their portal.</div></div>`
+                : `<div class="tw"><table><thead><tr><th>Competitor</th><th>File</th><th>Links</th><th>Description</th><th>Updated</th><th>Action</th></tr></thead><tbody>
+        ${slice.map(s => {
+                    const c = allC[s.compLogin]; return `<tr>
+          <td><div style="font-weight:500">${esc(c?.name || s.compLogin)}</div><code style="font-size:10px">${c?.id || s.compLogin}</code></td>
+          <td>${s.fileName ? `<span class="tag ta">📄 ${esc(s.fileName.substring(0, 22))}</span>` : '<span class="tag ti">None</span>'}</td>
+          <td>${s.links?.length ? `<span class="tag ts">${s.links.length} link${s.links.length > 1 ? 's' : ''}</span>` : '<span style="color:var(--t3);font-size:12px">—</span>'}</td>
+          <td style="max-width:160px;font-size:12px;color:var(--t2)">${s.description ? esc(s.description).substring(0, 70) + '…' : '—'}</td>
+          <td style="font-size:11px;color:var(--t3)">${fmt(s.updatedAt)}</td>
+          <td><button class="btn bg bsm" onclick="viewSubMgmt('${s.compLogin}')">View</button></td>
+        </tr>`;
+                }).join('')}
+      </tbody></table></div>${html}`;
+        }
+        window.viewSubMgmt = async clogin => {
+            const allC = await getAllComps();
+            const s = await getSub(clogin); const c = allC[clogin];
+            if (!s) return;
+            showMo(`Submission — ${esc(c?.name || clogin)}`, buildSubViewHTML(s, clogin));
+        };
+
+        // ── Live Scoring ──
+        async function renderLiveScoring() {
+            document.getElementById('mc').innerHTML = `
+  <div class="rb"><div><div class="stt">Live Scoring</div><div class="sts">All evaluations — updates in real-time</div></div>
+  <button class="btn bg bsm" onclick="renderLiveScoring()">↻ Refresh</button></div>
+  <div class="mb14 sb2"><input id="lsf" placeholder="Search competitor or judge…" oninput="mState.lsF=this.value;mState.lsPg=1;renderLST()"/></div>
+  <div id="ls-t"></div>`;
+            await renderLST();
+        }
+        window._setLsPg = p => { mState.lsPg = p; renderLST(); };
+        async function renderLST() {
+            const allC = await getAllComps();
+            const all = await getAllScores();
+            const f = mState.lsF.toLowerCase();
+            const filtered = f ? all.filter(s => (allC[s.compLogin]?.name.toLowerCase().includes(f)) || (JUDGES[s.judgeLogin]?.name.toLowerCase().includes(f)) || s.compLogin.includes(f) || s.judgeLogin.includes(f)) : all;
+            filtered.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+            const { slice, html } = pag(filtered, mState.lsPg, 30, '_setLsPg');
+            document.getElementById('ls-t').innerHTML = slice.length === 0
+                ? `<div class="emp"><div class="ei">⏳</div><div class="en">No evaluations submitted yet</div><div class="es">Scores from judges appear here the moment they submit.</div></div>`
+                : `<div class="tw"><table><thead><tr><th>Competitor</th><th>Judge</th><th>Inno.</th><th>Feas.</th><th>Market</th><th>Pres.</th><th>Total</th><th>Time</th><th>Status</th></tr></thead><tbody>
+        ${slice.map(s => `<tr>
+          <td><div style="font-weight:500;font-size:13px">${esc(allC[s.compLogin]?.name || s.compLogin)}</div><code style="font-size:10px">${allC[s.compLogin]?.id || s.compLogin}</code></td>
+          <td style="font-size:12px">${esc(JUDGES[s.judgeLogin]?.name || s.judgeLogin)}</td>
+          <td style="color:var(--c)">${s.scores.innovation || 0}</td>
+          <td style="color:var(--c)">${s.scores.feasibility || 0}</td>
+          <td style="color:var(--c)">${s.scores.market || 0}</td>
+          <td style="color:var(--c)">${s.scores.presentation || 0}</td>
+          <td style="font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--c)">${s.total}</td>
+          <td style="font-size:11px;color:var(--t3)">${fmt(s.submittedAt)}</td>
+          <td><span class="tag ${s.approved ? 'ta' : 'tp'}">${s.approved ? 'Approved' : 'Pending'}</span></td>
+        </tr>`).join('')}
+      </tbody></table></div>${html}`;
+        }
+
+        // ── Approvals ──
+        async function renderApprovals() {
+            const allC = await getAllComps();
+            const mc = document.getElementById('mc');
+            mc.innerHTML = `<div class="rb"><div><div class="stt">Approvals</div><div class="sts">Review judge evaluations and release scores to competitors</div></div>
+  <button class="btn bg bsm" onclick="renderApprovals()">↻ Refresh</button></div>
+  <div id="apl"><div style="color:var(--t3)">Loading…</div></div>`;
+            const all = await getAllScores();
+            const pending = all.filter(s => !s.approved);
+            const approved = all.filter(s => s.approved);
+            let h = '';
+            if (pending.length === 0) {
+                h += `<div class="emp mb20"><div class="ei">✅</div><div class="en">All clear</div><div class="es">No pending evaluations to review.</div></div>`;
+            } else {
+                h += `<div style="font-size:13px;font-weight:600;margin-bottom:11px">Pending Review (${pending.length})</div>`;
+                h += pending.map(s => `
+    <div class="cg mb14">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-size:15px;font-weight:700">${esc(allC[s.compLogin]?.name || s.compLogin)}</div>
+          <div style="font-size:11.5px;color:var(--t3);margin-top:2px">By ${esc(JUDGES[s.judgeLogin]?.name || s.judgeLogin)} · ${fmt(s.submittedAt)}</div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--c)">${s.total}<span style="font-size:13px;color:var(--t3)">/100</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">
+        ${RUBRIC.map(r => `<div style="background:var(--g2);border:1px solid var(--b);border-radius:7px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--t3);margin-bottom:3px">${r.l}</div>
+          <div style="font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--c)">${s.scores[r.k] || 0}</div>
+        </div>`).join('')}
+      </div>
+      ${(s.feedback?.strengths || s.feedback?.improvements) ? `
+      <div style="background:var(--g2);border:1px solid var(--b);border-radius:8px;padding:12px;margin-bottom:12px">
+        ${s.feedback.strengths ? `<div style="font-size:10px;color:var(--ok);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">Strengths</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:9px">${esc(s.feedback.strengths)}</div>` : ''}
+        ${s.feedback.improvements ? `<div style="font-size:10px;color:var(--warn);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">Areas for Improvement</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.6">${esc(s.feedback.improvements)}</div>` : ''}
+      </div>`: ''}
+      <div class="fx">
+        <button class="btn bsu" onclick="_appr('${s.judgeLogin}','${s.compLogin}',true)">✓ Approve & Release</button>
+        <button class="btn bp" onclick="_appr('${s.judgeLogin}','${s.compLogin}',false)">Approve (hold)</button>
+        <button class="btn bd" onclick="toast('Flagged','Evaluation flagged for review','wrn')">⚑ Flag</button>
+      </div>
+    </div>`).join('');
+            }
+            if (approved.length > 0) {
+                h += `<div style="font-size:13px;font-weight:600;margin-bottom:11px;margin-top:20px">Approved (${approved.length})</div>
+    <div class="tw"><table><thead><tr><th>Judge</th><th>Competitor</th><th>Score</th><th>Released</th><th></th></tr></thead><tbody>
+      ${approved.map(s => `<tr>
+        <td style="font-size:12px">${esc(JUDGES[s.judgeLogin]?.name || s.judgeLogin)}</td>
+        <td style="font-size:12px">${esc(allC[s.compLogin]?.name || s.compLogin)}</td>
+        <td style="color:var(--c);font-weight:600">${s.total}</td>
+        <td><span class="tag ${s.released ? 'ta' : 'tp'}">${s.released ? 'Released to competitor' : 'Held'}</span></td>
+        <td>${!s.released ? `<button class="btn bp bsm" onclick="_release('${s.judgeLogin}','${s.compLogin}')">Release</button>` : ''}</td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+            }
+            document.getElementById('apl').innerHTML = h;
+            await updApprBdg();
+        }
+        window._appr = async (jl, cl, rel) => {
+            await approveScore(jl, cl, rel);
+            toast('Approved', rel ? 'Score released to competitor ✓' : 'Approved (held from competitor)', 'ok');
+            await renderApprovals(); await updApprBdg();
+        };
+        window._release = async (jl, cl) => {
+            const k = `score:${jl}:${cl}`; const s = await DB.get(k);
+            if (s) { s.released = true; await DB.set(k, s); }
+            toast('Released', 'Score is now visible to competitor', 'ok');
+            await renderApprovals();
+        };
+
+        // ── Leaderboard ──
+        async function renderLB() {
+            const allC = await getAllComps();
+            const published = await DB.get('lb_published');
+            const mc = document.getElementById(CU?.role === 'management' ? 'mc' : (CU?.role === 'judge' ? 'jc' : 'cc'));
+
+            const adminControls = CU?.role === 'management' ? `
+            <div class="fx"><button class="btn bg bsm" onclick="renderLB()">↻ Refresh</button>
+            <button class="btn ${published ? 'bd' : 'bp'} bsm" onclick="toggleLBPublish()">${published ? '🚫 Unpublish' : '🌐 Publish'}</button></div>` : `
+            <button class="btn bg bsm" onclick="renderLB()">↻ Refresh</button>`;
+
+            mc.innerHTML = `<div class="rb"><div><div class="stt">Leaderboard</div><div class="sts">${CU?.role === 'management' ? (published ? '<span style="color:var(--ok)">Currently Published state</span>' : 'Live rankings — Not public') : 'Final event rankings'}</div></div>
+  ${adminControls}</div>
+  <div id="lb"><div style="color:var(--t3)">Computing…</div></div>`;
+            const lb = await computeLB();
+            const el = document.getElementById('lb');
+            if (lb.length === 0) {
+                el.innerHTML = `<div class="emp"><div class="ei">🏆</div><div class="en">Leaderboard is empty</div><div class="es">Approve judge evaluations to populate the rankings.</div></div>`;
+                return;
+            }
+            el.innerHTML = `<div class="lbl">${lb.map((t, i) => {
+                const rc = i === 0 ? 'r1' : i === 1 ? 'r2' : i === 2 ? 'r3' : '';
+                const col = i === 0 ? 'var(--gold)' : i === 1 ? 'var(--silver)' : i === 2 ? 'var(--bronze)' : 'var(--t3)';
+                const ico = i === 0 ? '👑' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1;
+                return `<div class="li ${rc}">
+      <div class="lr" style="color:${col}">${ico}</div>
+      <div class="lin">
+        <div class="ltn">${esc(allC[t.compLogin]?.name || t.compLogin)}</div>
+        <div class="ltm"><code style="font-size:10px">${allC[t.compLogin]?.id || t.compLogin}</code> · ${t.entries.length} evaluation${t.entries.length !== 1 ? 's' : ''}</div>
+        <div class="ljs">${t.entries.map(e => `<span class="ljp">${esc(JUDGES[e.judgeLogin]?.name?.split(' ').pop() || e.judgeLogin)}: ${e.total}</span>`).join('')}</div>
+        <div style="display:flex;gap:11px;margin-top:4px;flex-wrap:wrap">
+          ${RUBRIC.map(r => `<span style="font-size:10.5px;color:var(--t3)">${r.l}: <span style="color:var(--c)">${t.cat[r.k]}</span></span>`).join('')}
+        </div>
+      </div>
+      <div class="lsc"><div class="lsm">${t.avg}</div><div class="lsd">avg / 100</div></div>
+    </div>`;
+            }).join('')}</div>`;
+        }
+
+        // ── Analytics ──
+        async function renderAnalytics() {
+            const mc = document.getElementById('mc');
+            const [all, subs] = await Promise.all([getAllScores(), getAllSubs()]);
+            const lb = await computeLB();
+            const avg = all.length ? Math.round(all.reduce((a, b) => a + b.total, 0) / all.length) : 0;
+            const catA = {};
+            RUBRIC.forEach(r => {
+                const v = all.map(s => s.scores[r.k] || 0);
+                catA[r.k] = v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : 0;
+            });
+            mc.innerHTML = `
+  <div class="rb"><div><div class="stt">Analytics</div><div class="sts">Platform-wide scoring insights</div></div></div>
+  <div class="sg">
+    <div class="sc cc"><div class="sl">Avg Score</div><div class="sv">${avg || '—'}</div><div class="ss">All evaluations</div></div>
+    <div class="sc cb"><div class="sl">Total Evaluations</div><div class="sv">${all.length}</div><div class="ss">${all.filter(s => s.approved).length} approved</div></div>
+    <div class="sc cg2"><div class="sl">Submissions</div><div class="sv">${subs.length}</div><div class="ss">of 300 competitors</div></div>
+    <div class="sc cw"><div class="sl">On Leaderboard</div><div class="sv">${lb.length}</div><div class="ss">With approved scores</div></div>
+  </div>
+  <div class="g2 mb20">
+    <div class="cg"><div style="font-size:13px;font-weight:600;margin-bottom:12px">Category Averages</div>
+      ${RUBRIC.map(r => `<div class="sbr"><span class="sbl">${r.l}</span>
+        <div class="sbt"><div class="sbf" style="width:${catA[r.k]}%"></div></div>
+        <span class="sbn">${catA[r.k] || '—'}</span></div>`).join('')}
+    </div>
+    <div class="cg"><div style="font-size:13px;font-weight:600;margin-bottom:12px">Top 10 Competitors</div>
+      ${lb.length === 0
+                    ? '<div style="color:var(--t3);font-size:13px">No approved scores yet</div>'
+                    : lb.slice(0, 10).map((t, i) => `<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(0,255,140,.05)">
+            <span style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:${i === 0 ? 'var(--gold)' : i === 1 ? 'var(--silver)' : i === 2 ? 'var(--bronze)' : 'var(--t3)'};min-width:20px">${i + 1}</span>
+            <span style="font-size:12px;flex:1">${esc(allC[t.compLogin]?.name || t.compLogin)}</span>
+            <span style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--c)">${t.avg}</span>
+          </div>`).join('')}
+    </div>
+  </div>`;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  ████  JUDGE PORTAL  ████
+        // ═══════════════════════════════════════════════════════════════════
+        let scoreTgt = null;
+        async function initJudge() { await renderJAssigned(); }
+        function jnav(tab, el) {
+            aSB('sj', el);
+            ({ assigned: renderJAssigned, jscore: renderJScore, jdone: renderJDone, jnotif: renderJNotif, leaderboard: renderLB }[tab] || renderJAssigned)();
+        }
+
+        async function renderJAssigned() {
+            const allC = await getAllComps();
+            const jc = document.getElementById('jc');
+            jc.innerHTML = `<div class="rb"><div><div class="stt">My Assigned Competitors</div>
+  <div class="sts">Only competitors assigned to you by management are shown here.</div></div>
+  <button class="btn bg bsm" onclick="renderJAssigned()">↻ Refresh</button></div>
+  <div id="jal"><div style="color:var(--t3)">Loading…</div></div>`;
+            const assigned = await getCompsForJudge(CU.login);
+            const jal = document.getElementById('jal');
+            if (assigned.length === 0) {
+                jal.innerHTML = `<div class="emp"><div class="ei">⏳</div><div class="en">No competitors assigned yet</div>
+      <div class="es">Management will assign competitors to you. Please check back or contact the admin.</div></div>`;
+                return;
+            }
+            const rows = [];
+            for (const cl of assigned) {
+                const sub = await getSub(cl);
+                const sc = await getScore(CU.login, cl);
+                rows.push({ cl, sub, sc });
+            }
+            jal.innerHTML = `<div style="font-size:13px;color:var(--t2);margin-bottom:13px">${assigned.length} competitor${assigned.length !== 1 ? 's' : ''} assigned to you.</div>
+  <div class="tw"><table><thead><tr><th>Competitor</th><th>Type</th><th>Submission</th><th>Your Score</th><th>Actions</th></tr></thead><tbody>
+    ${rows.map(({ cl, sub, sc }) => {
+                const c = allC[cl]; return `<tr>
+      <td><div style="font-weight:500">${esc(c?.name || cl)}</div><code style="font-size:10px">${c?.id || cl}</code></td>
+      <td><span class="tag ${c?.type === 'Solo' ? 'ts' : 'tp'}">${c?.type || '—'}</span></td>
+      <td><span class="tag ${sub ? 'ta' : 'ti'}">${sub ? 'Submitted' : 'Not yet'}</span></td>
+      <td><span class="tag ${sc ? 'ta' : 'tl'}">${sc ? `${sc.total}/100` : 'Not scored'}</span></td>
+      <td class="fx" style="gap:5px">
+        ${sub ? `<button class="btn bg bsm" onclick="viewSubJ('${cl}')">📄 View</button>` : ''}
+        ${!sc
+                        ? `<button class="btn bp bsm" onclick="startScore('${cl}')">Score →</button>`
+                        : `<button class="btn bg bsm" onclick="toast('Locked','Contact management to edit submitted scores')">🔒 Scored</button>`}
+      </td>
+    </tr>`;
+            }).join('')}
+  </tbody></table></div>`;
+        }
+
+        window.viewSubJ = async cl => {
+            const allC = await getAllComps();
+            const s = await getSub(cl); const c = allC[cl];
+            if (!s) { toast('No submission yet', 'This competitor has not submitted', 'wrn'); return; }
+            showMo(`${esc(c?.name || cl)} — Submission`, buildSubViewHTML(s, cl) + `
+    <div style="margin-top:14px">
+      <button class="btn bp bfl" onclick="startScore('${cl}');closeMo()">Score This Entry →</button>
+    </div>`);
+        };
+        window.startScore = cl => {
+            scoreTgt = cl;
+            jnav('jscore', document.querySelectorAll('#sj .si')[1]);
+        };
+
+        async function renderJScore() {
+            const allC = await getAllComps();
+            const jc = document.getElementById('jc');
+            if (!scoreTgt || !allC[scoreTgt]) {
+                const assigned = await getCompsForJudge(CU.login);
+                jc.innerHTML = `
+    <div class="rb"><div><div class="stt">Score Entry</div><div class="sts">Select an assigned competitor to begin</div></div></div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:12px;color:var(--t2)">Your Assignments</div>
+    <div class="tw"><table><thead><tr><th>Start Evaluation</th></tr></thead><tbody>
+      ${assigned.length === 0 ? '<tr><td style="color:var(--t3);font-size:12px">No competitors assigned yet.</td></tr>' :
+                        assigned.map(cl => `<tr><td><span class="cp" onclick="startScore('${cl}')">${allC[cl]?.name || cl} (${allC[cl]?.id || cl})</span></td></tr>`).join('')}
+    </tbody></table></div>`;
+                return;
+            }
+            const c = allC[scoreTgt];
+            jc.innerHTML = `
+  <div class="rb">
+    <div><div class="stt">Evaluate: ${esc(c.name)}</div>
+    <div class="sts">Score 0–100 per category. Final score = average of all four.</div></div>
+    <button class="btn bg bsm" onclick="scoreTgt=null;renderJScore()">← Change</button>
+  </div>
+  <div style="background:var(--g2);border:1px solid var(--b);border-radius:8px;padding:10px 13px;margin-bottom:16px;font-size:13px;color:var(--t2)">
+    <strong>${esc(c.name)}</strong> &nbsp;·&nbsp; <code>${c.id}</code> &nbsp;·&nbsp; ${c.type}
+    <button class="btn bg bsm" style="margin-left:8px" onclick="viewSubJ('${c.login}')">📄 View Submission</button>
+  </div>
+  ${RUBRIC.map((r, i) => `
+  <div class="rc">
+    <div class="rch">
+      <div><div class="rcn">${r.l}</div><div class="rcd">${r.d}</div></div>
+      <div class="rcv" id="rv${i}">75</div>
+    </div>
+    <div class="rrow">
+      <span class="rend">0</span>
+      <input type="range" min="0" max="100" value="75" id="rr${i}" oninput="updScore(${i})" style="flex:1"/>
+      <span class="rend">100</span>
+    </div>
+  </div>`).join('')}
+  <div class="fbox">
+    <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Calculated Final Score</div>
+    <div class="fnum" id="fscore">75</div>
+    <div class="flbl">Average of all 4 categories · out of 100</div>
+  </div>
+  <div class="g2" style="margin-top:14px">
+    <div class="ig"><label class="il">Strengths</label>
+      <textarea id="fb-str" placeholder="What did this competitor do well?"></textarea>
+    </div>
+    <div class="ig"><label class="il">Areas for Improvement</label>
+      <textarea id="fb-imp" placeholder="What should they focus on improving?"></textarea>
+    </div>
+  </div>
+  <button class="btn bp blg bfl" style="margin-top:6px" onclick="submitScore()">Submit Evaluation →</button>`;
+        }
+        window.updScore = idx => {
+            const v = document.getElementById(`rr${idx}`)?.value;
+            if (document.getElementById(`rv${idx}`)) document.getElementById(`rv${idx}`).textContent = v;
+            let total = 0;
+            for (let i = 0; i < RUBRIC.length; i++) { const r = document.getElementById(`rr${i}`); if (r) total += parseInt(r.value); }
+            const fs = document.getElementById('fscore'); if (fs) fs.textContent = Math.round(total / RUBRIC.length);
+        };
+        async function submitScore() {
+            if (!scoreTgt) { toast('No competitor selected', '', 'wrn'); return; }
+            const existing = await getScore(CU.login, scoreTgt);
+            if (existing) { toast('Already submitted', 'Contact management to unlock', 'wrn'); return; }
+            const scores = {};
+            RUBRIC.forEach((r, i) => { scores[r.k] = parseInt(document.getElementById(`rr${i}`)?.value || 75); });
+            const feedback = {
+                strengths: document.getElementById('fb-str')?.value || '',
+                improvements: document.getElementById('fb-imp')?.value || ''
+            };
+            const entry = await saveScore(CU.login, scoreTgt, scores, feedback);
+            toast('Evaluation submitted!', `Score: ${entry.total}/100 — awaiting management approval`, 'ok');
+            scoreTgt = null;
+            jnav('jdone', document.querySelectorAll('#sj .si')[2]);
+        }
+
+        async function renderJDone() {
+            const allC = await getAllComps();
+            const jc = document.getElementById('jc');
+            jc.innerHTML = `<div class="rb"><div><div class="stt">My Evaluations</div><div class="sts">All evaluations you have submitted</div></div>
+  <button class="btn bg bsm" onclick="renderJDone()">↻ Refresh</button></div>
+  <div id="jd"><div style="color:var(--t3)">Loading…</div></div>`;
+            const keys = await DB.keys(`score:${CU.login}:`);
+            const scores = [];
+            for (const k of keys) { const s = await DB.get(k); if (s) scores.push(s); }
+            const jd = document.getElementById('jd');
+            if (scores.length === 0) {
+                jd.innerHTML = `<div class="emp"><div class="ei">📋</div><div class="en">No evaluations submitted yet</div><div class="es">Score your assigned competitors from the Score Entry tab.</div></div>`;
+                return;
+            }
+            jd.innerHTML = scores.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)).map(s => `
+  <div class="cg mb14">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+      <div>
+        <div style="font-size:15px;font-weight:700">${esc(allC[s.compLogin]?.name || s.compLogin)}</div>
+        <div style="font-size:11.5px;color:var(--t3);margin-top:2px">${allC[s.compLogin]?.id || s.compLogin} · ${fmt(s.submittedAt)}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--c)">${s.total}</div>
+        <span class="tag ${s.approved ? 'ta' : 'tp'}">${s.approved ? 'Approved' : 'Pending Approval'}</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      ${RUBRIC.map(r => `<div style="background:var(--g2);border:1px solid var(--b);border-radius:7px;padding:8px;text-align:center">
+        <div style="font-size:10px;color:var(--t3);margin-bottom:3px">${r.l}</div>
+        <div style="font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--c)">${s.scores[r.k] || 0}</div>
+      </div>`).join('')}
+    </div>
+    ${!s.approved ? '<div style="font-size:12px;color:var(--t3);margin-top:10px">⏳ Awaiting management approval before competitor can see this result.</div>' : ''}
+  </div>`).join('');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  ████  COMPETITOR PORTAL  ████
+        // ═══════════════════════════════════════════════════════════════════
+        let pendingFile = null, linkCount = 0;
+        async function initComp() { await renderCOverview(); }
+        function cnav(tab, el) {
+            aSB('sc', el);
+            ({ coverview: renderCOverview, csubmit: renderCSubmit, cresults: renderCResults, cnotif: renderCNotif, leaderboard: renderLB }[tab] || renderCOverview)();
+        }
+
+        async function renderCOverview() {
+            const cc = document.getElementById('cc');
+            cc.innerHTML = `<div style="color:var(--t3)">Loading…</div>`;
+            const c = CU.data;
+            const sub = await getSub(CU.login);
+            const all = await getAllScores();
+            const mine = all.filter(s => s.compLogin === CU.login);
+            const released = mine.filter(s => s.released);
+            const avg = released.length ? Math.round(released.reduce((a, b) => a + b.total, 0) / released.length) : null;
+            const assigned = await getJudgesFor(CU.login);
+            cc.innerHTML = `
+  <div class="rb"><div><div class="stt">${esc(c.name)}</div><div class="sts">${c.id} · ${c.type} · Founder's Den 2026</div></div></div>
+  <div class="sg">
+    <div class="sc cc"><div class="sl">Entry Type</div><div class="sv" style="font-size:18px">${c.type}</div></div>
+    <div class="sc cb"><div class="sl">Submission</div><div class="sv" style="font-size:18px">${sub ? 'Done' : 'Pending'}</div><div class="ss">${sub ? 'Materials on file' : 'Not yet submitted'}</div></div>
+    <div class="sc cg2"><div class="sl">${avg !== null ? 'Avg Score' : 'Evaluations'}</div><div class="sv">${avg !== null ? avg : mine.length}</div><div class="ss">${avg !== null ? 'out of 100' : `${released.length} score${released.length !== 1 ? 's' : ''} released`}</div></div>
+    <div class="sc cw"><div class="sl">Judges Assigned</div><div class="sv">${assigned.length}</div><div class="ss">Will review your work</div></div>
+  </div>
+  <div class="g2">
+    <div class="cg">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">Submission Checklist</div>
+      ${[
+                    { l: 'Business plan file uploaded', ok: !!(sub?.fileName) },
+                    { l: 'External link submitted', ok: !!(sub?.links?.length) },
+                    { l: 'Description / pitch text added', ok: !!(sub?.description) },
+                ].map(item => `<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,255,140,.05)">
+          <div style="width:8px;height:8px;border-radius:50%;background:${item.ok ? 'var(--ok)' : 'rgba(255,77,109,.5)'};flex-shrink:0"></div>
+          <span style="font-size:13px;color:${item.ok ? 'var(--t)' : 'var(--t2)'}">${item.l}</span>
+          <span class="tag ${item.ok ? 'ta' : 'ti'}" style="margin-left:auto">${item.ok ? 'Done' : 'Missing'}</span>
+        </div>`).join('')}
+      <button class="btn bp bfl" style="margin-top:12px" onclick="cnav('csubmit',document.querySelectorAll('#sc .si')[1])">
+        ${sub ? 'Update Submission →' : 'Submit Now →'}
+      </button>
+    </div>
+    <div class="cg">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">Score Status</div>
+      ${mine.length === 0
+                    ? `<div class="emp" style="padding:18px"><div class="ei">⏳</div><div class="en">Not yet evaluated</div><div class="es">Judges will evaluate your submission during the judging period.</div></div>`
+                    : mine.map(s => `<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(0,255,140,.05)">
+            <div>
+              <div style="font-size:13px;font-weight:500">${esc(JUDGES[s.judgeLogin]?.name || 'Judge')}</div>
+              <div style="font-size:11px;color:var(--t3)">${fmt(s.submittedAt)}</div>
+            </div>
+            <div class="fx">
+              ${s.released ? `<span style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--c)">${s.total}</span>` : '<span style="color:var(--t3);font-size:12px">Hidden</span>'}
+              <span class="tag ${s.released ? 'ta' : s.approved ? 'ts' : 'tp'}">${s.released ? 'Released' : s.approved ? 'Approved' : 'Pending'}</span>
+            </div>
+          </div>`).join('')}
+    </div>
+  </div>`;
+        }
+
+        async function renderCSubmit() {
+            const cc = document.getElementById('cc');
+            const existing = await getSub(CU.login);
+            pendingFile = null; linkCount = 0;
+            cc.innerHTML = `
+  <div class="rb"><div><div class="stt">Submit Your Work</div>
+  <div class="sts">Upload your business plan and add any external links. You can update before the deadline.</div></div></div>
+  <div class="cg mb20">
+    <div style="font-size:13px;font-weight:600;margin-bottom:12px">Pitch Description</div>
+    <div class="ig"><label class="il">Business Overview / Pitch Summary</label>
+      <textarea id="sub-desc" rows="5" placeholder="Describe your business idea, the problem you solve, your target market, and your solution…">${esc(existing?.description || '')}</textarea>
+    </div>
+  </div>
+  <div class="g2 mb20">
+    <div class="cg">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">Business Plan File ${existing?.fileName ? `<span class="tag ta">✓ On file</span>` : ''}</div>
+      ${existing?.fileName ? `<div class="fp mb14">
+        <span style="font-size:22px">📄</span>
+        <div class="fp-i"><div class="fp-n">${esc(existing.fileName)}</div><div class="fp-m">${existing.fileSize || ''} · Uploaded ${fmt(existing.updatedAt)}</div></div>
+        <button class="btn bd bsm" onclick="pendingFile=null;document.getElementById('fi').value='';document.getElementById('fprev').innerHTML='';toast('File removed','')">Remove</button>
+      </div>`: ''}
+      <div class="uz" id="dz" onclick="document.getElementById('fi').click()">
+        <div style="font-size:26px;margin-bottom:8px">📎</div>
+        <div style="font-size:13px;color:var(--t2)">Click to upload or drag & drop</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:3px">PDF, DOCX, PPTX — max 50 MB</div>
+      </div>
+      <input type="file" id="fi" style="display:none" accept=".pdf,.doc,.docx,.ppt,.pptx" onchange="handleFile(this)"/>
+      <div id="fprev"></div>
+    </div>
+    <div class="cg">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px">External Links</div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.65">Add links to Google Drive, Dropbox, OneDrive, a YouTube pitch video, or any public URL.</div>
+      <div id="link-list">
+        ${(existing?.links || []).map((l, i) => `<div class="fx mb14" id="ll${i}">
+          <input value="${esc(l)}" id="li${i}" placeholder="https://…"/>
+          <button class="btn bd bsm" onclick="document.getElementById('ll${i}').remove()">×</button>
+        </div>`).join('')}
+      </div>
+      <button class="btn bg bsm" onclick="addLink()">+ Add Link</button>
+    </div>
+  </div>
+  <button class="btn bp blg bfl" onclick="saveCSub()">💾 Save Submission</button>`;
+            setupDrop();
+        }
+
+        function addLink() {
+            const id = `lnew${linkCount++}`;
+            const div = document.createElement('div');
+            div.className = 'fx mb14'; div.id = id;
+            div.innerHTML = `<input id="li-${id}" placeholder="https://drive.google.com/…"/>
+    <button class="btn bd bsm" onclick="document.getElementById('${id}').remove()">×</button>`;
+            document.getElementById('link-list').appendChild(div);
+            document.getElementById(`li-${id}`)?.focus();
+        }
+        window.addLink = addLink;
+        function setupDrop() {
+            const dz = document.getElementById('dz'); if (!dz) return;
+            dz.addEventListener('dragover', e => { e.preventDefault(); dz.style.borderColor = 'var(--c)'; });
+            dz.addEventListener('dragleave', () => { dz.style.borderColor = ''; });
+            dz.addEventListener('drop', e => { e.preventDefault(); dz.style.borderColor = ''; const f = e.dataTransfer.files[0]; if (f) processFile(f); });
+        }
+        function handleFile(inp) { if (inp.files[0]) processFile(inp.files[0]); }
+        window.handleFile = handleFile;
+        function processFile(f) {
+            pendingFile = f;
+            const prev = document.getElementById('fprev');
+            if (prev) prev.innerHTML = `<div class="fp" style="margin-top:9px">
+    <span style="font-size:22px">📄</span>
+    <div class="fp-i"><div class="fp-n">${esc(f.name)}</div><div class="fp-m">${(f.size / 1024 / 1024).toFixed(2)} MB · Ready to save</div></div>
+  </div>`;
+        }
+        async function saveCSub() {
+            const desc = document.getElementById('sub-desc')?.value || '';
+            const links = [...document.querySelectorAll('[id^="li"]')]
+                .map(el => el.value?.trim()).filter(v => v && v.startsWith('http'));
+            const data = { description: desc, links };
+            if (pendingFile) {
+                data.fileName = pendingFile.name;
+                data.fileSize = `${(pendingFile.size / 1024 / 1024).toFixed(2)} MB`;
+                data.fileType = pendingFile.type || 'application/pdf';
+                data.hasLocalPDF = true;
+            }
+            if (!desc && !links.length && !pendingFile) {
+                toast('Nothing to save', 'Please add a description, file, or link', 'wrn'); return;
+            }
+            // Save PDF to IndexedDB (device-local, survives page refresh)
+            if (pendingFile) {
+                try {
+                    await IDBFS.save(`file:${CU.login}`, pendingFile);
+                    toast('Saving PDF…', 'Storing file locally', '');
+                } catch (e) {
+                    toast('PDF Warning', 'File too large for local storage — use Google Drive link', 'wrn');
+                    data.hasLocalPDF = false;
+                }
+            }
+            await saveSub(CU.login, data);
+            toast('Submission saved! ✓', 'Your work has been recorded', 'ok');
+            pendingFile = null;
+            await renderCOverview();
+            aSB('sc', document.querySelectorAll('#sc .si')[0]);
+        }
+
+
+        async function renderCResults() {
+            const cc = document.getElementById('cc');
+            cc.innerHTML = `<div class="rb"><div><div class="stt">My Results</div><div class="sts">Scores released by management after approval</div></div>
+  <button class="btn bg bsm" onclick="renderCResults()">↻ Refresh</button></div>
+  <div id="res-body"><div style="color:var(--t3)">Loading…</div></div>`;
+            const all = await getAllScores();
+            const mine = all.filter(s => s.compLogin === CU.login);
+            const released = mine.filter(s => s.released);
+            const rb = document.getElementById('res-body');
+            if (released.length === 0) {
+                rb.innerHTML = `<div class="emp"><div class="ei">🔒</div><div class="en">Results not yet released</div>
+      <div class="es">${mine.length > 0
+                        ? `${mine.length} evaluation${mine.length > 1 ? 's' : ''} submitted — awaiting management approval and release.`
+                        : 'Judges have not evaluated your submission yet.'}</div></div>`;
+                return;
+            }
+            const avg = Math.round(released.reduce((a, b) => a + b.total, 0) / released.length);
+            const pctVal = avg / 100; const dash = 314; const offset = dash - (dash * pctVal);
+            const catAvg = {};
+            RUBRIC.forEach(r => {
+                const vals = released.map(s => s.scores[r.k] || 0);
+                catAvg[r.k] = Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+            });
+            rb.innerHTML = `<div class="g2">
+    <div>
+      <div class="cg" style="text-align:center;padding:26px;margin-bottom:14px">
+        <div class="ring-w">
+          <svg class="ring-svg" width="118" height="118" viewBox="0 0 118 118">
+            <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00ffa3"/><stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient></defs>
+            <circle class="ring-bg" cx="59" cy="59" r="50"/>
+            <circle class="ring-fg" cx="59" cy="59" r="50" style="stroke-dashoffset:${offset}"/>
+          </svg>
+          <div class="ring-in"><div class="ring-n">${avg}</div><div class="ring-m">/100</div></div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:3px">
+          ${avg >= 85 ? 'Outstanding' : avg >= 75 ? 'Excellent' : avg >= 65 ? 'Good Performance' : 'Keep Building'}
+        </div>
+        <div style="font-size:11.5px;color:var(--t3)">${released.length} judge evaluation${released.length !== 1 ? 's' : ''}</div>
+      </div>
+      <div class="cg">
+        <div style="font-size:13px;font-weight:600;margin-bottom:12px">Category Breakdown</div>
+        ${RUBRIC.map(r => `<div class="sbr"><span class="sbl">${r.l}</span>
+          <div class="sbt"><div class="sbf" style="width:${catAvg[r.k]}%"></div></div>
+          <span class="sbn">${catAvg[r.k]}</span></div>`).join('')}
+      </div>
+    </div>
+    <div>
+      ${released.map(s => `<div class="cg mb14">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div>
+            <div style="font-size:14px;font-weight:600">${esc(JUDGES[s.judgeLogin]?.name || s.judgeLogin)}</div>
+            <div style="font-size:11px;color:var(--t3)">${esc(JUDGES[s.judgeLogin]?.org || '')}</div>
+          </div>
+          <div style="font-family:'Syne',sans-serif;font-size:23px;font-weight:800;color:var(--c)">${s.total}</div>
+        </div>
+        ${s.feedback?.strengths ? `<div style="margin-bottom:9px">
+          <div style="font-size:10px;color:var(--ok);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">Strengths</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.6">${esc(s.feedback.strengths)}</div>
+        </div>`: ''}
+        ${s.feedback?.improvements ? `<div>
+          <div style="font-size:10px;color:var(--warn);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">Areas for Improvement</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.6">${esc(s.feedback.improvements)}</div>
+        </div>`: ''}
+      </div>`).join('')}
+    </div>
+  </div>`;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  SHARED SUBMISSION VIEWER
+        // ═══════════════════════════════════════════════════════════════════
+        // viewSubPDF: open the stored PDF in a new tab (device-local)
+        window.viewSubPDF = async (compLogin) => {
+            const url = await IDBFS.blobUrl(`file:${compLogin}`);
+            if (url) {
+                const tab = window.open(url, '_blank');
+                // Revoke after 60s to free memory
+                setTimeout(() => URL.revokeObjectURL(url), 60000);
+                if (!tab) toast('Popup blocked', 'Please allow popups for this page', 'wrn');
+            } else {
+                toast('PDF not on this device', 'The competitor submitted on a different device. Ask them to also submit a Google Drive link.', 'wrn');
+            }
+        };
+
+        function buildSubViewHTML(s, compLogin) {
+            let h = '';
+            if (s.description) h += `<div style="margin-bottom:14px">
+    <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:5px">Pitch Description</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.65;background:var(--g2);border:1px solid var(--b);border-radius:8px;padding:11px">${esc(s.description)}</div>
+  </div>`;
+            if (s.fileName) h += `<div style="margin-bottom:14px">
+    <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:5px">Business Plan PDF</div>
+    <div class="fp">
+      <span style="font-size:22px">📄</span>
+      <div class="fp-i">
+        <div class="fp-n">${esc(s.fileName)}</div>
+        <div class="fp-m">${s.fileSize || ''} · Submitted ${fmt(s.updatedAt)}</div>
+      </div>
+      <button class="btn bp bsm" onclick="viewSubPDF('${compLogin || CU?.login}')">📂 Open PDF</button>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:5px;padding-left:4px">⚠ PDF is stored locally on the submission device. For cross-device access, use a Google Drive link below.</div>
+  </div>`;
+            if (s.links?.length) h += `<div style="margin-bottom:14px">
+    <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:5px">External Links</div>
+    ${s.links.map(l => `<div style="margin:4px 0"><a class="lp" href="${esc(l)}" target="_blank" rel="noopener">🔗 ${esc(l)}</a></div>`).join('')}
+  </div>`;
+            if (!s.description && !s.fileName && !s.links?.length)
+                h = '<div style="color:var(--t3);text-align:center;padding:20px">No content submitted yet.</div>';
+            return h;
+        }
+
+
+        // ═══════════════════════════════════════════════════════════════════
+        //  ████  NOTIFICATIONS SYSTEM  ████
+        // ═══════════════════════════════════════════════════════════════════
+
+        // Save a notification broadcast
+        async function sendNotification(title, body, audience) {
+            // audience: 'all' | 'competitors' | 'judges'
+            const notif = {
+                id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+                title: title.trim(),
+                body: body.trim(),
+                audience,
+                sentAt: new Date().toISOString(),
+                sentBy: CU?.login || 'admin'
+            };
+            const list = await DB.get('notifications') || [];
+            list.unshift(notif);
+            await DB.set('notifications', list);
+            return notif;
+        }
+
+        async function getAllNotifications() {
+            return (await DB.get('notifications')) || [];
+        }
+
+        function notifForUser(role) {
+            // returns filter fn for which notifications a role should see
+            return n => n.audience === 'all' || n.audience === role + 's' || n.audience === role;
+        }
+
+        async function getUnreadCount(login, role) {
+            const all = await getAllNotifications();
+            const mine = all.filter(notifForUser(role));
+            const read = await DB.get(`notif_read:${login}`) || [];
+            return mine.filter(n => !read.includes(n.id)).length;
+        }
+
+        async function markAllRead(login, role) {
+            const all = await getAllNotifications();
+            const mine = all.filter(notifForUser(role));
+            const ids = mine.map(n => n.id);
+            await DB.set(`notif_read:${login}`, ids);
+        }
+
+        async function updNotifBadges() {
+            if (!CU) return;
+            await checkLBVisible();
+            if (CU.role === 'judge') {
+                const n = await getUnreadCount(CU.login, 'judge');
+                const b = document.getElementById('jnb');
+                const bell = document.getElementById('j-nbell');
+                if (b) { b.textContent = n; b.style.display = n > 0 ? '' : 'none'; }
+                if (bell) bell.style.display = n > 0 ? 'block' : 'none';
+            } else if (CU.role === 'competitor') {
+                const n = await getUnreadCount(CU.login, 'competitor');
+                const b = document.getElementById('cnb');
+                const bell = document.getElementById('c-nbell');
+                if (b) { b.textContent = n; b.style.display = n > 0 ? '' : 'none'; }
+                if (bell) bell.style.display = n > 0 ? 'block' : 'none';
+            }
+        }
+
+        // ── Management Notifications Page ──
+        async function renderNotificationsPage() {
+            const mc = document.getElementById('mc');
+            const all = await getAllNotifications();
+            mc.innerHTML = `
+  <div class="rb"><div><div class="stt">Send Notifications</div><div class="sts">Broadcast announcements to all users, competitors, or judges.</div></div></div>
+  <div class="cg mb20">
+    <div style="font-size:13px;font-weight:600;margin-bottom:14px">📢 Compose Notification</div>
+    <div class="ig">
+      <label class="il">Title / Subject</label>
+      <input id="nt-title" placeholder="e.g. Judging begins tomorrow — please log in" maxlength="120"/>
+    </div>
+    <div class="ig">
+      <label class="il">Message Body</label>
+      <textarea id="nt-body" rows="4" placeholder="Full announcement text…"></textarea>
+    </div>
+    <div class="ig">
+      <label class="il">Send To</label>
+      <select id="nt-aud">
+        <option value="all">👥 Everyone (Competitors + Judges)</option>
+        <option value="competitors">🚀 Competitors only</option>
+        <option value="judges">⚖️ Judges only</option>
+      </select>
+    </div>
+    <button class="btn bp blg" onclick="doSendNotif()">📤 Send Notification</button>
+  </div>
+  <div class="cg">
+    <div class="rb" style="margin-bottom:13px">
+      <div style="font-size:13px;font-weight:600">Sent Notifications (${all.length})</div>
+      <button class="btn bg bsm" onclick="renderNotificationsPage()">↻ Refresh</button>
+    </div>
+    ${all.length === 0
+                    ? `<div class="emp"><div class="ei">📭</div><div class="en">No notifications sent yet</div><div class="es">Use the form above to send your first announcement.</div></div>`
+                    : all.map(n => {
+                        const aud = n.audience === 'all' ? '👥 Everyone' : n.audience === 'competitors' ? '🚀 Competitors' : '⚖️ Judges';
+                        return `<div style="padding:12px 0;border-bottom:1px solid rgba(0,255,140,.06)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:600;color:var(--t);margin-bottom:3px">${esc(n.title)}</div>
+                <div style="font-size:12.5px;color:var(--t2);line-height:1.6;margin-bottom:6px">${esc(n.body)}</div>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <span class="tag ts">${aud}</span>
+                  <span style="font-size:11px;color:var(--t3)">${fmt(n.sentAt)}</span>
+                </div>
+              </div>
+              <button class="btn bd bsm" onclick="deleteNotif('${n.id}')">Delete</button>
+            </div>
+          </div>`;
+                    }).join('')}
+  </div>`;
+        }
+
+        window.doSendNotif = async () => {
+            const title = document.getElementById('nt-title')?.value || '';
+            const body = document.getElementById('nt-body')?.value || '';
+            const aud = document.getElementById('nt-aud')?.value || 'all';
+            if (!title.trim()) { toast('Title required', 'Please enter a notification title', 'wrn'); return; }
+            if (!body.trim()) { toast('Message required', 'Please enter a message body', 'wrn'); return; }
+            await sendNotification(title, body, aud);
+            const audLabel = aud === 'all' ? 'Everyone' : aud === 'competitors' ? 'all Competitors' : 'all Judges';
+            toast('✅ Notification sent!', `Delivered to ${audLabel}`, 'ok');
+            await renderNotificationsPage();
+        };
+
+        window.deleteNotif = async (id) => {
+            const list = await getAllNotifications();
+            const next = list.filter(n => n.id !== id);
+            await DB.set('notifications', list);
+            toast('Deleted', 'Notification removed', '');
+            await renderNotificationsPage();
+        };
+
+        // ── Judge Notifications Tab ──
+        async function renderJNotif() {
+            const jc = document.getElementById('jc');
+            const all = await getAllNotifications();
+            const mine = all.filter(notifForUser('judge'));
+            await markAllRead(CU.login, 'judge');
+            await updNotifBadges();
+            jc.innerHTML = `
+  <div class="rb"><div><div class="stt">Notifications</div><div class="sts">Announcements from event management</div></div>
+  <button class="btn bg bsm" onclick="renderJNotif()">↻ Refresh</button></div>
+  ${mine.length === 0
+                    ? `<div class="emp"><div class="ei">📭</div><div class="en">No notifications yet</div><div class="es">Announcements from management will appear here.</div></div>`
+                    : mine.map(n => `
+    <div class="cg mb14">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--t);margin-bottom:5px">📢 ${esc(n.title)}</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:8px">${esc(n.body)}</div>
+          <div style="font-size:11px;color:var(--t3)">${fmt(n.sentAt)}</div>
+        </div>
+      </div>
+    </div>`).join('')}`;
+        }
+
+        // ── Competitor Notifications Tab ──
+        async function renderCNotif() {
+            const cc = document.getElementById('cc');
+            const all = await getAllNotifications();
+            const mine = all.filter(notifForUser('competitor'));
+            await markAllRead(CU.login, 'competitor');
+            await updNotifBadges();
+            cc.innerHTML = `
+  <div class="rb"><div><div class="stt">Notifications</div><div class="sts">Announcements from event management</div></div>
+  <button class="btn bg bsm" onclick="renderCNotif()">↻ Refresh</button></div>
+  ${mine.length === 0
+                    ? `<div class="emp"><div class="ei">📭</div><div class="en">No notifications yet</div><div class="es">Announcements from management will appear here.</div></div>`
+                    : mine.map(n => `
+    <div class="cg mb14">
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--t);margin-bottom:5px">📢 ${esc(n.title)}</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:8px">${esc(n.body)}</div>
+        <div style="font-size:11px;color:var(--t3)">${fmt(n.sentAt)}</div>
+      </div>
+    </div>`).join('')}`;
+        }
+
+
+        // Poll for new notifications every 30s while logged in
+        setInterval(async () => { if (CU) await updNotifBadges(); }, 30000);
+
+    </script>
+</body>
+
+</html>

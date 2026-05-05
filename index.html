@@ -3168,7 +3168,7 @@
       const steps = {
         management: [{ t: 'Welcome, Admin', b: 'You now have full control over Founder\'s Den 2026. This quick briefing covers your key responsibilities.' }, { t: 'Your Role', b: 'You manage competitor and judge accounts, build room assignments, approve scores, and control when results are released to competitors.' }, { t: 'Key Shortcuts', b: 'Use G+D (Dashboard), G+A (Approvals), G+R (Rooms), G+L (Leaderboard) for fast navigation. Press ? any time to see all shortcuts.' }],
         judge: [{ t: 'Welcome, Judge', b: 'Thank you for participating in Founder\'s Den 2026. Please read the following before scoring.' }, { t: 'Scoring System', b: 'Business Plan (60%) and Pitch (40%) are scored separately using the official FD2026 rubric. Each criterion shows detailed descriptors.' }, { t: 'Conflict of Interest', b: 'By proceeding, you confirm you have no conflict of interest with any assigned competitor. Contact management if you do.' }],
-        competitor: [{ t: 'Welcome to Founder\'s Den 2026', b: 'Theme: Intelligence, Redefined. Your competition journey begins here.' }, { t: 'Submission Requirements', b: 'Submit a Google Drive PDF link for your Business Plan and a Canva or Drive link for your Pitch Deck. Links must have view access.' }, { t: 'Key Deadlines', b: 'Registration: May 1 · Business Plan: May 13 · Event Day: May 30. Your room assignment will appear here once published by management.' }],
+        competitor: [{ t: 'Welcome to Founder\'s Den 2026', b: 'Theme: Intelligence, Redefined. Your competition journey begins here.' }, { t: 'Submission Requirements', b: 'Submit a Google Drive PDF link for your Business Plan and a Canva or Drive link for your Pitch Deck. Links must have view access.' }, { t: 'Key Deadlines', b: 'Submission Deadline: May 20 (11:59 PM EST) · Preliminary Round: May 30 · Finals: June 7. Your room assignment will appear here once published by management.' }],
       };
       const roleSteps = steps[role];
       let step = 0;
@@ -3349,13 +3349,13 @@
     async function renderEventDay() {
       const mc = document.getElementById('mc');
       const checklist = await DB.get('event_checklist') || {};
-      const items = ['Judges confirmed and briefed (May 24)', 'All submissions received and accessible', 'Room assignments built and published', 'Zoom links distributed to judges', 'Zoom links distributed to competitors', 'Dry run 1 completed (May 10)', 'Dry run 2 completed (May 18)', 'Dry run 3 completed (May 24)', 'Scoring portal tested', 'Contingency judges on standby'];
+      const items = ['Judges confirmed and briefed (May 27)', 'All submissions received and accessible', 'Room assignments built and published', 'Zoom links distributed to judges', 'Zoom links distributed to competitors', 'Dry run 1 completed (May 10)', 'Dry run 2 completed (May 18)', 'Dry run 3 completed (May 27)', 'Scoring portal tested', 'Contingency judges on standby'];
       mc.innerHTML = `
   <div class="rb stagger-in"><div><div class="stt">📅 Event Day Dashboard</div><div class="sts">Countdown, checklists, and event operations</div></div></div>
   <div class="countdown-grid stagger-in">
-    ${buildCountdown('2026-05-01T23:59:00', 'Registration_Deadline', 7).html}
-    ${buildCountdown('2026-05-13T23:59:00', 'Business_Plan_Due', 7).html}
-    ${buildCountdown('2026-05-23T12:30:00', 'Prelim_Event_Day', 3).html}
+    ${buildCountdown('2026-05-20T23:59:00', 'Submission_Deadline', 7).html}
+    ${buildCountdown('2026-05-30T12:30:00', 'Prelim_Event_Day', 3).html}
+    ${buildCountdown('2026-06-07T09:00:00', 'Finals_Event_Day', 3).html}
   </div>
   <div class="g2 stagger-in">
     <div class="cg">
@@ -3368,7 +3368,7 @@
       <div style="margin-top:12px;font-size:12px;color:var(--t3)">${Object.values(checklist).filter(Boolean).length}/${items.length} items completed</div>
     </div>
     <div class="cg">
-      <div style="font-size:13px;font-weight:700;margin-bottom:14px">📅 May 23 — Prelim Schedule</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:14px">📅 May 30 — Prelim Schedule</div>
       <div style="font-size:12px;color:var(--t2);line-height:2;padding:12px;background:var(--g);border:1px solid var(--b);border-radius:9px">
         <div>12:00 PM — Judges join Zoom, final briefing</div>
         <div>12:30 PM — Preliminary round begins (all rooms)</div>
@@ -3377,7 +3377,7 @@
         <div>5:00 PM — Management reviews, approves scores</div>
         <div>6:00 PM — Top 20 finalists announced</div>
       </div>
-      <div style="font-size:13px;font-weight:700;margin:16px 0 14px">📅 May 30 — Finals Schedule</div>
+      <div style="font-size:13px;font-weight:700;margin:16px 0 14px">📅 June 7 — Finals Schedule</div>
       <div style="font-size:12px;color:var(--t2);line-height:2;padding:12px;background:var(--g);border:1px solid var(--b);border-radius:9px">
         <div>9:00 AM — Venue setup / remote check-in</div>
         <div>9:30 AM — Judge prestige panel briefing</div>
@@ -3629,7 +3629,10 @@
     async function renderCompManage() {
       document.getElementById('mc').innerHTML = `
   <div class="rb"><div><div class="stt">Manage Competitors</div><div class="sts" id="cms">Loading…</div></div>
-  <button class="btn bp bsm" onclick="showAddCompMo()">+ Add Competitor</button></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn bp bsm" onclick="showAddCompMo()">+ Add Competitor</button>
+    <button class="btn bg bsm" onclick="showImportCSV('comp')">⬆ Import CSV</button>
+  </div></div>
   <div class="mb14 sb2"><input id="cmfs" placeholder="Search name or ID…" oninput="mState.compF=this.value;mState.compPg=1;renderCompManageT()"/></div>
   <div id="cmt"></div>`; await renderCompManageT();
     }
@@ -3773,7 +3776,10 @@
     async function renderJudgesPage() {
       document.getElementById('mc').innerHTML = `
   <div class="rb"><div><div class="stt">Manage Judges</div><div class="sts" id="jms">Loading…</div></div>
-  <button class="btn bp bsm" onclick="showAddJudgeMo()">+ Add Judge</button></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn bp bsm" onclick="showAddJudgeMo()">+ Add Judge</button>
+    <button class="btn bg bsm" onclick="showImportCSV('judge')">⬆ Import CSV</button>
+  </div></div>
   <div class="mb14 sb2"><input id="jmfs" placeholder="Search name or org…" oninput="mState.judPg=1;renderJudgeManageT()"/></div>
   <div id="jmt"></div>`; await renderJudgeManageT();
     }
@@ -3802,6 +3808,116 @@
     window.doAddJudge = async () => { const name = document.getElementById('naj-name').value.trim(), org = document.getElementById('naj-org').value.trim(), id = document.getElementById('naj-id').value.trim(), login = document.getElementById('naj-login').value.trim().toLowerCase(); if (!name || !id || !login) { toast('Missing fields', '', 'wrn'); return; } const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]); if (allC[login] || MGMT.includes(login) || allJ[login]) { toast('Login in use', '', 'err'); return; } await addCustomJudge(login, id, name, org); closeMo(); toast('Added', `${name} → ${login}`, 'ok'); renderJudgeManageT(); };
     window.editJudge = (login, cn) => { const n = prompt('New name:', cn); if (n && n.trim() !== cn) { updateJudgeName(login, n.trim()).then(() => { toast('Updated', '', 'ok'); renderJudgeManageT(); }); } };
     window.kickJudge = (login) => { if (confirm('Remove judge ' + login + '?')) { removeJudge(login).then(() => { toast('Removed', '', 'ok'); renderJudgeManageT(); }); } };
+
+    // ═══ CSV IMPORT ═══
+    window.showImportCSV = (type) => {
+      const isComp = type === 'comp';
+      const label = isComp ? 'Competitors' : 'Judges';
+      const cols  = isComp ? 'name, type (Solo/Team)' : 'name, organisation';
+      showMo(`Import ${label} via CSV`,
+        `<div style="margin-bottom:12px;font-size:13px;color:var(--t2)">
+          Upload a <strong>.csv</strong> file. Required columns (header row must match exactly):<br/>
+          <code style="font-size:12px;color:var(--c)">${cols}</code><br/>
+          IDs and login codes will be auto-generated.
+        </div>
+        <div style="margin-bottom:12px">
+          <a href="#" onclick="downloadCSVTemplate('${type}');return false" style="font-size:12px;color:var(--c2);text-decoration:underline">⬇ Download template</a>
+        </div>
+        <input id="csv-file-input" type="file" accept=".csv,text/csv" style="width:100%;margin-bottom:14px;padding:10px;background:var(--g);border:1px solid var(--b);border-radius:8px;color:var(--t);font-size:13px;cursor:pointer" onchange="previewCSV('${type}',this)"/>
+        <div id="csv-preview"></div>
+        <div id="csv-import-actions" style="margin-top:14px;text-align:right;display:none">
+          <button class="btn bg bsm" onclick="document.getElementById('csv-file-input').value='';document.getElementById('csv-preview').innerHTML='';document.getElementById('csv-import-actions').style.display='none'">✕ Clear</button>
+          &nbsp;<button class="btn bsu" id="csv-confirm-btn" onclick="confirmCSVImport('${type}')">✓ Import All</button>
+        </div>`);
+    };
+
+    window.downloadCSVTemplate = (type) => {
+      if (type === 'comp') {
+        downloadCSV('competitors_template.csv', [['name','type'],['Nexus Innovations','Team'],['Jane Doe','Solo']]);
+      } else {
+        downloadCSV('judges_template.csv', [['name','organisation'],['Dr. Jane Smith','Acme Ventures'],['John Lee','York University']]);
+      }
+    };
+
+    window._csvParsed = [];
+    window.previewCSV = (type, input) => {
+      const file = input.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        const lines = text.split(/\r?\n/).filter(l => l.trim());
+        if (lines.length < 2) { document.getElementById('csv-preview').innerHTML = '<div style="color:#ff6b6b;font-size:13px">⚠ CSV must have a header row and at least one data row.</div>'; return; }
+        const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"|'/g, ''));
+        const isComp = type === 'comp';
+        const reqCols = isComp ? ['name','type'] : ['name','organisation'];
+        const missing = reqCols.filter(c => !headers.includes(c));
+        if (missing.length) { document.getElementById('csv-preview').innerHTML = `<div style="color:#ff6b6b;font-size:13px">⚠ Missing required columns: <strong>${missing.join(', ')}</strong></div>`; return; }
+        const rows = [];
+        for (let i = 1; i < lines.length; i++) {
+          const vals = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, '').replace(/^'|'$/g, ''));
+          const row = {}; headers.forEach((h, idx) => row[h] = vals[idx] || '');
+          if (!row.name) continue;
+          if (isComp) { row._type = (row.type || 'Solo').toLowerCase().includes('team') ? 'Team' : 'Solo'; }
+          else { row._org = row.organisation || ''; }
+          rows.push(row);
+        }
+        window._csvParsed = rows;
+        const isCompV = type === 'comp';
+        const previewHTML = `<div style="font-size:12px;color:var(--t3);margin-bottom:8px">${rows.length} record(s) ready to import:</div>
+          <div class="tw" style="max-height:200px;overflow-y:auto">
+          <table><thead><tr>
+            <th>#</th><th>Name</th>${isCompV ? '<th>Type</th>' : '<th>Organisation</th>'}<th>Auto-ID</th>
+          </tr></thead><tbody>
+          ${rows.map((r, i) => {
+            const prefix = isCompV ? 'COMPC' : 'JUD';
+            const previewId = prefix + String(i + 1).padStart(4, '0');
+            return `<tr><td style="color:var(--t3)">${i + 1}</td><td>${r.name}</td><td>${isCompV ? r._type : r._org}</td><td><code>${previewId}</code></td></tr>`;
+          }).join('')}
+          </tbody></table></div>`;
+        document.getElementById('csv-preview').innerHTML = previewHTML;
+        document.getElementById('csv-import-actions').style.display = 'block';
+      };
+      reader.readAsText(file);
+    };
+
+    window.confirmCSVImport = async (type) => {
+      const rows = window._csvParsed || [];
+      if (!rows.length) { toast('No data', 'Parse a CSV first', 'wrn'); return; }
+      const btn = document.getElementById('csv-confirm-btn');
+      btn.disabled = true; btn.textContent = 'Importing…';
+      const isComp = type === 'comp';
+      const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]);
+      let added = 0, skipped = 0;
+      // Get count of existing custom entries to generate unique sequential IDs
+      const existingCustom = isComp ? (await DB.get('custom_comps') || {}) : (await DB.get('custom_judges') || {});
+      let seq = Object.keys(existingCustom).length;
+      for (const row of rows) {
+        seq++;
+        const prefix = isComp ? 'COMPC' : 'JUD';
+        let id = prefix + String(seq).padStart(4, '0');
+        // Ensure ID uniqueness
+        const allIds = Object.values(isComp ? allC : allJ).map(x => x.id);
+        while (allIds.includes(id)) { seq++; id = prefix + String(seq).padStart(4, '0'); }
+        // Generate login from name
+        let baseLogin = row.name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 12) + seq;
+        let login = baseLogin;
+        let li = 0;
+        while (allC[login] || allJ[login] || MGMT.includes(login)) { li++; login = baseLogin + li; }
+        if (isComp) {
+          await addCustomComp(login, id, row.name, row._type);
+          allC[login] = { id, login, name: row.name, type: row._type };
+        } else {
+          await addCustomJudge(login, id, row.name, row._org);
+          allJ[login] = { id, login, name: row.name, org: row._org };
+        }
+        added++;
+      }
+      await addAudit(`CSV import: ${added} ${isComp ? 'competitors' : 'judges'} added`, 'import', CU?.login || 'admin');
+      closeMo();
+      toast('Import Complete', `${added} ${isComp ? 'competitors' : 'judges'} added${skipped ? ` · ${skipped} skipped` : ''}`, 'ok');
+      if (isComp) renderCompManageT(); else renderJudgeManageT();
+      window._csvParsed = [];
+    };
 
     // ═══ ASSIGN ═══
     async function renderAssign() {
@@ -4587,7 +4703,7 @@
       const allJ = await getAllJudges();
       cc.innerHTML = `
   <div class="rb stagger-in"><div><div class="stt">🏠 My Room Assignment</div><div class="sts">Your virtual breakout room details for the preliminary round</div></div></div>
-  ${!result ? `<div class="emp stagger-in"><div class="ei">⏳</div><div class="en">Room assignments not yet published</div><div class="es">Management will publish your room assignment closer to May 23. Check back soon. You will also receive a notification when rooms go live.</div></div>` :
+  ${!result ? `<div class="emp stagger-in"><div class="ei">⏳</div><div class="en">Room assignments not yet published</div><div class="es">Management will publish your room assignment closer to May 30. Check back soon. You will also receive a notification when rooms go live.</div></div>` :
           !result.room.published ? `<div class="emp stagger-in"><div class="ei">🔒</div><div class="en">Rooms not yet published</div><div class="es">Management will publish assignments soon.</div></div>` :
             `<div class="cg stagger-in" style="max-width:520px">
     <div style="text-align:center;margin-bottom:20px">
@@ -4603,7 +4719,7 @@
       <div style="padding:16px;background:var(--g2);border:1px solid var(--b2);border-radius:11px;text-align:center">
         <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Round</div>
         <div style="font-size:15px;font-weight:700;color:var(--c)">${esc(result.room.round || 'Preliminary')}</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:3px">May 23, 2026</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:3px">May 30, 2026</div>
       </div>
       <div style="padding:16px;background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.25);border-radius:11px;text-align:center">
         <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Presentation Time</div>
@@ -4663,10 +4779,10 @@
         ['Business Plan Requirements', 'Must be submitted as a PDF via Google Drive. Maximum 20 pages (excluding cover page, table of contents, and appendix). Include cover page, table of contents, and page numbers. No QR codes or links. No business that has been in operation for more than 12 months.'],
         ['Pitch Requirements', 'Maximum 15-minute presentation followed by judge Q&A. Cameras must be on throughout. No materials may be left with judges. QR codes and links may be displayed but not clicked during presentation. Audio must be without external speakers.'],
         ['Dress Code', 'Business professional attire is required for the pitch presentation. Violations result in a −5 point penalty.'],
-        ['Submission Deadlines', 'Registration: May 1, 2026 (11:59 PM EST). Business Plan: May 13, 2026 (11:59 PM EST). Late submissions will not be accepted.'],
+        ['Submission Deadlines', 'Submission Deadline: May 20, 2026 (11:59 PM EST). Late submissions will not be accepted.'],
         ['Scoring System', 'Business Plan: 100 points (60% of final score). Pitch: 100 points (40% of final score). Final Score = BP × 0.60 + Pitch × 0.40. Penalties: −5 pts each for dress code violations, late arrival, and materials left with judges.'],
         ['Performance Tiers', 'Exceptional: 90–100 pts. Strong: 75–89 pts. Competent: 60–74 pts. Developing: Below 60 pts.'],
-        ['Event Format', 'Preliminary Round (Virtual): Saturday, May 23, 2026 via Zoom — all competitors present. Finals (In-Person): Saturday, May 30, 2026 — Top 20 competitors advance. Out-of-GTA finalists may present remotely.'],
+        ['Event Format', 'Preliminary Round (Virtual): Saturday, May 30, 2026 via Zoom — all competitors present. Finals (In-Person): Sunday, June 7, 2026 at Yspace, York University Markham — Top 15 competitors advance. Out-of-GTA finalists may present remotely.'],
         ['Academic Integrity', 'All submitted work must be original and created by the team. AI-generated content must be cited. Plagiarism will result in immediate disqualification.'],
         ['Code of Conduct', 'Treat all judges, competitors, and organizers with respect. Harassment or misconduct will result in disqualification. Follow all Zoom platform rules during virtual events.'],
       ];
@@ -4685,7 +4801,7 @@
 
     async function renderCSupport() {
       const cc = document.getElementById('cc');
-      const faq = [['What is the Google Classroom code?', 'The code is hwyec64r. Join via classroom.google.com. All handouts, templates, and updates will be posted there.'], ['When are submissions due?', 'Business Plan is due May 13, 2026 at 11:59 PM EST. Registration closes May 1, 2026.'], ['How many team members can I have?', 'Teams of 1–4 members are allowed. Teams larger than 4 will not be accepted.'], ['Can I edit my submission after submitting?', 'Yes — you can update your submission link anytime before the deadline by revisiting the Submit Work page.'], ['When will I know my room assignment?', 'Room assignments are published by management a few days before May 23. You will receive a notification when they are published.'], ['What format should my Business Plan be?', 'PDF format only, uploaded to Google Drive with shareable link. Maximum 20 pages.'], ['What happens if I can\'t attend in person for Finals?', 'Top 20 finalists who cannot attend in person will present remotely via Zoom, projected on-screen at the venue.']];
+      const faq = [['What is the Google Classroom code?', 'The code is hwyec64r. Join via classroom.google.com. All handouts, templates, and updates will be posted there.'], ['When are submissions due?', 'The submission deadline is May 20, 2026 at 11:59 PM EST. Late submissions will not be accepted.'], ['How many team members can I have?', 'Teams of 1–4 members are allowed. Teams larger than 4 will not be accepted.'], ['Can I edit my submission after submitting?', 'Yes — you can update your submission link anytime before the deadline by revisiting the Submit Work page.'], ['When will I know my room assignment?', 'Room assignments are published by management a few days before May 30. You will receive a notification when they are published.'], ['What format should my Business Plan be?', 'PDF format only, uploaded to Google Drive with shareable link. Maximum 20 pages.'], ['What happens if I can\'t attend in person for Finals?', 'Top 15 finalists who cannot attend in person may present remotely, projected on-screen at Yspace, York University Markham.']];
       cc.innerHTML = `<div class="rb stagger-in"><div><div class="stt">💬 Contact Support</div><div class="sts">FAQ and inquiry form</div></div></div>
   <div class="cg stagger-in mb14">
     <div style="font-size:13px;font-weight:700;margin-bottom:12px">Frequently Asked Questions</div>

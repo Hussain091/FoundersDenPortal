@@ -2605,14 +2605,11 @@
         <div class="mo-t" id="lm-t">Login</div>
         <div class="mo-s" id="lm-s">Enter your access code.</div>
         <div class="ig"><label class="il">Access Code</label><input type="password" id="lm-in"
-            placeholder="e.g. comp001, judge001, FDX@202620" autocomplete="off" /></div>
-        <div id="lm-err" style="color:var(--err);font-size:12px;margin-bottom:10px;display:none">⚠ Invalid code. Please
-          try again.</div>
-        <div
-          style="font-size:11px;color:var(--t2);padding:10px 12px;background:var(--g);border:1px solid var(--b);border-radius:8px;margin-bottom:13px;line-height:2">
-          <strong>Management:</strong> <code>FDX@202620</code><br>
-          <strong>Judges:</strong> <code>judge001</code> → <code>judge060</code><br>
-          <strong>Competitors:</strong> <code>comp001</code> → <code>comp300</code>
+            placeholder="Enter your access code" autocomplete="off" /></div>
+        <div id="lm-err" style="color:var(--err);font-size:12px;margin-bottom:10px;display:none">⚠ Invalid code. Please try again.</div>
+        <div id="lm-hint"
+          style="font-size:11px;color:var(--t2);padding:10px 12px;background:var(--g);border:1px solid var(--b);border-radius:8px;margin-bottom:13px;line-height:2;display:none">
+          <strong>Management:</strong> <code>FDX@202620</code>
         </div>
         <div class="mo-act"><button class="btn bg" onclick="closeLM()">Cancel</button><button class="btn bp"
             onclick="doLogin()">Enter Portal →</button></div>
@@ -2643,6 +2640,7 @@
           <div class="si" onclick="mnav('compmanage',this)"><span class="si-i">👥</span>Competitors</div>
           <div class="si" onclick="mnav('teammanage',this)"><span class="si-i">🎯</span>Teams</div>
           <div class="si" onclick="mnav('judges',this)"><span class="si-i">⚖️</span>Judges</div>
+          <div class="si" onclick="mnav('idsheet',this)"><span class="si-i">🔑</span>ID Reference Sheet</div>
           <div class="sb-sec">Rooms</div>
           <div class="si" onclick="mnav('rooms',this)"><span class="si-i">🏠</span>Room Builder</div>
           <div class="si" onclick="mnav('schedule',this)"><span class="si-i">🗓️</span>Schedule View</div>
@@ -2877,8 +2875,106 @@
     };
 
     // ═══ EXPECTED REAL DATA ═══
-    const COMPS = {};
-    const JUDGES = {};
+    const COMPS = {
+      "cancercare-monitor": {"id": "C001", "login": "cancercare-monitor", "name": "CancerCare Monitor", "venture": "CancerCare Monitor", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "Harold M. Brathwaite Secondary School", "province": "Ontario", "primaryContact": "Garima Bahl", "email": "garima.vbahl@gmail.com", "members": ["Garima Bahl"], "role": "competitor"},
+      "campion-trioa": {"id": "C002", "login": "campion-trioa", "name": "Campion Trioa", "venture": "SolTrack", "industry": "HealthTech", "type": "Team", "teamSize": 3, "school": "St. Edmund Campion Secondary School", "province": "Ontario", "primaryContact": "Hrishet Narwade", "email": "hrishet.n@gmail.com", "members": ["Hrishet Narwade", "Suraj Sudheendran", "Paarthiv Sunil Nair"], "role": "competitor"},
+      "waitless-ai": {"id": "C003", "login": "waitless-ai", "name": "WaitLess Ai", "venture": "WaitLess AI", "industry": "HealthTech", "type": "Team", "teamSize": 2, "school": "St. Edmund Campion Secondary School", "province": "Ontario", "primaryContact": "Iden Jerjess", "email": "idenjerjeess2010@gmail.com", "members": ["Iden Jerjess", "Jay Malaviyaa"], "role": "competitor"},
+      "scubas": {"id": "C004", "login": "scubas", "name": "scubas", "venture": "the dragons", "industry": "E-Commerce", "type": "Solo", "teamSize": 1, "school": "Cardinal Ambrosic Secondary School", "province": "Ontario", "primaryContact": "𝕹✝️", "email": "norabiji2011@gmail.com", "members": ["Nora biji"], "role": "competitor"},
+      "sigma-goat-rizzler": {"id": "C005", "login": "sigma-goat-rizzler", "name": "Sigma goat rizzler", "venture": "ShxtsNgigs", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Harold M. Brathwaite Secondary School", "province": "Ontario", "primaryContact": "Sehaj Singh", "email": "sehajsingh2703@gmail.com", "members": ["Sehaj Singh"], "role": "competitor"},
+      "floor-mat": {"id": "C006", "login": "floor-mat", "name": "Floor Mat", "venture": "Education Answers", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Sir Allan MacNab Secondary School", "province": "Ontario", "primaryContact": "Anokhi Patel", "email": "anokhi82456@gmail.com", "members": ["Anokhi Patel"], "role": "competitor"},
+      "mehr": {"id": "C007", "login": "mehr", "name": "Mehr", "venture": "Helping Hand", "industry": "Social Impact", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Mehr", "email": "mehrgill59@gmail.com", "members": ["Mehr GILL"], "role": "competitor"},
+      "game-winnee": {"id": "C008", "login": "game-winnee", "name": "Game winnee", "venture": "Alcentra", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Emily Carr Secondary School", "province": "Ontario", "primaryContact": "Deva Tibet", "email": "Devatibet6@gmail.com", "members": ["Deva Tibet"], "role": "competitor"},
+      "brightsolutions": {"id": "C009", "login": "brightsolutions", "name": "BrightSolutions", "venture": "TalkLens", "industry": "AI / Data", "type": "Solo", "teamSize": 1, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Tiya Vyas", "email": "tiyav800@gmail.com", "members": ["Tiya Vyas"], "role": "competitor"},
+      "tree": {"id": "C010", "login": "tree", "name": "Tree", "venture": "Tree", "industry": "Sustainability", "type": "Solo", "teamSize": 1, "school": "North Park", "province": "Ontario", "primaryContact": "Inayah Gani", "email": "Inayahgani156@gmail.com", "members": ["Inayah Gani"], "role": "competitor"},
+      "coolio": {"id": "C011", "login": "coolio", "name": "Coolio", "venture": "Coolio company", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "Notre Dame", "province": "Ontario", "primaryContact": "Liveen Sapesan", "email": "liveensapesan@gmail.com", "members": ["Liveen Sapesan"], "role": "competitor"},
+      "the-golden-racers": {"id": "C012", "login": "the-golden-racers", "name": "The Golden Racers", "venture": "Deer Delights", "industry": "Social Impact", "type": "Team", "teamSize": 4, "school": "David Suzuki", "province": "Ontario", "primaryContact": "Violeta Louie", "email": "801314@pdsb.net", "members": ["Violeta Louie"], "role": "competitor"},
+      "dragons": {"id": "C013", "login": "dragons", "name": "Dragons", "venture": "LumaSip", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Saint Thomas Aquinas", "province": "Ontario", "primaryContact": "Jeremy Potential", "email": "potentiallyjeremy@gmail.com", "members": ["Jeremy Potential"], "role": "competitor"},
+      "the-jaguars": {"id": "C014", "login": "the-jaguars", "name": "The Jaguars", "venture": "J-Fuel", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Turner Fenton Secondary School", "province": "Ontario", "primaryContact": "Jaskaran Singh", "email": "candlewax355@gmail.com", "members": ["Jaskaran Singh"], "role": "competitor"},
+      "prdg": {"id": "C015", "login": "prdg", "name": "Prdg", "venture": "Prdg", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Pere rennee de galinee", "province": "Ontario", "primaryContact": "Paulina", "email": "paulinayakub@gmail.com", "members": ["Paulina Yakubishyn"], "role": "competitor"},
+      "aa": {"id": "C016", "login": "aa", "name": "aa", "venture": "Finances", "industry": "FinTech", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Ayesha Ahluwalia", "email": "ayesha0415@icloud.com", "members": ["Ayesha Ahluwalia"], "role": "competitor"},
+      "goated": {"id": "C017", "login": "goated", "name": "Goated", "venture": "Coca cola", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Louise Arbour Secondary School", "province": "Ontario", "primaryContact": "☬𝓢𝓾𝓴𝓱𝓶𝓪𝓷𝓲☬", "email": "sukhmanikheira619@gmail.com", "members": ["Sukhmani Kheira"], "role": "competitor"},
+      "sukhdeep": {"id": "C018", "login": "sukhdeep", "name": "Sukhdeep", "venture": "Snow blades", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Louise Arbour Secondary School", "province": "Ontario", "primaryContact": "Sukhdeep bullar", "email": "857886@pdsb.net", "members": ["Sukhdeep Bullar"], "role": "competitor"},
+      "apex": {"id": "C019", "login": "apex", "name": "Apex", "venture": "Reaching high", "industry": "Sustainability", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Simrat dhami", "email": "sim50d50@gmail.com", "members": ["Simrat Dhami"], "role": "competitor"},
+      "ja-moris": {"id": "C020", "login": "ja-moris", "name": "Ja Moris", "venture": "Hevwbq", "industry": "E-Commerce", "type": "Team", "teamSize": 4, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Ela", "email": "elades@gmail.com", "members": ["Ela Des", "Brr Brr", "Ja Morant Singh", "Dh Jans"], "role": "competitor"},
+      "harold-brathwaite": {"id": "C021", "login": "harold-brathwaite", "name": "Harold Brathwaite", "venture": "The Super", "industry": "SaaS / B2B", "type": "Team", "teamSize": 2, "school": "Harold M. Brathwaite Secondary School", "province": "Ontario", "primaryContact": "Natalia Arley", "email": "natalia.arleyyy@gmail.com", "members": ["Maryam Kalair", "Natalia Arley"], "role": "competitor"},
+      "aloha-smoothies": {"id": "C022", "login": "aloha-smoothies", "name": "Aloha Smoothies", "venture": "Aloha Smoothies", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Taniya Laxman", "email": "taniya2010.sl@gmail.com", "members": ["Taniya Laxman"], "role": "competitor"},
+      "apex-vantue": {"id": "C023", "login": "apex-vantue", "name": "apex vantue", "venture": "Healthplex", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Pavani Singhal", "email": "pavanisinghal20@gmail.com", "members": ["Pavani Singhal"], "role": "competitor"},
+      "the-bums": {"id": "C024", "login": "the-bums", "name": "The Bums", "venture": "Shawarma", "industry": "SaaS / B2B", "type": "Solo", "teamSize": 1, "school": "Harold M. Brathwaite Secondary School", "province": "Ontario", "primaryContact": "Prince Sharma", "email": "princesharma@gmail.com", "members": ["Prince Sharma"], "role": "competitor"},
+      "alpha-analysts": {"id": "C025", "login": "alpha-analysts", "name": "Alpha Analysts", "venture": "Alpha Analysts", "industry": "FinTech", "type": "Team", "teamSize": 4, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Devansh Duaa", "email": "devanshduaa@gmail.com", "members": ["Devansh Duaa", "Yuvraj Saini", "Sahjjot Sekhon", "Aarav Ohrie"], "role": "competitor"},
+      "business-boomers": {"id": "C026", "login": "business-boomers", "name": "Business Boomers", "venture": "The dragons", "industry": "E-Commerce", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Noor Gill", "email": "noorg0247@gmail.com", "members": ["Noor Gill"], "role": "competitor"},
+      "the-first-time": {"id": "C027", "login": "the-first-time", "name": "The first time", "venture": ".", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "Unknown", "province": "Ontario", "primaryContact": "Divyata", "email": "divyata.sharma77@gmail.com", "members": ["Divyata Shrma"], "role": "competitor"},
+      "kittyhawk": {"id": "C028", "login": "kittyhawk", "name": "Kittyhawk", "venture": "Chacha Chai", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "David Suzuki Secondary School", "province": "Ontario", "primaryContact": "Shaina", "email": "shahshah65123@gmail.com", "members": ["Shaina Shah"], "role": "competitor"},
+      "team-vsk": {"id": "C029", "login": "team-vsk", "name": "Team VSK", "venture": "VSK CO.", "industry": "HealthTech", "type": "Team", "teamSize": 3, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Sehar Kochhar", "email": "kochharsehar@gmail.com", "members": ["Sehar Kochhar", "Khushjot Kaur", "Vraj Patel"], "role": "competitor"},
+      "apex-ventures": {"id": "C030", "login": "apex-ventures", "name": "Apex ventures", "venture": "PulsePantry", "industry": "nan", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "guneet kaur", "email": "guneet4pdsb@gmail.com", "members": ["guneet kaur"], "role": "competitor"},
+      "raptors-1": {"id": "C031", "login": "raptors-1", "name": "Raptors", "venture": "Whimsical wonders", "industry": "Other", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Shreya Gambhir", "email": "shreyagambhir010@gmail.com", "members": ["Shreya Gambhir"], "role": "competitor"},
+      "strategic-pair": {"id": "C032", "login": "strategic-pair", "name": "Strategic Pair", "venture": "StudyFlow AI", "industry": "EdTech", "type": "Team", "teamSize": 2, "school": "Unknown", "province": "Ontario", "primaryContact": "Priyanshi patel", "email": "priya321panchal@gmail.com", "members": ["Priyanshi patel"], "role": "competitor"},
+      "chicken-nuggie": {"id": "C033", "login": "chicken-nuggie", "name": "Chicken Nuggie", "venture": "AI for the AIs", "industry": "Social Impact", "type": "Solo", "teamSize": 1, "school": "Central Peel Secondary School", "province": "Ontario", "primaryContact": "Aroush", "email": "mybigbackpacks@gmail.com", "members": ["Aroush Ahmed"], "role": "competitor"},
+      "trinistarz": {"id": "C034", "login": "trinistarz", "name": "TriniStarz", "venture": "TriniStarz", "industry": "FinTech", "type": "Solo", "teamSize": 1, "school": "Central Peel Secondary School", "province": "Ontario", "primaryContact": "Sheira Mohammed", "email": "sheira.m789@gmail.com", "members": ["Sheira Mohammed"], "role": "competitor"},
+      "smartcapital": {"id": "C035", "login": "smartcapital", "name": "SmartCapital", "venture": "Reinforced AI", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Japji", "email": "japjis.nasa@gmail.com", "members": ["Japji Sandhu"], "role": "competitor"},
+      "mable-fits": {"id": "C036", "login": "mable-fits", "name": "Mable Fits", "venture": "Mable Fits", "industry": "Sustainability", "type": "Solo", "teamSize": 1, "school": "Heart Lake Secondary School", "province": "Ontario", "primaryContact": "Megan Ye", "email": "801300@pdsb.net", "members": ["Megan Ye"], "role": "competitor"},
+      "falcon": {"id": "C037", "login": "falcon", "name": "Falcon", "venture": "PathWise", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Victoria Park C.I.", "province": "Ontario", "primaryContact": "Alan Xiao", "email": "xiaoalan56@gmail.com", "members": ["Alan Xiao"], "role": "competitor"},
+      "shymaa": {"id": "C038", "login": "shymaa", "name": "Shymaa", "venture": "—", "industry": "nan", "type": "Solo", "teamSize": 1, "school": "Rick Hansen", "province": "Ontario", "primaryContact": "Shymaa Yazdani", "email": "yazdanishymaa@gmail.com", "members": ["Shymaa Yazdani"], "role": "competitor"},
+      "apex-dragons": {"id": "C039", "login": "apex-dragons", "name": "APEX DRAGONS", "venture": "APEX DRAGONS", "industry": "Sustainability", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Omar Ghaffar", "email": "OMARABGHAFFAR@gmail.com", "members": ["Omar Ghaffar"], "role": "competitor"},
+      "sizzle-squad": {"id": "C040", "login": "sizzle-squad", "name": "Sizzle squad", "venture": "Sizzling Sequence", "industry": "Consumer", "type": "Team", "teamSize": 2, "school": "Jean Augustine", "province": "Ontario", "primaryContact": "Shreeanshi Hardik Joshi", "email": "shreeanshij@gmail.com", "members": ["Shreeanshi Joshi", "Kamal Patel"], "role": "competitor"},
+      "the-team": {"id": "C041", "login": "the-team", "name": "The team", "venture": "Brownie", "industry": "Social Impact", "type": "Solo", "teamSize": 1, "school": "Iroquois Ridge High School", "province": "Ontario", "primaryContact": "Jackson Wong", "email": "1wongjac@hdsb.ca", "members": ["Jackson Wong"], "role": "competitor"},
+      "blue": {"id": "C042", "login": "blue", "name": "Blue", "venture": "Blue", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "St Jean de Brébeuf", "province": "Ontario", "primaryContact": "Davina Faith", "email": "dianne.me2011@gmail.com", "members": ["Davina Faith"], "role": "competitor"},
+      "heheh": {"id": "C043", "login": "heheh", "name": "Heheh", "venture": "Simply yours", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "Louise Arbour Secondary School", "province": "Ontario", "primaryContact": "Hiba Siddoo", "email": "980682@pdsb.net", "members": ["Hiba Siddoo"], "role": "competitor"},
+      "ur-welcome": {"id": "C044", "login": "ur-welcome", "name": "Ur welcome 🙏", "venture": "Sigmas", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Unknown", "province": "Ontario", "primaryContact": "Ur welcome bro", "email": "krishaan4u@gmail.com", "members": ["U are Welcome 🙏"], "role": "competitor"},
+      "winner": {"id": "C045", "login": "winner", "name": "WINNER", "venture": "Health for All", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "Central Memorial High School", "province": "Alberta", "primaryContact": "Muhammad Khan", "email": "mkhan838429@gmail.com", "members": ["Muhammad Khan Khan"], "role": "competitor"},
+      "raptors-2": {"id": "C046", "login": "raptors-2", "name": "Raptors", "venture": "the dragons", "industry": "E-Commerce", "type": "Solo", "teamSize": 1, "school": "Cameron Heights Collegiate", "province": "Ontario", "primaryContact": "Raisha Zaman", "email": "raishazaman@gmail.com", "members": ["Raisha Zaman"], "role": "competitor"},
+      "mihikas-venture": {"id": "C047", "login": "mihikas-venture", "name": "Mihikas Venture", "venture": "Venturetime", "industry": "E-Commerce", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Mihika Bahuguna", "email": "948657@pdsb.net", "members": ["MIhika Bahuguna"], "role": "competitor"},
+      "ventures": {"id": "C048", "login": "ventures", "name": "Ventures", "venture": "Venture", "industry": "FinTech", "type": "Solo", "teamSize": 1, "school": "Triangle Math and Science Academy", "province": "BC", "primaryContact": "Siddharth Sazzala", "email": "siddharthsazzala18@gmail.com", "members": ["Siddharth Sazzala"], "role": "competitor"},
+      "asfaaa": {"id": "C049", "login": "asfaaa", "name": "Asfaaa", "venture": "EchoLife AI", "industry": "AI / Data", "type": "Solo", "teamSize": 1, "school": "Brampton Centennial Secondary School", "province": "Ontario", "primaryContact": "Asfa Khan", "email": "Asfa.edu1@gmail.com", "members": ["Asfa Khan"], "role": "competitor"},
+      "griffinomics": {"id": "C050", "login": "griffinomics", "name": "Griffinomics", "venture": "NewYou", "industry": "EdTech", "type": "Team", "teamSize": 3, "school": "Central Peel Secondary School", "province": "Ontario", "primaryContact": "Rushan Patel", "email": "rushanpatel30@gmail.com", "members": ["Rushan Patel", "Hridik Mehndiratta", "Daivik Macherla"], "role": "competitor"},
+      "d1": {"id": "C051", "login": "d1", "name": "D1", "venture": "ADVentures", "industry": "FinTech", "type": "Solo", "teamSize": 1, "school": "CHCI", "province": "Ontario", "primaryContact": "Jagjot", "email": "jagjot.bramptonfblc@gmail.com", "members": ["Jagjot Gill"], "role": "competitor"},
+      "dinotakeover": {"id": "C052", "login": "dinotakeover", "name": "DinoTakeover", "venture": "The Pink Nest", "industry": "Other", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Rivka Seraphim", "email": "rivkaseraphim2010@gmail.com", "members": ["Rivka Seraphim"], "role": "competitor"},
+      "the-warriors": {"id": "C053", "login": "the-warriors", "name": "The Warriors", "venture": "Homework Hero", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Fletchers Meadow Secondary School", "province": "Ontario", "primaryContact": "Vraj Patel", "email": "vrajpiyush2010@gmail.com", "members": ["Veraj Patel"], "role": "competitor"},
+      "nexora-1": {"id": "C054", "login": "nexora-1", "name": "Nexora", "venture": "PathPilot", "industry": "AI / Data", "type": "Team", "teamSize": 2, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Haramrit Saini", "email": "1053591@pdsb.net", "members": ["Haramrit Saini", "Aleezay Saleem"], "role": "competitor"},
+      "nexora-2": {"id": "C055", "login": "nexora-2", "name": "Nexora", "venture": "PathPilot", "industry": "AI / Data", "type": "Team", "teamSize": 2, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Aleezay Saleem", "email": "806806@pdsb.net", "members": ["Aleezay Saleem", "Haramrit Saini"], "role": "competitor"},
+      "tj": {"id": "C056", "login": "tj", "name": "TJ", "venture": "MistakeIQ", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "St.Edmund Campion", "province": "Ontario", "primaryContact": "Trisha Joshi", "email": "trishajoshi2009@gmail.com", "members": ["Trisha Joshi"], "role": "competitor"},
+      "my-volunteer-pathway-1": {"id": "C057", "login": "my-volunteer-pathway-1", "name": "My Volunteer Pathway", "venture": "My Volunteer Pathway", "industry": "SaaS / B2B", "type": "Solo", "teamSize": 1, "school": "Mother Teresa CSS", "province": "Ontario", "primaryContact": "Angela Kalopisis", "email": "akalopis@outlook.com", "members": ["Angela Kalopisis"], "role": "competitor"},
+      "my-volunteer-pathway-2": {"id": "C058", "login": "my-volunteer-pathway-2", "name": "My Volunteer Pathway", "venture": "My Volunteer Pathway", "industry": "SaaS / B2B", "type": "Team", "teamSize": 2, "school": "Mother Teresa Catholic Secondary School", "province": "Ontario", "primaryContact": "Rubab Rizvi", "email": "rubabriz09@gmail.com", "members": ["Rubab Rizvi", "Angela Kalopisis"], "role": "competitor"},
+      "nexa-venture": {"id": "C059", "login": "nexa-venture", "name": "Nexa Venture", "venture": "Nexa", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Vaidehi Ramesh", "email": "vaidehi.rameshkumar@gmail.com", "members": ["Vaidehi Ramesh"], "role": "competitor"},
+      "impact-venture": {"id": "C060", "login": "impact-venture", "name": "Impact Venture", "venture": "Fashionscan Venture", "industry": "Other", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Ishreet Boparai", "email": "boparaiishreet@gmail.com", "members": ["Ishreet Boparai"], "role": "competitor"},
+      "": {"id": "C061", "login": "", "name": "-", "venture": "MedTrack Lite", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "Waterdown District High School", "province": "Ontario", "primaryContact": "+1 2898389039", "email": "tejaswi.bottu@gmail.com", "members": ["Tejaswi Bottu"], "role": "competitor"},
+      "nan": {"id": "C062", "login": "nan", "name": "nan", "venture": "CaseGuard AI", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Unknown", "province": "nan", "primaryContact": "—", "email": "—", "members": ["nan"], "role": "competitor"},
+      "black-hawk": {"id": "C063", "login": "black-hawk", "name": "BLACK HAWK", "venture": "VéloSync", "industry": "AI / Data", "type": "Solo", "teamSize": 1, "school": "St. Edmund Campion Secondary School", "province": "Ontario", "primaryContact": "Viraj Lyall", "email": "viraj.lyall@gmail.com", "members": ["Viraj Lyall"], "role": "competitor"},
+      "the-building-before-th": {"id": "C064", "login": "the-building-before-th", "name": "The Building Before The Blueprint", "venture": "SiteGuard Health", "industry": "HealthTech", "type": "Team", "teamSize": 2, "school": "Bramalea Secondary School", "province": "Ontario", "primaryContact": "NS - 09ZZ 831003 Bramalea SS", "email": "831003@pdsb.net", "members": ["Neeraja Sharma", "Niharika Singh"], "role": "competitor"},
+      "allumino": {"id": "C065", "login": "allumino", "name": "Allumino", "venture": "Wong", "industry": "EdTech", "type": "Team", "teamSize": 4, "school": "Unknown", "province": "Ontario", "primaryContact": "Lucas wang", "email": "lucaswang684@gmail.com", "members": ["Lucas Wang"], "role": "competitor"},
+      "the-deal-makers": {"id": "C066", "login": "the-deal-makers", "name": "The Deal Makers", "venture": "GuardIQ", "industry": "HealthTech", "type": "Team", "teamSize": 4, "school": "William Lyon Mackenzie CI", "province": "Ontario", "primaryContact": "Menon Lojan", "email": "menonlojan@gmail.com", "members": ["Menon Lojan", "Rudra Garg", "Pranav Vellanki", "Franz Shijaku"], "role": "competitor"},
+      "kank": {"id": "C067", "login": "kank", "name": "KANK", "venture": "CLARIX", "industry": "AI / Data", "type": "Team", "teamSize": 4, "school": "Turner Fenton Secondary School", "province": "Ontario", "primaryContact": "Krishvi Bansal", "email": "krishvib48@gmail.com", "members": ["Krishvi Bansal", "Ava Shrestha", "Neeti Brahmbhatt", "Khanak Sawant"], "role": "competitor"},
+      "qa-capital": {"id": "C068", "login": "qa-capital", "name": "QA Capital", "venture": "Bake Us", "industry": "Consumer", "type": "Solo", "teamSize": 1, "school": "St. Andrew's College", "province": "Ontario", "primaryContact": "Qasim Akhter", "email": "qasimakhter2009@gmail.com", "members": ["Qasim Akhter"], "role": "competitor"},
+      "studyfortestscom": {"id": "C069", "login": "studyfortestscom", "name": "Studyfortests.com", "venture": "Studyfortests.com", "industry": "EdTech", "type": "Solo", "teamSize": 1, "school": "Turner Fenton Secondary School", "province": "Ontario", "primaryContact": "Divya Mishra", "email": "divyam357@gmail.com", "members": ["Divya Mishra"], "role": "competitor"},
+      "bubble-guppies": {"id": "C070", "login": "bubble-guppies", "name": "Bubble Guppies", "venture": "Unwired", "industry": "E-Commerce", "type": "Team", "teamSize": 3, "school": "St. Robert Catholic High School", "province": "Ontario", "primaryContact": "Sabrina Tan", "email": "tan.sabrina26@gmail.com", "members": ["Sabrina Tan", "Ellora Shi", "Lainey Lin"], "role": "competitor"},
+      "swag": {"id": "C071", "login": "swag", "name": "SWAG", "venture": "Swag", "industry": "Social Impact", "type": "Solo", "teamSize": 1, "school": "St. Edmund Campion Secondary School", "province": "Ontario", "primaryContact": "Shloka Peddolla", "email": "shloka.peddolla@gmail.com", "members": ["Shloka Peddolla"], "role": "competitor"},
+      "cool-ventures": {"id": "C072", "login": "cool-ventures", "name": "Cool Ventures", "venture": "GreenSplit", "industry": "Sustainability", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Ezaan Syed", "email": "syedezaan12345@gmail.com", "members": ["Ezaan Syed"], "role": "competitor"},
+      "crocodillos": {"id": "C073", "login": "crocodillos", "name": "Crocodillos", "venture": "GeoGem", "industry": "AI / Data", "type": "Solo", "teamSize": 1, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Thayananthy Pathmajeyalan", "email": "tharuksith.p@gmail.com", "members": ["Tharuksith Pathmajeyalan"], "role": "competitor"},
+      "verdant-ventures": {"id": "C074", "login": "verdant-ventures", "name": "Verdant Ventures", "venture": "Verdant AI", "industry": "Sustainability", "type": "Team", "teamSize": 3, "school": "Assumption College School", "province": "Ontario", "primaryContact": "Harmeet Ghotra", "email": "harmeetghotra0@gmail.com", "members": ["Nadia Rudnick", "Harmeet Ghotra", "Daniela Robillard"], "role": "competitor"},
+      "jag-ventures": {"id": "C075", "login": "jag-ventures", "name": "JAG Ventures", "venture": "CivicLens AI", "industry": "Social Impact", "type": "Team", "teamSize": 3, "school": "Central Peel Secondary School", "province": "Ontario", "primaryContact": "Gurasees Singh Mallaiya", "email": "gsm.skm.ca@gmail.com", "members": ["Gurasees Mallaiya", "Jai Sharma", "Amsha Nepal"], "role": "competitor"},
+      "opex-venture": {"id": "C076", "login": "opex-venture", "name": "Opex Venture", "venture": "Opex optics", "industry": "SaaS / B2B", "type": "Solo", "teamSize": 1, "school": "Mayfield Secondary School", "province": "Ontario", "primaryContact": "Baksish Virk", "email": "baksishvirk24@gmail.com", "members": ["Baksish Singh"], "role": "competitor"},
+      "mahajan": {"id": "C077", "login": "mahajan", "name": "Mahajan", "venture": "About Her", "industry": "HealthTech", "type": "Solo", "teamSize": 1, "school": "Turner Fenton Secondary School", "province": "Ontario", "primaryContact": "Saanvi Mahajan", "email": "mahajansaanvi@44gmail.com", "members": ["Saanvi Mahajan"], "role": "competitor"},
+      "team-axis": {"id": "C078", "login": "team-axis", "name": "Team Axis", "venture": "ClearStake", "industry": "FinTech", "type": "Team", "teamSize": 2, "school": "Fletchers Meadow Secondary School", "province": "Ontario", "primaryContact": "Anirudh Jogiparthi", "email": "anirudhjogiparthi@gmail.com", "members": ["Anirudh Jogiparthi", "Araahan Monga"], "role": "competitor"},
+      "tamil-tigers": {"id": "C079", "login": "tamil-tigers", "name": "Tamil Tigers", "venture": "Breakpoint", "industry": "Consumer", "type": "Team", "teamSize": 2, "school": "Brampton Centennial Secondary School", "province": "Ontario", "primaryContact": "Jaivant Phogat", "email": "jaivant.phogat@gmail.com", "members": ["Jaivant Phogat", "Pravinthan Suthakaran"], "role": "competitor"},
+      "emma-and-ella": {"id": "C080", "login": "emma-and-ella", "name": "Emma and Ella", "venture": "Ferrise", "industry": "HealthTech", "type": "Team", "teamSize": 2, "school": "Pierre Elliott Trudeau Secondary School", "province": "Ontario", "primaryContact": "Emma Zhang", "email": "emmakyzhang@gmail.com", "members": ["Emma Zhang", "Ella Sun"], "role": "competitor"},
+      "navreen": {"id": "C081", "login": "navreen", "name": "Navreen", "venture": "Yo", "industry": "Social Impact", "type": "Solo", "teamSize": 1, "school": "North Park Secondary School", "province": "Ontario", "primaryContact": "Navreen chahal", "email": "navreench@gmail.com", "members": ["Navreen Chahal"], "role": "competitor"},
+      "defscgv": {"id": "C082", "login": "defscgv", "name": "defscgv", "venture": "dwaefscgthg", "industry": "FinTech", "type": "Team", "teamSize": 2, "school": "Notre Dame Catholic Secondary School", "province": "Ontario", "primaryContact": "nakshatraa nayak", "email": "nakshatraanayak1@gmail.com", "members": ["nakshatraa nayak", "nakshatraa nayak"], "role": "competitor"},
+      "titan-alliance": {"id": "C083", "login": "titan-alliance", "name": "Titan Alliance", "venture": "TITAN ALLIANCES", "industry": "Social Impact", "type": "Solo", "teamSize": 1, "school": "Castlebrooke Secondary School", "province": "Ontario", "primaryContact": "Mukund Gohlan", "email": "gohlanmukund@outlook.com", "members": ["Mukund Gohlan"], "role": "competitor"},
+      "naruto-lover": {"id": "C084", "login": "naruto-lover", "name": "naruto lover", "venture": "Blacktees", "industry": "E-Commerce", "type": "Solo", "teamSize": 1, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Minal", "email": "vritti.saraiya.bramptonfblc@gmail.com", "members": ["minal chaudhry"], "role": "competitor"},
+      "saggin-backwords": {"id": "C085", "login": "saggin-backwords", "name": "Saggin backwords", "venture": "Lorem", "industry": "FinTech", "type": "Solo", "teamSize": 1, "school": "Harold M. Brathwaite Secondary School", "province": "Ontario", "primaryContact": "Dhyey", "email": "itzamekrypto@gmail.com", "members": ["Dhyey Hansoti"], "role": "competitor"},
+      "unique-vultures": {"id": "C086", "login": "unique-vultures", "name": "Unique Vultures", "venture": "Hope in Every Hand", "industry": "Social Impact", "type": "Team", "teamSize": 3, "school": "Glenforest Secondary School", "province": "Ontario", "primaryContact": "Devanshi Satapathy", "email": "devanshi04@Gmail.com", "members": ["Nakshatraa Nayak", "Shruti Prusty", "Riva Siroya"], "role": "competitor"},
+      "the-entrepreneural-gen": {"id": "C087", "login": "the-entrepreneural-gen", "name": "The Entrepreneural Geniuses", "venture": "MicroSight AI", "industry": "HealthTech", "type": "Team", "teamSize": 3, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Kevin Singh", "email": "kevinsingh3570@gmail.com", "members": ["Kevin Singh", "Bipul Sharma", "Huzaifa Malik"], "role": "competitor"},
+      "the-brotatos": {"id": "C088", "login": "the-brotatos", "name": "The Brotatos", "venture": "GearShift Logic", "industry": "Consumer", "type": "Team", "teamSize": 4, "school": "Chinguacousy Secondary School", "province": "Ontario", "primaryContact": "Tharuksith Pathmajayalan", "email": "Wisarc.info@gmail.com", "members": ["Tharuksith Pathmajayalan", "Dhairya Patel", "Panshul Patel"], "role": "competitor"},
+      "tamya-desai": {"id": "C089", "login": "tamya-desai", "name": "Tamya Desai", "venture": "Edutech", "industry": "Other", "type": "Solo", "teamSize": 1, "school": "Mississauga Secondary School", "province": "Ontario", "primaryContact": "Tamya", "email": "T.desai21@gmail.com", "members": ["Tamya Desai"], "role": "competitor"},
+      "the-bests": {"id": "C090", "login": "the-bests", "name": "THE BESTS", "venture": "Evoteck", "industry": "FinTech", "type": "Solo", "teamSize": 1, "school": "Centennial High School (Alberta)", "province": "Alberta", "primaryContact": "Anjanna", "email": "Anjanna11@gmail.com", "members": ["Anjanna Somakastakon"], "role": "competitor"},
+      "quantum-group": {"id": "C091", "login": "quantum-group", "name": "Quantum Group", "venture": "Civic Fund", "industry": "FinTech", "type": "Team", "teamSize": 3, "school": "Turner Fenton Secondary School", "province": "Ontario", "primaryContact": "Ghuntaj Kaur Toor", "email": "toorghuntaj6@gmail.com", "members": ["Ghuntaj toor", "Gurleen Kaur", "Tiya Mistry"], "role": "competitor"}
+    };
+    const JUDGES = {
+      "j001": {"id": "J001", "login": "j001", "name": "Janavi Sooriyakumar", "email": "sooriyajanavi@gmail.com", "org": "University of Waterloo", "title": "Student", "industry": "Other", "availability": "Afternoon Available", "briefingAvail": "I'll review the recording", "status": "Applied — Pending Review", "role": "judge"},
+      "j002": {"id": "J002", "login": "j002", "name": "Sam Jones", "email": "flawlessfrenchfrie@gmail.com", "org": "Markham Public Schools", "title": "Elementary Teacher", "industry": "Education", "availability": "Partial Availability", "briefingAvail": "I'll review the recording", "status": "Applied — Pending Review", "role": "judge"},
+      "j003": {"id": "J003", "login": "j003", "name": "Jahi Pandya", "email": "jahi.pandya@gmail.com", "org": "Evince development", "title": ".", "industry": "Technology", "availability": "Partial Availability", "briefingAvail": "Yes — I can attend the May 22 briefing", "status": "Applied — Pending Review", "role": "judge"},
+      "j004": {"id": "J004", "login": "j004", "name": "Kyra Verma", "email": "kyraverma3@gmail.com", "org": "University of Toronto", "title": "Life Sciences student at the University of Toronto", "industry": "Healthcare", "availability": "Full Day Available", "briefingAvail": "Yes — I can attend the May 22 briefing", "status": "Applied — Pending Review", "role": "judge"},
+      "j005": {"id": "J005", "login": "j005", "name": "Aadi Mallick", "email": "aadimallick1108@gmail.com", "org": "Student", "title": "Undergraduate student", "industry": "Finance", "availability": "Partial Availability", "briefingAvail": "I'll review the recording", "status": "Applied — Pending Review", "role": "judge"}
+    };
     const MGMT = ['FDX@202620', 'admin2026', 'coadmin2026', 'score2026', 'comms2026'];
 
     // ═══ OFFICIAL RUBRICS ═══
@@ -3010,7 +3106,23 @@
       await addAudit('Migration from V2 to V3 completed', 'system', 'admin');
     }
     async function seedTeamsAndJudges() {
-      // Dummy data logic removed. Ready for actual data.
+      // Seed real competitor and judge data to Firebase on first run
+      const alreadySeeded = await DB.get('fd26_seeded_v1');
+      if (alreadySeeded) return;
+
+      // Push all competitors from COMPS into custom_comps (merged by getAllComps)
+      const existingComps = await DB.get('custom_comps') || {};
+      const mergedComps = { ...COMPS, ...existingComps }; // existing overrides seeded
+      await DB.set('custom_comps', mergedComps);
+
+      // Push all judges from JUDGES into custom_judges (merged by getAllJudges)
+      const existingJudges = await DB.get('custom_judges') || {};
+      const mergedJudges = { ...JUDGES, ...existingJudges };
+      await DB.set('custom_judges', mergedJudges);
+
+      await DB.set('fd26_seeded_v1', true);
+      await addAudit(`Seeded ${Object.keys(COMPS).length} competitors and ${Object.keys(JUDGES).length} judges from tracker`, 'system', 'admin');
+      console.log(`[FD26] Seeded ${Object.keys(COMPS).length} competitors & ${Object.keys(JUDGES).length} judges to Firebase.`);
     }
 
     // ═══ INIT ═══
@@ -3100,9 +3212,10 @@
     // ═══ AUTH ═══
     function openLogin(portal) {
       pendingPortal = portal;
-      const cfg = { management: { t: 'Management Login', s: 'Enter your admin access code.' }, judge: { t: 'Judge Login', s: 'Enter your judge code (e.g. judge001)' }, competitor: { t: 'Competitor Login', s: 'Enter your competitor code (e.g. comp001)' } };
+      const cfg = { management: { t: 'Management Login', s: 'Enter your admin access code.', hint: true }, judge: { t: 'Judge Login', s: 'You should have received your access code from the organizers.', hint: false }, competitor: { t: 'Competitor Login', s: 'You should have received your access code from the organizers.', hint: false } };
       document.getElementById('lm-t').textContent = cfg[portal].t;
       document.getElementById('lm-s').textContent = cfg[portal].s;
+      document.getElementById('lm-hint').style.display = cfg[portal].hint ? 'block' : 'none';
       document.getElementById('lm-in').value = ''; document.getElementById('lm-err').style.display = 'none';
       document.getElementById('lmo').style.display = 'flex';
       setTimeout(() => document.getElementById('lm-in').focus(), 80);
@@ -3286,7 +3399,7 @@
 
     function mnav(tab, el) {
       aSB('sm', el);
-      const fns = { dashboard: renderDash, eventday: renderEventDay, analytics: renderAnalytics, compmanage: renderCompManage, teammanage: renderTeamManage, judges: renderJudgesPage, rooms: renderRooms, schedule: renderSchedule, assign: renderAssign, bulk: renderBulk, submissions: renderSubs, livescoring: renderLiveScoring, approvals: renderApprovals, locks: renderSubmissionLocks, workshops: renderMWorkshops, leaderboard: renderLB, printresults: renderPrintResults, notifications: renderNotificationsPage, penalties: renderPenalties, export: renderExport, auditlog: renderAuditLog, activity: renderActivity };
+      const fns = { dashboard: renderDash, eventday: renderEventDay, analytics: renderAnalytics, compmanage: renderCompManage, teammanage: renderTeamManage, judges: renderJudgesPage, idsheet: renderIDSheet, rooms: renderRooms, schedule: renderSchedule, assign: renderAssign, bulk: renderBulk, submissions: renderSubs, livescoring: renderLiveScoring, approvals: renderApprovals, locks: renderSubmissionLocks, workshops: renderMWorkshops, leaderboard: renderLB, printresults: renderPrintResults, notifications: renderNotificationsPage, penalties: renderPenalties, export: renderExport, auditlog: renderAuditLog, activity: renderActivity };
       (fns[tab] || renderDash)();
     }
 
@@ -3647,12 +3760,17 @@
       bpS.forEach(s => { if (!bpMap[s.compLogin]) bpMap[s.compLogin] = []; bpMap[s.compLogin].push(s); });
       pitchS.forEach(s => { if (!pitchMap[s.compLogin]) pitchMap[s.compLogin] = []; pitchMap[s.compLogin].push(s); });
       document.getElementById('cmt').innerHTML = `
-  <div class="tw"><table><thead><tr><th>ID</th><th>Login</th><th>Name</th><th>Type</th><th>Submitted</th><th>BP</th><th>Pitch</th><th>Actions</th></tr></thead><tbody>
+  <div class="tw"><table><thead><tr><th>ID</th><th>Login</th><th>Name / Team</th><th>Members / Contact</th><th>Type</th><th>Submitted</th><th>BP</th><th>Pitch</th><th>Actions</th></tr></thead><tbody>
     ${slice.map(c => {
         const bp = bpMap[c.login] || [], pitch = pitchMap[c.login] || [];
-        const bpAvg = bp.length ? Math.round(bp.reduce((a, b) => a + b.total, 0) / bp.length) : null; const pitchAvg = pitch.length ? Math.round(pitch.reduce((a, b) => a + b.total, 0) / pitch.length) : null;
-        return `<tr><td><code>${c.id}</code></td><td style="font-size:12px;color:var(--t3)">${c.login}</td>
-      <td style="font-weight:500">${esc(c.name)}</td><td><span class="tag ${c.type === 'Solo' ? 'ts' : 'tp'}">${c.type}</span></td>
+        const bpAvg = bp.length ? Math.round(bp.reduce((a, b) => a + b.total, 0) / bp.length) : null;
+        const pitchAvg = pitch.length ? Math.round(pitch.reduce((a, b) => a + b.total, 0) / pitch.length) : null;
+        const memberList = (c.members && c.members.length) ? c.members : (c.primaryContact ? [c.primaryContact] : []);
+        const displayMember = memberList.length > 0 ? memberList[0] + (memberList.length > 1 ? ` <span style="color:var(--t3);font-size:10px">+${memberList.length - 1} more</span>` : '') : '<span style="color:var(--t3)">—</span>';
+        return `<tr><td><code>${c.id}</code></td><td style="font-size:12px;color:var(--t3);white-space:nowrap">${c.login}</td>
+      <td style="font-weight:500">${esc(c.name)}${c.venture && c.venture !== c.name ? `<br><span style="font-size:11px;color:var(--t3);font-weight:400">${esc(c.venture)}</span>` : ''}</td>
+      <td style="font-size:12px;color:var(--t2)">${displayMember}</td>
+      <td><span class="tag ${c.type === 'Solo' ? 'ts' : 'tp'}">${c.type}</span></td>
       <td><span class="tag ${subSet.has(c.login) ? 'ta' : 'ti'}">${subSet.has(c.login) ? '✓' : 'Pending'}</span></td>
       <td style="color:var(--c)">${bpAvg !== null ? bpAvg : '-'}</td><td style="color:var(--c2)">${pitchAvg !== null ? pitchAvg : '-'}</td>
       <td style="text-align:right"><button class="btn bg bsm" onclick="editComp('${c.login}','${esc(c.name)}')">✎</button> <button class="btn bd bsm" onclick="kickComp('${c.login}')">❌</button></td>
@@ -3808,6 +3926,66 @@
     window.doAddJudge = async () => { const name = document.getElementById('naj-name').value.trim(), org = document.getElementById('naj-org').value.trim(), id = document.getElementById('naj-id').value.trim(), login = document.getElementById('naj-login').value.trim().toLowerCase(); if (!name || !id || !login) { toast('Missing fields', '', 'wrn'); return; } const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]); if (allC[login] || MGMT.includes(login) || allJ[login]) { toast('Login in use', '', 'err'); return; } await addCustomJudge(login, id, name, org); closeMo(); toast('Added', `${name} → ${login}`, 'ok'); renderJudgeManageT(); };
     window.editJudge = (login, cn) => { const n = prompt('New name:', cn); if (n && n.trim() !== cn) { updateJudgeName(login, n.trim()).then(() => { toast('Updated', '', 'ok'); renderJudgeManageT(); }); } };
     window.kickJudge = (login) => { if (confirm('Remove judge ' + login + '?')) { removeJudge(login).then(() => { toast('Removed', '', 'ok'); renderJudgeManageT(); }); } };
+
+    // ═══ ID REFERENCE SHEET ═══
+    async function renderIDSheet() {
+      const allC = await getAllComps();
+      const allJ = await getAllJudges();
+      const comps = Object.values(allC).sort((a, b) => (a.id || '').localeCompare(b.id || ''));
+      const judges = Object.values(allJ).sort((a, b) => (a.id || '').localeCompare(b.id || ''));
+      document.getElementById('mc').innerHTML = `
+  <div class="rb"><div><div class="stt">🔑 ID Reference Sheet</div><div class="sts">Internal use only — login codes for all competitors and judges. Do not share publicly.</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn bp bsm" onclick="window.print()">🖨 Print Sheet</button>
+    <button class="btn bg bsm" onclick="copyIDSheet()">📋 Copy All Codes</button>
+  </div></div>
+
+  <div style="margin-bottom:24px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span>👥 Competitors</span><span style="background:var(--g2);border:1px solid var(--b);border-radius:20px;padding:2px 8px;font-size:10px;color:var(--c)">${comps.length}</span>
+    </div>
+    <div class="tw"><table><thead><tr><th>Reg #</th><th>Team / Venture Name</th><th>Primary Contact</th><th>Members</th><th>Login Code</th><th>Type</th></tr></thead><tbody>
+      ${comps.map(c => {
+        const members = (c.members && c.members.length) ? c.members.join(', ') : (c.primaryContact || '—');
+        return `<tr>
+          <td><code style="color:var(--t3)">${esc(c.id)}</code></td>
+          <td><strong style="color:var(--t)">${esc(c.name)}</strong>${c.venture && c.venture !== c.name ? `<br><span style="font-size:11px;color:var(--t3)">${esc(c.venture)}</span>` : ''}</td>
+          <td style="font-size:12px;color:var(--t2)">${esc(c.primaryContact || '—')}</td>
+          <td style="font-size:11px;color:var(--t3);max-width:180px">${esc(members)}</td>
+          <td><code style="color:var(--c);background:rgba(0,255,163,.08);padding:3px 8px;border-radius:5px;border:1px solid rgba(0,255,163,.2)">${esc(c.login)}</code></td>
+          <td><span class="tag ${c.type === 'Solo' ? 'ts' : 'tp'}">${esc(c.type || 'Solo')}</span></td>
+        </tr>`;
+      }).join('')}
+    </tbody></table></div>
+  </div>
+
+  <div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span>⚖️ Judges</span><span style="background:var(--g2);border:1px solid var(--b);border-radius:20px;padding:2px 8px;font-size:10px;color:var(--gold)">${judges.length}</span>
+    </div>
+    <div class="tw"><table><thead><tr><th>Reg #</th><th>Name</th><th>Organisation</th><th>Title</th><th>Login Code</th><th>Status</th></tr></thead><tbody>
+      ${judges.map(j => `<tr>
+          <td><code style="color:var(--t3)">${esc(j.id)}</code></td>
+          <td><strong style="color:var(--t)">${esc(j.name)}</strong></td>
+          <td style="font-size:12px;color:var(--t3)">${esc(j.org || '—')}</td>
+          <td style="font-size:12px;color:var(--t3)">${esc(j.title || '—')}</td>
+          <td><code style="color:var(--gold);background:rgba(244,196,48,.08);padding:3px 8px;border-radius:5px;border:1px solid rgba(244,196,48,.2)">${esc(j.login)}</code></td>
+          <td><span class="tag ${j.status && j.status.includes('Confirmed') ? 'ta' : 'ti'}">${esc((j.status || 'Pending').replace('Applied — ', ''))}</span></td>
+        </tr>`).join('')}
+    </tbody></table></div>
+  </div>`;
+
+      window.copyIDSheet = () => {
+        const rows = ['=== COMPETITORS ===', 'Reg#\tName\tLogin Code\tMembers'];
+        comps.forEach(c => {
+          const m = (c.members && c.members.length) ? c.members.join('; ') : (c.primaryContact || '');
+          rows.push(`${c.id}\t${c.name}\t${c.login}\t${m}`);
+        });
+        rows.push('', '=== JUDGES ===', 'Reg#\tName\tLogin Code\tOrganisation');
+        judges.forEach(j => rows.push(`${j.id}\t${j.name}\t${j.login}\t${j.org || ''}`));
+        navigator.clipboard.writeText(rows.join('\n')).then(() => toast('Copied!', 'All codes copied to clipboard', 'ok')).catch(() => toast('Copy failed', 'Use print instead', 'err'));
+      };
+    }
 
     // ═══ CSV IMPORT ═══
     window.showImportCSV = (type) => {

@@ -4195,7 +4195,12 @@
       const allJ = await getAllJudges();
       document.getElementById('mc').innerHTML = `
   <div class="rb"><div><div class="stt">Assign Judges</div><div class="sts">Manually assign judges to competitors. Judges only see assigned competitors.</div></div>
-  <div class="fx"><button class="btn bp bsm" onclick="autoAssignAll()">⚡ Auto-Assign</button><button class="btn bg bsm" onclick="renderAssign()">↻ Refresh</button></div></div>
+  <div class="fx" style="flex-wrap:wrap;gap:8px">
+    <button class="btn bp bsm" onclick="autoAssignAll()">⚡ Auto-Assign</button>
+    <button class="btn bg bsm" onclick="renderAssign()">↻ Refresh</button>
+    <button class="btn bsm" style="background:rgba(255,77,109,.13);color:var(--err);border:1px solid rgba(255,77,109,.25)" onclick="showUnassignByJudgeMo()">⚡ Unassign by Judge</button>
+    <button class="btn bd bsm" onclick="unassignAllJudges()">🗑 Unassign All</button>
+  </div></div>
   <div class="g2 mb14">
     <div class="sb2"><input id="asf" placeholder="Search competitor…" oninput="mState.asF=this.value;mState.asPg=1;renderAssignT()"/></div>
     <select id="asj" onchange="mState.asJ=this.value;mState.asPg=1;renderAssignT()">
@@ -4211,18 +4216,89 @@
       if (mState.asJ) { const keys = await DB.keys('assign:'), withJ = new Set(); for (const k of keys) { const js = await DB.get(k) || []; if (js.includes(mState.asJ)) withJ.add(k.replace('assign:', '')); } comps = comps.filter(c => withJ.has(c.login)); }
       const { slice, html } = pag(comps, mState.asPg, 25, '_setAsPg');
       const rows = []; for (const c of slice) { const judges = await getJudgesFor(c.login); rows.push({ c, judges }); }
-      document.getElementById('at').innerHTML = `<div class="tw"><table><thead><tr><th>Competitor</th><th>Type</th><th>Assigned Judges</th><th>Add Judge</th></tr></thead><tbody>
+      document.getElementById('at').innerHTML = `<div class="tw"><table><thead><tr><th>Competitor</th><th>Type</th><th>Assigned Judges</th><th>Add Judge</th><th></th></tr></thead><tbody>
     ${rows.map(({ c, judges }) => `<tr>
       <td><div style="font-weight:500">${esc(c.name)}</div><code style="font-size:10px">${c.id}</code></td>
       <td><span class="tag ${c.type === 'Solo' ? 'ts' : 'tp'}">${c.type}</span></td>
-      <td>${judges.length === 0 ? '<span style="color:var(--t3);font-size:12px">None</span>' : judges.map(jl => `<span class="cp" onclick="doUnassign('${jl}','${c.login}')">${esc(allJ[jl]?.name?.split(' ').pop() || jl)} <span style="color:var(--err)">×</span></span>`).join('')}</td>
+      <td>${judges.length === 0 ? '<span style="color:var(--t3);font-size:12px">None</span>' : judges.map(jl => `<span onclick="doUnassign('${jl}','${c.login}')" title="Click to unassign ${allJ[jl]?.name||jl}" style="display:inline-flex;align-items:center;gap:4px;background:var(--g);border:1px solid var(--b);border-radius:6px;padding:2px 8px;margin:2px;font-size:11px;cursor:pointer;user-select:none">${esc(allJ[jl]?.name?.split(' ')[0] || jl)} <span style="color:var(--err);font-weight:700">&times;</span></span>`).join('')}</td>
       <td><div class="fx"><select style="width:160px;font-size:12px;padding:5px 7px" id="jsel-${c.login}"><option value="">+ Judge…</option>${Object.values(allJ).filter(j => !judges.includes(j.login)).map(j => `<option value="${j.login}">${esc(j.name)}</option>`).join('')}</select><button class="btn bp bsm" onclick="doAssign('${c.login}')">Add</button></div></td>
+      <td>${judges.length > 0 ? `<button class="btn bd bsm" style="font-size:10px;white-space:nowrap" onclick="unassignAllFromComp('${c.login}','${esc(c.name)}')">Clear All</button>` : ''}</td>
     </tr>`).join('')}
   </tbody></table></div>${html}`;
     }
     window.doAssign = async cl => { const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]); const jl = document.getElementById(`jsel-${cl}`)?.value; if (!jl) { toast('Select a judge', '', 'wrn'); return; } await assignJudge(jl, cl); toast('Assigned', `${allJ[jl]?.name} → ${allC[cl]?.name}`, 'ok'); await renderAssignT(); };
     window.doUnassign = async (jl, cl) => { const allJ = await getAllJudges(); await unassignJudge(jl, cl); toast('Removed', `${allJ[jl]?.name || jl} unassigned`); await renderAssignT(); };
     async function autoAssignAll() { const [allC, allJ] = await Promise.all([getAllComps(), getAllJudges()]); const jls = Object.keys(allJ), cls = Object.keys(allC); if (!jls.length) { toast('No judges', '', 'err'); return; } let ji = 0; for (let ci = 0; ci < cls.length; ci++) { await assignJudge(jls[ji % jls.length], cls[ci]); if ((ci + 1) % 5 === 0) ji++; } toast('Auto-assigned!', '5 competitors per judge', 'ok'); await renderAssignT(); }
+
+    // ─── UNASSIGN ALL ───
+    async function unassignAllJudges() {
+      const allC = await getAllComps();
+      const cls = Object.keys(allC);
+      const keys = await DB.keys('assign:');
+      const count = keys.length;
+      if (count === 0) { toast('Nothing to unassign', 'No assignments exist', 'wrn'); return; }
+      const confirmed = confirm(`⚠ Remove ALL judge assignments?\n\nThis will unassign judges from all ${cls.length} competitors (${count} assignment record${count !== 1 ? 's' : ''}).\n\nThis cannot be undone. Continue?`);
+      if (!confirmed) return;
+      let cleared = 0;
+      for (const k of keys) {
+        await DB.set(k, []);
+        cleared++;
+      }
+      await addAudit(`Admin unassigned ALL judges from all competitors (${cleared} records cleared)`, 'assign', CU?.login || 'admin');
+      toast('All Unassigned', `${cleared} assignment record${cleared !== 1 ? 's' : ''} cleared`, 'ok');
+      await renderAssignT();
+    }
+
+    window.unassignAllFromComp = async (cl, name) => {
+      const judges = await getJudgesFor(cl);
+      if (!judges.length) { toast('No judges assigned', '', 'wrn'); return; }
+      const confirmed = confirm(`Remove all ${judges.length} judge${judges.length !== 1 ? 's' : ''} from "${name}"?`);
+      if (!confirmed) return;
+      await DB.set(`assign:${cl}`, []);
+      await addAudit(`All judges unassigned from competitor ${cl} (${name})`, 'assign', CU?.login || 'admin');
+      toast('Cleared', `All judges removed from ${name}`, 'ok');
+      await renderAssignT();
+    };
+
+    window.showUnassignByJudgeMo = async () => {
+      const allJ = await getAllJudges();
+      const jList = Object.values(allJ);
+      if (!jList.length) { toast('No judges', '', 'err'); return; }
+      showMo('Unassign by Judge', `
+        <div style="font-size:13px;color:var(--t2);margin-bottom:14px;padding:10px 12px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:8px">
+          ⚠ Select a judge to remove their assignment from every competitor they are currently assigned to.
+        </div>
+        <div class="ig"><label class="il">Select Judge</label>
+          <select id="ubj-sel" style="width:100%">
+            <option value="">— Choose a judge —</option>
+            ${jList.map(j => `<option value="${j.login}">${esc(j.name)} (${j.login})</option>`).join('')}
+          </select>
+        </div>
+        <div style="margin-top:16px;text-align:right">
+          <button class="btn bd" onclick="doUnassignByJudge()">Remove All Their Assignments</button>
+        </div>
+      `);
+    };
+
+    window.doUnassignByJudge = async () => {
+      const jl = document.getElementById('ubj-sel')?.value;
+      if (!jl) { toast('Select a judge', '', 'wrn'); return; }
+      const allJ = await getAllJudges();
+      const jName = allJ[jl]?.name || jl;
+      const keys = await DB.keys('assign:');
+      let removedFrom = 0;
+      for (const k of keys) {
+        const list = await DB.get(k) || [];
+        if (list.includes(jl)) {
+          await DB.set(k, list.filter(j => j !== jl));
+          removedFrom++;
+        }
+      }
+      await addAudit(`Judge ${jName} (${jl}) unassigned from ${removedFrom} competitor(s)`, 'assign', CU?.login || 'admin');
+      closeMo();
+      toast('Done', `${jName} removed from ${removedFrom} competitor${removedFrom !== 1 ? 's' : ''}`, 'ok');
+      await renderAssignT();
+    };
 
     // ═══ SUBMISSIONS ═══
     async function renderSubs() {

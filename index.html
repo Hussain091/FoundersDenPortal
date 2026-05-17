@@ -2854,7 +2854,11 @@
           return snapshot.exists() ? snapshot.val() : null;
         } catch (e) {
           console.error('DB.get Error', e);
-          return null;
+          if (e.message && e.message.toLowerCase().includes('permission denied')) {
+            window._firebaseError = true;
+          }
+          const local = localStorage.getItem('fd26_backup_' + k);
+          return local ? JSON.parse(local) : null;
         }
       },
       async set(k, v) {
@@ -2863,6 +2867,12 @@
           await firebaseSet(firebaseChild(firebaseDbRef, 'fd26/' + k.replace(/[.#$\[\]]/g, '_')), v === undefined ? null : v);
         } catch (e) {
           console.error('DB.set Error', e);
+          if (e.message && e.message.toLowerCase().includes('permission denied')) {
+            window._firebaseError = true;
+            toast('Firebase Error', 'Permission Denied! Check Firebase Database Rules.', 'err');
+          }
+          if (v === undefined || v === null) localStorage.removeItem('fd26_backup_' + k);
+          else localStorage.setItem('fd26_backup_' + k, JSON.stringify(v));
         }
       },
       async keys(pfx) {
@@ -2874,7 +2884,7 @@
           return snapshot.exists() ? Object.keys(snapshot.val()) : [];
         } catch (e) {
           console.error('DB.keys Error', e);
-          return [];
+          return Object.keys(localStorage).filter(key => key.startsWith('fd26_backup_' + pfx)).map(key => key.replace('fd26_backup_', ''));
         }
       }
     };
@@ -3276,7 +3286,15 @@
     // ═══ USER ACTIVITY ═══
     async function updateActivity() { if (!CU) return; const act = await DB.get('user_activity') || {}; act[CU.login] = { login: CU.login, role: CU.role, lastSeen: new Date().toISOString() }; await DB.set('user_activity', act); }
     setInterval(() => { if (CU) updateActivity(); }, 60000);
-
+    setInterval(() => {
+      if (window._firebaseError && !document.getElementById('fb-err-banner')) {
+        const b = document.createElement('div');
+        b.id = 'fb-err-banner';
+        b.style = 'position:fixed;top:0;left:0;width:100%;background:#ff4d6d;color:#fff;text-align:center;padding:10px;z-index:10000;font-weight:bold;font-size:14px;box-shadow:0 2px 10px rgba(0,0,0,0.5);';
+        b.innerHTML = '⚠️ Firebase Connection Failed (Permission Denied). Falling back to Local Storage. App will not sync online! Update Firebase Realtime Database Rules to allow read/write.';
+        document.body.prepend(b);
+      }
+    }, 2000);
     // ═══ THEME ═══
     function toggleTheme() { document.body.classList.toggle('light-mode'); const light = document.body.classList.contains('light-mode'); localStorage.setItem('fd26theme', light ? 'light' : 'dark'); document.querySelectorAll('.icon-btn[onclick="toggleTheme()"]').forEach(b => b.textContent = light ? '🌙' : '☀️'); }
     if (localStorage.getItem('fd26theme') === 'light') { document.body.classList.add('light-mode'); document.querySelectorAll('.icon-btn[onclick="toggleTheme()"]').forEach(b => b.textContent = '🌙'); }

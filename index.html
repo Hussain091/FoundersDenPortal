@@ -3103,10 +3103,10 @@
     async function getAllComps() { const custom = await DB.get('custom_comps') || {}, removed = await DB.get('removed_comps') || [], overrides = await DB.get('comp_overrides') || {}; const merged = { ...COMPS, ...custom }; Object.keys(overrides).forEach(k => { if (merged[k]) merged[k] = { ...merged[k], ...overrides[k] }; }); removed.forEach(k => delete merged[k]); return merged; }
     async function getAllJudges() { const custom = await DB.get('custom_judges') || {}, removed = await DB.get('removed_judges') || [], overrides = await DB.get('judge_overrides') || {}; const merged = { ...JUDGES, ...custom }; Object.keys(overrides).forEach(k => { if (merged[k]) merged[k] = { ...merged[k], ...overrides[k] }; }); removed.forEach(k => delete merged[k]); return merged; }
     async function addCustomComp(login, id, name, type) { const custom = await DB.get('custom_comps') || {}; custom[login] = { id, login, name, type, custom: true, createdAt: new Date().toISOString() }; await DB.set('custom_comps', custom); }
-    async function removeComp(login) { const removed = await DB.get('removed_comps') || []; if (!removed.includes(login)) { removed.push(login); await DB.set('removed_comps', removed); } }
+    async function removeComp(login) { const removed = Object.values(await DB.get('removed_comps') || []); if (!removed.includes(login)) { removed.push(login); await DB.set('removed_comps', removed); } }
     async function updateCompName(login, name) { const custom = await DB.get('custom_comps') || {}; if (custom[login]) { custom[login].name = name; await DB.set('custom_comps', custom); return; } const overrides = await DB.get('comp_overrides') || {}; overrides[login] = { ...COMPS[login], name }; await DB.set('comp_overrides', overrides); }
     async function addCustomJudge(login, id, name, org) { const custom = await DB.get('custom_judges') || {}; custom[login] = { id, login, name, org, custom: true, createdAt: new Date().toISOString() }; await DB.set('custom_judges', custom); }
-    async function removeJudge(login) { const removed = await DB.get('removed_judges') || []; if (!removed.includes(login)) { removed.push(login); await DB.set('removed_judges', removed); } }
+    async function removeJudge(login) { const removed = Object.values(await DB.get('removed_judges') || []); if (!removed.includes(login)) { removed.push(login); await DB.set('removed_judges', removed); } }
     async function updateJudgeName(login, name) { const custom = await DB.get('custom_judges') || {}; if (custom[login]) { custom[login].name = name; await DB.set('custom_judges', custom); return; } const overrides = await DB.get('judge_overrides') || {}; overrides[login] = { ...(JUDGES[login] || {}), name }; await DB.set('judge_overrides', overrides); }
 
     // ═══ SCORES ═══
@@ -3120,10 +3120,10 @@
     async function approveScore(type, jl, cl, release) { const k = `${type}score:${jl}:${cl}`; const s = await DB.get(k); if (s) { s.approved = true; if (release) s.released = true; await DB.set(k, s); await addAudit(`${type.toUpperCase()} score ${release ? 'approved & released' : 'approved (held)'} for ${cl}`, 'approval', CU?.login || 'admin'); } }
 
     // ═══ ASSIGNMENTS ═══
-    async function assignJudge(jl, cl) { const k = `assign:${cl}`, list = await DB.get(k) || []; if (!list.includes(jl)) { list.push(jl); await DB.set(k, list); } }
-    async function unassignJudge(jl, cl) { await DB.set(`assign:${cl}`, (await DB.get(`assign:${cl}`) || []).filter(j => j !== jl)); }
-    async function getJudgesFor(cl) { return (await DB.get(`assign:${cl}`)) || []; }
-    async function getCompsForJudge(jl) { const keys = await DB.keys('assign:'), out = []; for (const k of keys) { const js = await DB.get(k) || []; if (js.includes(jl)) out.push(k.replace('assign:', '')); } return out; }
+    async function assignJudge(jl, cl) { const k = `assign:${cl}`, list = Object.values(await DB.get(k) || []); if (!list.includes(jl)) { list.push(jl); await DB.set(k, list); } }
+    async function unassignJudge(jl, cl) { await DB.set(`assign:${cl}`, Object.values(await DB.get(`assign:${cl}`) || []).filter(j => j !== jl)); }
+    async function getJudgesFor(cl) { return Object.values(await DB.get(`assign:${cl}`) || []); }
+    async function getCompsForJudge(jl) { const keys = await DB.keys('assign:'), out = []; for (const k of keys) { const js = Object.values(await DB.get(k) || []); if (js.includes(jl)) out.push(k.replace('assign:', '')); } return out; }
 
     // ═══ SUBMISSIONS ═══
     async function saveSub(login, data) { const prev = await DB.get(`sub:${login}`) || {}; const next = { ...prev, ...data, updatedAt: new Date().toISOString() }; await DB.set(`sub:${login}`, next); return next; }
@@ -3267,7 +3267,7 @@
 
     // ═══ AUDIT LOG ═══
     async function addAudit(msg, category, actor) {
-      const log = await DB.get('audit_log') || [];
+      const log = Object.values(await DB.get('audit_log') || []);
       log.unshift({ msg, category, actor: actor || CU?.login || 'system', ts: new Date().toISOString(), id: Date.now() });
       if (log.length > 500) log.pop();
       await DB.set('audit_log', log);
@@ -3433,7 +3433,7 @@
     }
     function startCountdownTick() {
       setInterval(() => {
-        const dates = { 'Registration_Deadline': '2026-05-01T23:59:00', 'Business_Plan_Due': '2026-05-13T23:59:00', 'Prelim_Event_Day': '2026-05-23T12:30:00', 'Finals_Event_Day': '2026-05-30T09:00:00' };
+        const dates = { 'Registration_Deadline': '2026-05-01T23:59:00', 'Business_Plan_Due': '2026-05-20T23:59:00', 'Prelim_Event_Day': '2026-05-30T12:30:00', 'Finals_Event_Day': '2026-06-07T09:00:00' };
         Object.entries(dates).forEach(([key, date]) => {
           const el = document.getElementById(`cds-${key}`);
           if (el) { const diff = new Date(date) - new Date(); if (diff > 0) el.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0'); }
@@ -3520,8 +3520,8 @@
     <div class="cg">
       <div style="font-size:13px;font-weight:700;margin-bottom:12px">⏳ Event Countdown</div>
       <div class="countdown-grid" style="grid-template-columns:1fr 1fr">
-        ${buildCountdown('2026-05-23T12:30:00', 'Prelim_Event_Day', 3).html}
-        ${buildCountdown('2026-05-30T09:00:00', 'Finals_Event_Day', 3).html}
+        ${buildCountdown('2026-05-30T12:30:00', 'Prelim_Event_Day', 3).html}
+        ${buildCountdown('2026-06-07T09:00:00', 'Finals_Event_Day', 3).html}
       </div>
     </div>
     <div class="cg">
@@ -3816,7 +3816,7 @@
       if (!title || !body) { toast('Fill all fields', '', 'wrn'); return; }
       for (const login of mState.bulkSel) {
         const notif = { id: `notif_${Date.now()}_${login}`, title, body, audience: 'specific', targetLogin: login, sentAt: new Date().toISOString(), sentBy: CU?.login || 'admin' };
-        const list = await DB.get('notifications') || []; list.unshift(notif); await DB.set('notifications', list);
+        const list = Object.values(await DB.get('notifications') || []); list.unshift(notif); await DB.set('notifications', list);
       }
       closeMo(); toast('Sent!', `Notification sent to ${mState.bulkSel.size} users`, 'ok');
       await addAudit(`Bulk notification sent to ${mState.bulkSel.size} users`, 'notify', 'admin');
@@ -3921,7 +3921,7 @@
     // ═══ SUBMISSION LOCKS ═══
     async function renderMWorkshops() {
       const mc = document.getElementById('mc');
-      const events = await DB.get('fd2026_events') || [];
+      const events = Object.values(await DB.get('fd2026_events') || []);
       const workshops = [
         { id: 'w1', name: 'Venture Mindset', date: '2026-04-19T16:00:00', isLocked: true, zoomLink: '' },
         { id: 'w2', name: 'Blueprint Lab', date: '2026-05-02T16:00:00', isLocked: true, zoomLink: '' },
@@ -3951,8 +3951,8 @@
     <button class="btn bp bsm" onclick="saveWorkshop('${w.id}')">✓ Save Workshop</button>
   </div>`).join('')}`;
     }
-    window.toggleWorkshopLock = async (wsId) => { const events = await DB.get('fd2026_events') || []; const evt = events.find(e => e.id === wsId); if (evt) evt.isLocked = !evt.isLocked; else { events.push({ id: wsId, isLocked: true }); } await DB.set('fd2026_events', events); toast('Updated', 'Workshop lock status changed', 'ok'); renderMWorkshops(); };
-    window.saveWorkshop = async (wsId) => { const link = document.getElementById(`zoom-${wsId}`)?.value.trim() || ''; const events = await DB.get('fd2026_events') || []; let evt = events.find(e => e.id === wsId); if (!evt) { evt = { id: wsId, isLocked: true }; events.push(evt); } evt.zoomLink = sanitize(link); await DB.set('fd2026_events', events); await addAudit(`Workshop ${wsId} updated`, 'workshop', CU?.login || 'admin'); toast('Saved', 'Workshop configuration updated', 'ok'); renderMWorkshops(); };
+    window.toggleWorkshopLock = async (wsId) => { const events = Object.values(await DB.get('fd2026_events') || []); const evt = events.find(e => e.id === wsId); if (evt) evt.isLocked = !evt.isLocked; else { events.push({ id: wsId, isLocked: true }); } await DB.set('fd2026_events', events); toast('Updated', 'Workshop lock status changed', 'ok'); renderMWorkshops(); };
+    window.saveWorkshop = async (wsId) => { const link = document.getElementById(`zoom-${wsId}`)?.value.trim() || ''; const events = Object.values(await DB.get('fd2026_events') || []); let evt = events.find(e => e.id === wsId); if (!evt) { evt = { id: wsId, isLocked: true }; events.push(evt); } evt.zoomLink = sanitize(link); await DB.set('fd2026_events', events); await addAudit(`Workshop ${wsId} updated`, 'workshop', CU?.login || 'admin'); toast('Saved', 'Workshop configuration updated', 'ok'); renderMWorkshops(); };
 
     async function renderSubmissionLocks() {
       document.getElementById('mc').innerHTML = `
@@ -4580,14 +4580,14 @@
   <div id="pen-list"><div style="color:var(--t3)">Loading…</div></div>`; await renderPenaltyList();
     }
     async function renderPenaltyList() {
-      const allC = await getAllComps(), penalties = await DB.get('penalties') || []; const el = document.getElementById('pen-list');
+      const allC = await getAllComps(), penalties = Object.values(await DB.get('penalties') || []); const el = document.getElementById('pen-list');
       if (!penalties.length) { el.innerHTML = `<div class="emp"><div class="ei">✅</div><div class="en">No penalties applied</div></div>`; return; }
       el.innerHTML = `<div class="tw"><table><thead><tr><th>Competitor</th><th>Reason</th><th>Points</th><th>Applied</th><th>Notes</th><th></th></tr></thead><tbody>
     ${penalties.map((p, i) => `<tr><td>${esc(allC[p.compLogin]?.name || p.compLogin)}</td><td>${p.reason.replace(/_/g, ' ')}</td><td style="color:var(--err);font-weight:700">−5</td><td style="font-size:11px;color:var(--t3)">${fmtShort(p.appliedAt)}</td><td style="font-size:12px">${p.notes || '—'}</td><td><button class="btn bd bsm" onclick="removePenalty(${i})">Remove</button></td></tr>`).join('')}
   </tbody></table></div>`;
     }
-    window.applyPenalty = async () => { const comp = document.getElementById('pen-comp').value, reason = document.getElementById('pen-reason').value, notes = document.getElementById('pen-notes').value; if (!comp) { toast('Select a competitor', '', 'wrn'); return; } const allC = await getAllComps(), penalties = await DB.get('penalties') || []; penalties.push({ compLogin: comp, reason, notes, appliedAt: new Date().toISOString() }); await DB.set('penalties', penalties); await addAudit(`Penalty applied to ${allC[comp]?.name || comp}: ${reason}`, 'penalty', 'admin'); toast('Penalty Applied', `−5 pts applied`, 'wrn'); await renderPenaltyList(); };
-    window.removePenalty = async (idx) => { const penalties = await DB.get('penalties') || []; penalties.splice(idx, 1); await DB.set('penalties', penalties); toast('Removed', '', 'ok'); await renderPenaltyList(); };
+    window.applyPenalty = async () => { const comp = document.getElementById('pen-comp').value, reason = document.getElementById('pen-reason').value, notes = document.getElementById('pen-notes').value; if (!comp) { toast('Select a competitor', '', 'wrn'); return; } const allC = await getAllComps(), penalties = Object.values(await DB.get('penalties') || []); penalties.push({ compLogin: comp, reason, notes, appliedAt: new Date().toISOString() }); await DB.set('penalties', penalties); await addAudit(`Penalty applied to ${allC[comp]?.name || comp}: ${reason}`, 'penalty', 'admin'); toast('Penalty Applied', `−5 pts applied`, 'wrn'); await renderPenaltyList(); };
+    window.removePenalty = async (idx) => { const penalties = Object.values(await DB.get('penalties') || []); penalties.splice(idx, 1); await DB.set('penalties', penalties); toast('Removed', '', 'ok'); await renderPenaltyList(); };
 
     // ═══ EXPORT ═══
     async function renderExport() {
@@ -4609,7 +4609,7 @@
 
     // ═══ AUDIT LOG ═══
     async function renderAuditLog() {
-      const mc = document.getElementById('mc'), log = await DB.get('audit_log') || [];
+      const mc = document.getElementById('mc'), log = Object.values(await DB.get('audit_log') || []);
       const catColors = { score: 'var(--c)', approval: 'var(--ok)', auth: 'var(--info)', rooms: 'var(--c2)', notify: 'var(--warn)', penalty: 'var(--err)', other: 'var(--t3)' };
       mc.innerHTML = `<div class="rb stagger-in"><div><div class="stt">📜 Audit Log</div><div class="sts">Immutable record of all platform actions (last 500 events)</div></div><button class="btn bg bsm" onclick="renderAuditLog()">↻ Refresh</button></div>
   <div class="cg stagger-in">
@@ -4648,10 +4648,10 @@
     }
 
     // ═══ NOTIFICATIONS ═══
-    async function sendNotification(title, body, audience, targetLogin) { const notif = { id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`, title: title.trim(), body: body.trim(), audience, targetLogin: targetLogin || null, sentAt: new Date().toISOString(), sentBy: CU?.login || 'admin' }; const list = await DB.get('notifications') || []; list.unshift(notif); await DB.set('notifications', list); await addAudit(`Notification sent to ${audience}: "${title}"`, 'notify', 'admin'); return notif; }
-    async function getAllNotifications() { return (await DB.get('notifications')) || []; }
+    async function sendNotification(title, body, audience, targetLogin) { const notif = { id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`, title: title.trim(), body: body.trim(), audience, targetLogin: targetLogin || null, sentAt: new Date().toISOString(), sentBy: CU?.login || 'admin' }; const list = Object.values(await DB.get('notifications') || []); list.unshift(notif); await DB.set('notifications', list); await addAudit(`Notification sent to ${audience}: "${title}"`, 'notify', 'admin'); return notif; }
+    async function getAllNotifications() { return Object.values(await DB.get('notifications') || []); }
     function notifForUser(role, login) { return n => n.audience === 'all' || (n.audience === 'competitors' && role === 'competitor') || (n.audience === 'judges' && role === 'judge') || (n.audience === 'specific' && n.targetLogin === login); }
-    async function getUnreadCount(login, role) { const all = await getAllNotifications(), mine = all.filter(notifForUser(role, login)), read = await DB.get(`notif_read:${login}`) || []; return mine.filter(n => !read.includes(n.id)).length; }
+    async function getUnreadCount(login, role) { const all = await getAllNotifications(), mine = all.filter(notifForUser(role, login)), read = Object.values(await DB.get(`notif_read:${login}`) || []); return mine.filter(n => !read.includes(n.id)).length; }
     async function markAllRead(login, role) { const all = await getAllNotifications(), mine = all.filter(notifForUser(role, login)); await DB.set(`notif_read:${login}`, mine.map(n => n.id)); }
     async function updNotifBadges() { if (!CU) return; await checkLBVisible(); if (CU.role === 'judge') { const n = await getUnreadCount(CU.login, 'judge'); const b = document.getElementById('jnb'); const bell = document.getElementById('j-nbell'); if (b) { b.textContent = n; b.style.display = n > 0 ? '' : 'none'; } if (bell) { bell.style.display = n > 0 ? 'flex' : 'none'; bell.textContent = n > 9 ? '9+' : String(n); } } else if (CU.role === 'competitor') { const n = await getUnreadCount(CU.login, 'competitor'); const b = document.getElementById('cnb'); const bell = document.getElementById('c-nbell'); if (b) { b.textContent = n; b.style.display = n > 0 ? '' : 'none'; } if (bell) { bell.style.display = n > 0 ? 'flex' : 'none'; bell.textContent = n > 9 ? '9+' : String(n); } } }
     async function renderNotificationsPage() {
@@ -4899,8 +4899,8 @@
   ${lockBanner}
   <div class="countdown-grid stagger-in">
     ${buildCountdown('2026-05-01T23:59:00', 'Registration_Deadline', 7).html}
-    ${buildCountdown('2026-05-13T23:59:00', 'Business_Plan_Due', 7).html}
-    ${buildCountdown('2026-05-30T09:00:00', 'Finals_Event_Day', 3).html}
+    ${buildCountdown('2026-05-20T23:59:00', 'Business_Plan_Due', 7).html}
+    ${buildCountdown('2026-06-07T09:00:00', 'Finals_Event_Day', 3).html}
   </div>
   <div class="g2 stagger-in">
     <div class="cg">
@@ -5012,7 +5012,7 @@
     function getStatusDesc(stage) { const d = { 'not_submitted': 'Your submission has not been received yet. Please submit your work before the deadline.', 'submitted': 'Your submission has been received. Management is processing your materials.', 'assigned': 'Your materials have been assigned to judges. Evaluation will begin shortly.', 'being_graded': 'Judges are currently evaluating your submission.', 'management_review': 'Evaluation is complete. Management is reviewing scores for accuracy.', 'results_released': 'Your scores have been approved and released. Check your results!' }; return d[stage] || ''; }
 
     async function renderCWorkshops() {
-      const cc = document.getElementById('cc'), events = await DB.get('fd2026_events') || [];
+      const cc = document.getElementById('cc'), events = Object.values(await DB.get('fd2026_events') || []);
       const workshops = [
         { id: 'w1', name: 'Venture Mindset', date: '2026-04-19T16:00:00', locked: true, zoomLink: '' },
         { id: 'w2', name: 'Blueprint Lab', date: '2026-05-02T16:00:00', locked: true, zoomLink: '' },
